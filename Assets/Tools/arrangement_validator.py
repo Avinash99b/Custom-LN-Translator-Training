@@ -3,7 +3,6 @@
 import json
 import argparse
 import re
-import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -14,20 +13,19 @@ import requests
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL = "qwen2.5:7b"
 
-WORKERS = 4
-SAMPLE_SIZE = 1000
+WORKERS = 10
+LLM_SAMPLE_LINES = 50
 
 MIN_LENGTH_RATIO = 0.15
 MAX_LENGTH_RATIO = 8.0
 MIN_SEMANTIC_SCORE = 0.45
-SEMANTIC_WEIGHT = 0.9
-LLM_WEIGHT = 0.1
+SEMANTIC_WEIGHT = 0.85
+LLM_WEIGHT = 0.15
 CONFIDENCE_THRESHOLD = 0.57
 CHAPTER_GAP_THRESHOLD = 20  # Max allowed gap in chapter numbers for matching
 CHAPTER_GAP_SEMANTIC_THRESHOLD = 0.6  # Minimum semantic score to allow large chapter gaps
-LLM_RESPONSE_LOG = "llm_response_log.jsonl"
+ARRANGEMENT_STATE_FILE = "arrangement_state.json"
 
-LOG_LOCK = Lock()
 OUTPUT_LOCK = Lock()
 
 
@@ -38,45 +36,18 @@ def read_text(path: Path):
     )
 
 
-def sample_text(text: str):
-    text = text.strip()
+def sample_text(text: str, max_lines: int):
+    lines = text.strip().splitlines()
 
-    if len(text) <= SAMPLE_SIZE * 3:
-        return text
+    if max_lines <= 0:
+        return ""
 
-    middle_start = max(
-        0,
-        len(text) // 2 - SAMPLE_SIZE // 2
-    )
-
-    return (
-        text[:SAMPLE_SIZE]
-        + "\n\n[MIDDLE]\n\n"
-        + text[
-            middle_start:
-            middle_start + SAMPLE_SIZE
-        ]
-        + "\n\n[END]\n\n"
-        + text[-SAMPLE_SIZE:]
-    )
+    return "\n".join(lines[:max_lines])
 
 
-def log_llm_exchange(log_path: Path, entry: dict):
-    record = dict(entry)
-    record["timestamp"] = datetime.now(timezone.utc).isoformat()
-
-    line = json.dumps(
-        record,
-        ensure_ascii=False
-    )
-
-    with LOG_LOCK:
-        with log_path.open(
-            "a",
-            encoding="utf-8"
-        ) as handle:
-            handle.write(line)
-            handle.write("\n")
+def compute_biased_semantic_value(semantic_score: float):
+    semantic_score = max(0.0, min(1.0, semantic_score))
+    return SEMANTIC_WEIGHT * semantic_score
 
 
 def parse_llm_response(raw_response: str):
@@ -117,7 +88,16 @@ def extract_chapter_number(chapter_name: str):
     return int(match.group(1))
 
 
-def ask_llm(chapter, jp_text, en_text, log_path: Path):
+def chapter_sort_key(chapter_name: str):
+    chapter_num = extract_chapter_number(chapter_name)
+
+    if chapter_num is None:
+        return (1, chapter_name)
+
+    return (0, chapter_num, chapter_name)
+
+
+def ask_llm(chapter, jp_text, en_text):
 
     prompt = f"""
 You compare a Japanese light novel chapter and its English translation.
@@ -215,32 +195,77 @@ English:
 
         match = parse_llm_response(raw_response)
 
-        log_llm_exchange(
-            log_path,
-            {
-                "jp_chapter": chapter[0],
-                "en_chapter": chapter[1],
-                "status": "ok",
-                "raw_response": raw_response,
-                "parsed": "SAME" if match else "DIFFER"
-            }
-        )
-
-        return match
+        return {
+            "accepted": match,
+            "raw_response": raw_response,
+            "parsed_response": "SAME" if match else "DIFFER"
+        }
 
     except Exception as error:
-        log_llm_exchange(
-            log_path,
-            {
-                "jp_chapter": chapter[0],
-                "en_chapter": chapter[1],
-                "status": "error",
-                "raw_response": raw_response,
-                "error": str(error)
-            }
-        )
+        raise RuntimeError(
+            f"LLM validation failed for {chapter[0]} -> {chapter[1]}: {error}"
+        ) from error
 
-        raise
+
+def build_state_record(
+    jp_name,
+    en_name,
+    semantic_score,
+    jp_chapter_num,
+    en_chapter_num,
+    jp_len,
+    en_len,
+    ratio,
+    llm_result,
+    confidence,
+    status,
+    reason,
+    output_chapter,
+    output_written,
+    llm_sample_lines
+):
+    chapter_gap = None
+
+    if jp_chapter_num is not None and en_chapter_num is not None:
+        chapter_gap = abs(jp_chapter_num - en_chapter_num)
+
+    record = {
+        "jp_chapter": jp_name,
+        "en_chapter": en_name,
+        "jp_chapter_num": jp_chapter_num,
+        "en_chapter_num": en_chapter_num,
+        "chapter_gap": chapter_gap,
+        "status": status,
+        "reason": reason,
+        "semantic_val": round(semantic_score, 6),
+        "biased_semantic_val": round(compute_biased_semantic_value(semantic_score), 6),
+        "llm_accepted": None,
+        "llm_val": None,
+        "llm_parsed": None,
+        "llm_raw_response": None,
+        "confidence": None,
+        "length_ratio": None,
+        "jp_length": jp_len,
+        "en_length": en_len,
+        "llm_sample_lines": llm_sample_lines,
+        "output_chapter": output_chapter,
+        "output_written": output_written,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    }
+
+    if ratio is not None:
+        record["length_ratio"] = round(ratio, 6)
+
+    if llm_result is not None:
+        record["llm_accepted"] = llm_result["accepted"]
+        record["llm_val"] = 1.0 if llm_result["accepted"] else 0.0
+        record["llm_parsed"] = llm_result["parsed_response"]
+        record["llm_raw_response"] = llm_result["raw_response"]
+
+    if confidence is not None:
+        record["confidence"] = round(confidence, 6)
+
+    return record
 
 
 def validate_and_arrange(
@@ -249,14 +274,21 @@ def validate_and_arrange(
     semantic_score,
     jp_file,
     en_file,
-    log_path,
     jp_output_dir,
-    en_output_dir
+    en_output_dir,
+    llm_sample_lines
 ):
     """Validate a JP-EN pair and arrange output if valid."""
 
     jp_chapter_num = extract_chapter_number(jp_name)
     en_chapter_num = extract_chapter_number(en_name)
+    jp_full = read_text(jp_file)
+    en_full = read_text(en_file)
+
+    jp_len = len(jp_full)
+    en_len = len(en_full)
+
+    ratio = en_len / max(jp_len, 1)
 
     if (
         jp_chapter_num is not None
@@ -264,92 +296,123 @@ def validate_and_arrange(
         and abs(jp_chapter_num - en_chapter_num) > CHAPTER_GAP_THRESHOLD
         and semantic_score < CHAPTER_GAP_SEMANTIC_THRESHOLD
     ):
-        return {
-            "jp_chapter": jp_name,
-            "en_chapter": en_name,
-            "status": "SKIP",
-            "reason": (
+        return build_state_record(
+            jp_name,
+            en_name,
+            semantic_score,
+            jp_chapter_num,
+            en_chapter_num,
+            jp_len,
+            en_len,
+            ratio,
+            None,
+            compute_confidence(semantic_score, False),
+            "SKIP",
+            (
                 f"chapter_gap_too_large "
                 f"(gap={abs(jp_chapter_num - en_chapter_num)}, "
                 f"semantic={semantic_score:.2f})"
             ),
-            "semantic_score": round(semantic_score, 6),
-            "confidence": round(compute_confidence(semantic_score, False), 6),
-            "output_chapter": None
-        }
-
-    jp_full = read_text(jp_file)
-    en_full = read_text(en_file)
-
-    jp_len = len(jp_full)
-    en_len = len(en_full)
-
-    ratio = (
-        en_len /
-        max(jp_len, 1)
-    )
+            None,
+            False,
+            llm_sample_lines
+        )
 
     if semantic_score < MIN_SEMANTIC_SCORE:
-        return {
-            "jp_chapter": jp_name,
-            "en_chapter": en_name,
-            "status": "SKIP",
-            "reason": (
+        return build_state_record(
+            jp_name,
+            en_name,
+            semantic_score,
+            jp_chapter_num,
+            en_chapter_num,
+            jp_len,
+            en_len,
+            ratio,
+            None,
+            compute_confidence(semantic_score, False),
+            "SKIP",
+            (
                 f"semantic_score_too_low "
                 f"({semantic_score:.2f})"
             ),
-            "semantic_score": round(semantic_score, 6),
-            "confidence": round(compute_confidence(semantic_score, False), 6),
-            "output_chapter": None
-        }
+            None,
+            False,
+            llm_sample_lines
+        )
 
     if ratio < MIN_LENGTH_RATIO:
-        return {
-            "jp_chapter": jp_name,
-            "en_chapter": en_name,
-            "status": "SKIP",
-            "reason": (
+        return build_state_record(
+            jp_name,
+            en_name,
+            semantic_score,
+            jp_chapter_num,
+            en_chapter_num,
+            jp_len,
+            en_len,
+            ratio,
+            None,
+            compute_confidence(semantic_score, False),
+            "SKIP",
+            (
                 f"length_ratio_too_small "
                 f"({ratio:.2f})"
             ),
-            "semantic_score": round(semantic_score, 6),
-            "confidence": round(compute_confidence(semantic_score, False), 6),
-            "output_chapter": None
-        }
+            None,
+            False,
+            llm_sample_lines
+        )
 
     if ratio > MAX_LENGTH_RATIO:
-        return {
-            "jp_chapter": jp_name,
-            "en_chapter": en_name,
-            "status": "SKIP",
-            "reason": (
+        return build_state_record(
+            jp_name,
+            en_name,
+            semantic_score,
+            jp_chapter_num,
+            en_chapter_num,
+            jp_len,
+            en_len,
+            ratio,
+            None,
+            compute_confidence(semantic_score, False),
+            "SKIP",
+            (
                 f"length_ratio_too_large "
                 f"({ratio:.2f})"
             ),
-            "semantic_score": round(semantic_score, 6),
-            "confidence": round(compute_confidence(semantic_score, False), 6),
-            "output_chapter": None
-        }
+            None,
+            False,
+            llm_sample_lines
+        )
 
-    jp_sample = sample_text(jp_full)
-    en_sample = sample_text(en_full)
+    jp_sample = sample_text(jp_full, llm_sample_lines)
+    en_sample = sample_text(en_full, llm_sample_lines)
 
     try:
-        match = ask_llm(
+        llm_result = ask_llm(
             (jp_name, en_name),
             jp_sample,
-            en_sample,
-            log_path
+            en_sample
         )
     except Exception as e:
-        return {
-            "jp_chapter": jp_name,
-            "en_chapter": en_name,
-            "status": "ERROR",
-            "reason": str(e),
-            "semantic_score": round(semantic_score, 6),
-            "output_chapter": None
-        }
+        return build_state_record(
+            jp_name,
+            en_name,
+            semantic_score,
+            jp_chapter_num,
+            en_chapter_num,
+            jp_len,
+            en_len,
+            ratio,
+            None,
+            None,
+            "ERROR",
+            str(e),
+            None,
+            False,
+            llm_sample_lines
+        )
+
+    match = llm_result["accepted"]
 
     confidence = compute_confidence(
         semantic_score,
@@ -357,40 +420,66 @@ def validate_and_arrange(
     )
 
     if confidence < CONFIDENCE_THRESHOLD:
-        return {
-            "jp_chapter": jp_name,
-            "en_chapter": en_name,
-            "status": "SKIP",
-            "reason": (
+        return build_state_record(
+            jp_name,
+            en_name,
+            semantic_score,
+            jp_chapter_num,
+            en_chapter_num,
+            jp_len,
+            en_len,
+            ratio,
+            llm_result,
+            confidence,
+            "SKIP",
+            (
                 f"low_confidence "
                 f"(semantic={semantic_score:.2f}, "
                 f"llm={'SAME' if match else 'DIFFER'}, "
                 f"confidence={confidence:.2f})"
             ),
-            "semantic_score": round(semantic_score, 6),
-            "confidence": round(confidence, 6),
-            "output_chapter": None
-        }
+            None,
+            False,
+            llm_sample_lines
+        )
 
     if not match and confidence <= CONFIDENCE_THRESHOLD:
-        return {
-            "jp_chapter": jp_name,
-            "en_chapter": en_name,
-            "status": "FAIL",
-            "reason": "story_drift",
-            "semantic_score": round(semantic_score, 6),
-            "confidence": round(confidence, 6),
-            "output_chapter": None
-        }
+        return build_state_record(
+            jp_name,
+            en_name,
+            semantic_score,
+            jp_chapter_num,
+            en_chapter_num,
+            jp_len,
+            en_len,
+            ratio,
+            llm_result,
+            confidence,
+            "FAIL",
+            "story_drift",
+            None,
+            False,
+            llm_sample_lines
+        )
 
     if jp_chapter_num is None:
-        return {
-            "jp_chapter": jp_name,
-            "en_chapter": en_name,
-            "status": "SKIP",
-            "reason": "could_not_extract_chapter_number",
-            "output_chapter": None
-        }
+        return build_state_record(
+            jp_name,
+            en_name,
+            semantic_score,
+            jp_chapter_num,
+            en_chapter_num,
+            jp_len,
+            en_len,
+            ratio,
+            llm_result,
+            confidence,
+            "SKIP",
+            "could_not_extract_chapter_number",
+            None,
+            False,
+            llm_sample_lines
+        )
 
     chapter_num = str(jp_chapter_num)
     output_name = f"{chapter_num}.txt"
@@ -403,15 +492,23 @@ def validate_and_arrange(
         jp_out_path.write_text(jp_full, encoding="utf-8")
         en_out_path.write_text(en_full, encoding="utf-8")
 
-    return {
-        "jp_chapter": jp_name,
-        "en_chapter": en_name,
-        "status": "PASS",
-        "reason": "same_story",
-        "semantic_score": round(semantic_score, 6),
-        "confidence": round(confidence, 6),
-        "output_chapter": chapter_num
-    }
+    return build_state_record(
+        jp_name,
+        en_name,
+        semantic_score,
+        jp_chapter_num,
+        en_chapter_num,
+        jp_len,
+        en_len,
+        ratio,
+        llm_result,
+        confidence,
+        "PASS",
+        "same_story",
+        chapter_num,
+        True,
+        llm_sample_lines
+    )
 
 
 def load_similarity_matrix(matrix_path: Path):
@@ -474,7 +571,8 @@ def main(
     matrix_path,
     base_path,
     jp_dir_name="JP",
-    en_dir_name="EN"
+    en_dir_name="EN",
+    llm_sample_lines=LLM_SAMPLE_LINES
 ):
 
     matrix_file = Path(matrix_path)
@@ -503,7 +601,7 @@ def main(
     jp_output_dir.mkdir(exist_ok=True)
     en_output_dir.mkdir(exist_ok=True)
 
-    llm_log_path = base / LLM_RESPONSE_LOG
+    state_path = base / ARRANGEMENT_STATE_FILE
 
     print("Loading similarity matrix...")
     matrix = load_similarity_matrix(matrix_file)
@@ -525,7 +623,10 @@ def main(
         max_workers=WORKERS
     ) as executor:
 
-        for jp_name, match_info in sorted(matches.items()):
+        for jp_name, match_info in sorted(
+            matches.items(),
+            key=lambda item: chapter_sort_key(item[0])
+        ):
 
             futures.append(
                 executor.submit(
@@ -535,9 +636,9 @@ def main(
                     match_info["score"],
                     match_info["jp_file"],
                     match_info["en_file"],
-                    llm_log_path,
                     jp_output_dir,
-                    en_output_dir
+                    en_output_dir,
+                    llm_sample_lines
                 )
             )
 
@@ -640,6 +741,41 @@ def main(
         f"  {en_output_dir}"
     )
 
+    state = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "matrix_path": str(matrix_file),
+        "base_path": str(base),
+        "jp_dir": str(jp_dir),
+        "en_dir": str(en_dir),
+        "output_dirs": {
+            "jp": str(jp_output_dir),
+            "en": str(en_output_dir)
+        },
+        "summary": {
+            "passed": len(passed),
+            "failed": len(failed),
+            "skipped": len(skipped),
+            "errors": len(errors),
+            "collisions": len(collisions)
+        },
+        "chapters": {
+            result["jp_chapter"]: result
+            for result in sorted(
+                results,
+                key=lambda x: (
+                    x["jp_chapter_num"] is None,
+                    x["jp_chapter_num"] if x["jp_chapter_num"] is not None else x["jp_chapter"]
+                )
+            )
+        }
+    }
+
+    with state_path.open("w", encoding="utf-8") as handle:
+        json.dump(state, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
+
+    print(f"\nStructured state written to:\n  {state_path}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -666,6 +802,15 @@ if __name__ == "__main__":
         default="EN",
         help="Name of the English chapters directory (default: EN)"
     )
+    parser.add_argument(
+        "--llm-sample-lines",
+        type=int,
+        default=LLM_SAMPLE_LINES,
+        help=(
+            "Number of lines from the start of each chapter to send to the "
+            "LLM (default: 120)"
+        )
+    )
 
     args = parser.parse_args()
 
@@ -673,5 +818,6 @@ if __name__ == "__main__":
         args.matrix_path,
         args.base_path,
         args.jp_dir,
-        args.en_dir
+        args.en_dir,
+        args.llm_sample_lines
     )

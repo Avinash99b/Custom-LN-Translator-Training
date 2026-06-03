@@ -134,6 +134,7 @@
   <header>
     <div class="controls">
       <input type="file" id="folderPicker" webkitdirectory multiple>
+      <label><input id="useOutputFolders" type="checkbox"> Use Output Folders</label>
       <label>Chapter <input id="chapterNum" style="width:90px"></label>
       <label>Top N <input id="topN" type="number" value="10" min="1" max="100" style="width:70px"></label>
       <button id="prevBtn">◀</button>
@@ -167,6 +168,7 @@
     let jpFiles = {}, enFiles = {}, matrix = {};
     let currentChapter = "1.txt";
     let currentEN = "";
+    let selectedFiles = [];
 
     const MATRIX_FILE_NAMES = [
       "chapter_similarity_matrix.json",
@@ -185,6 +187,13 @@
 
     function updateStatus(message) {
       document.getElementById("status").textContent = message;
+    }
+
+    function getActiveFolders() {
+      const useOutput = document.getElementById("useOutputFolders").checked;
+      return useOutput
+        ? { jpFolder: "JP-Output", enFolder: "EN-Output" }
+        : { jpFolder: "JP", enFolder: "EN" };
     }
 
     async function loadMatrixFromFiles(files) {
@@ -214,30 +223,48 @@
       }
     }
 
+    async function loadChapterFilesFromSelection(files) {
+      jpFiles = {};
+      enFiles = {};
+
+      const { jpFolder, enFolder } = getActiveFolders();
+
+      for (const file of files) {
+        const path = file.webkitRelativePath;
+
+        if (path.includes(`/${jpFolder}/`) && file.name.endsWith(".txt")) {
+          jpFiles[file.name] = await file.text();
+          continue;
+        }
+
+        if (path.includes(`/${enFolder}/`) && file.name.endsWith(".txt")) {
+          enFiles[file.name] = await file.text();
+        }
+      }
+    }
+
+    async function reloadFromSelection() {
+      if (!selectedFiles.length) {
+        updateStatus("Load a folder containing JP/EN or JP-Output/EN-Output and the similarity matrix JSON");
+        return;
+      }
+
+      await loadChapterFilesFromSelection(selectedFiles);
+      await loadMatrixFromFiles(selectedFiles);
+    }
+
     document
       .getElementById("folderPicker")
       .addEventListener("change", async (e) => {
+        selectedFiles = Array.from(e.target.files);
+        await reloadFromSelection();
+      });
 
-        jpFiles = {};
-        enFiles = {};
-
-        const files = Array.from(e.target.files);
-
-        for (const file of files) {
-          const path = file.webkitRelativePath;
-
-          if (path.includes("/JP/") && file.name.endsWith(".txt")) {
-            jpFiles[file.name] = await file.text();
-            continue;
-          }
-
-          if (path.includes("/EN/") && file.name.endsWith(".txt")) {
-            enFiles[file.name] = await file.text();
-          }
-        }
-
-        await loadMatrixFromFiles(files);
-    });
+    document
+      .getElementById("useOutputFolders")
+      .addEventListener("change", async () => {
+        await reloadFromSelection();
+      });
 
     function render() {
       const chapter = document.getElementById("chapterNum").value || currentChapter.replace(".txt", "");
