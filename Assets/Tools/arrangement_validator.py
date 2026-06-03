@@ -19,6 +19,12 @@ SAMPLE_SIZE = 1000
 
 MIN_LENGTH_RATIO = 0.15
 MAX_LENGTH_RATIO = 8.0
+MIN_SEMANTIC_SCORE = 0.45
+SEMANTIC_WEIGHT = 0.9
+LLM_WEIGHT = 0.1
+CONFIDENCE_THRESHOLD = 0.57
+CHAPTER_GAP_THRESHOLD = 20  # Max allowed gap in chapter numbers for matching
+CHAPTER_GAP_SEMANTIC_THRESHOLD = 0.6  # Minimum semantic score to allow large chapter gaps
 LLM_RESPONSE_LOG = "llm_response_log.jsonl"
 
 LOG_LOCK = Lock()
@@ -91,6 +97,24 @@ def parse_llm_response(raw_response: str):
     raise RuntimeError(
         f"Unexpected model output: {raw_response.strip()}"
     )
+
+
+def compute_confidence(semantic_score: float, llm_match: bool):
+    semantic_score = max(0.0, min(1.0, semantic_score))
+    llm_score = 1.0 if llm_match else 0.0
+    return (
+        SEMANTIC_WEIGHT * semantic_score
+        + LLM_WEIGHT * llm_score
+    )
+
+
+def extract_chapter_number(chapter_name: str):
+    match = re.search(r"(\d+)\.txt$", chapter_name)
+
+    if not match:
+        return None
+
+    return int(match.group(1))
 
 
 def ask_llm(chapter, jp_text, en_text, log_path: Path):
@@ -222,6 +246,7 @@ English:
 def validate_and_arrange(
     jp_name,
     en_name,
+    semantic_score,
     jp_file,
     en_file,
     log_path,
@@ -229,6 +254,29 @@ def validate_and_arrange(
     en_output_dir
 ):
     """Validate a JP-EN pair and arrange output if valid."""
+
+    jp_chapter_num = extract_chapter_number(jp_name)
+    en_chapter_num = extract_chapter_number(en_name)
+
+    if (
+        jp_chapter_num is not None
+        and en_chapter_num is not None
+        and abs(jp_chapter_num - en_chapter_num) > CHAPTER_GAP_THRESHOLD
+        and semantic_score < CHAPTER_GAP_SEMANTIC_THRESHOLD
+    ):
+        return {
+            "jp_chapter": jp_name,
+            "en_chapter": en_name,
+            "status": "SKIP",
+            "reason": (
+                f"chapter_gap_too_large "
+                f"(gap={abs(jp_chapter_num - en_chapter_num)}, "
+                f"semantic={semantic_score:.2f})"
+            ),
+            "semantic_score": round(semantic_score, 6),
+            "confidence": round(compute_confidence(semantic_score, False), 6),
+            "output_chapter": None
+        }
 
     jp_full = read_text(jp_file)
     en_full = read_text(en_file)
@@ -241,6 +289,20 @@ def validate_and_arrange(
         max(jp_len, 1)
     )
 
+    if semantic_score < MIN_SEMANTIC_SCORE:
+        return {
+            "jp_chapter": jp_name,
+            "en_chapter": en_name,
+            "status": "SKIP",
+            "reason": (
+                f"semantic_score_too_low "
+                f"({semantic_score:.2f})"
+            ),
+            "semantic_score": round(semantic_score, 6),
+            "confidence": round(compute_confidence(semantic_score, False), 6),
+            "output_chapter": None
+        }
+
     if ratio < MIN_LENGTH_RATIO:
         return {
             "jp_chapter": jp_name,
@@ -250,6 +312,8 @@ def validate_and_arrange(
                 f"length_ratio_too_small "
                 f"({ratio:.2f})"
             ),
+            "semantic_score": round(semantic_score, 6),
+            "confidence": round(compute_confidence(semantic_score, False), 6),
             "output_chapter": None
         }
 
@@ -262,6 +326,8 @@ def validate_and_arrange(
                 f"length_ratio_too_large "
                 f"({ratio:.2f})"
             ),
+            "semantic_score": round(semantic_score, 6),
+            "confidence": round(compute_confidence(semantic_score, False), 6),
             "output_chapter": None
         }
 
@@ -281,22 +347,43 @@ def validate_and_arrange(
             "en_chapter": en_name,
             "status": "ERROR",
             "reason": str(e),
+            "semantic_score": round(semantic_score, 6),
             "output_chapter": None
         }
 
-    if not match:
+    confidence = compute_confidence(
+        semantic_score,
+        match
+    )
+
+    if confidence < CONFIDENCE_THRESHOLD:
+        return {
+            "jp_chapter": jp_name,
+            "en_chapter": en_name,
+            "status": "SKIP",
+            "reason": (
+                f"low_confidence "
+                f"(semantic={semantic_score:.2f}, "
+                f"llm={'SAME' if match else 'DIFFER'}, "
+                f"confidence={confidence:.2f})"
+            ),
+            "semantic_score": round(semantic_score, 6),
+            "confidence": round(confidence, 6),
+            "output_chapter": None
+        }
+
+    if not match and confidence <= CONFIDENCE_THRESHOLD:
         return {
             "jp_chapter": jp_name,
             "en_chapter": en_name,
             "status": "FAIL",
             "reason": "story_drift",
+            "semantic_score": round(semantic_score, 6),
+            "confidence": round(confidence, 6),
             "output_chapter": None
         }
 
-    # Extract chapter number from jp_name
-    # Handle formats like "1.txt" or "n4830bu-jap-ch-1.txt"
-    jp_match = re.search(r'(\d+)\.txt$', jp_name)
-    if not jp_match:
+    if jp_chapter_num is None:
         return {
             "jp_chapter": jp_name,
             "en_chapter": en_name,
@@ -305,7 +392,7 @@ def validate_and_arrange(
             "output_chapter": None
         }
 
-    chapter_num = jp_match.group(1)
+    chapter_num = str(jp_chapter_num)
     output_name = f"{chapter_num}.txt"
 
     # Write output files
@@ -321,6 +408,8 @@ def validate_and_arrange(
         "en_chapter": en_name,
         "status": "PASS",
         "reason": "same_story",
+        "semantic_score": round(semantic_score, 6),
+        "confidence": round(confidence, 6),
         "output_chapter": chapter_num
     }
 
@@ -443,6 +532,7 @@ def main(
                     validate_and_arrange,
                     jp_name,
                     match_info["en_chapter"],
+                    match_info["score"],
                     match_info["jp_file"],
                     match_info["en_file"],
                     llm_log_path,
