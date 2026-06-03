@@ -1,0 +1,39 @@
+# Novel Aligner Configuration
+
+embedding:
+  model_name: "BAAI/bge-m3"
+  max_length: 512
+  batch_size: 32
+  use_gpu: true
+  cache_dir: ".embedding_cache"
+
+fingerprint:
+  sample_chars: 2000
+  sample_end_chars: 1000
+  max_title_length: 100
+  use_summary: true
+  embedding_mode: "summary"
+
+similarity:
+  embedding_weight: 0.5
+  title_weight: 0.2
+  character_weight: 0.2
+  event_weight: 0.1
+  min_confidence: 0.3
+  gap_penalty: -0.2
+  mismatch_penalty: -0.1
+
+alignment:
+  global_alignment: true
+  allow_splits: false
+  allow_merges: false
+  max_skip: 5
+
+database:
+  db_path: "novel_aligner.db"
+  wal_mode: true
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  debug: false
