@@ -5,7 +5,7 @@ from typing import List
 
 class FileLoader:
     @staticmethod
-    def _natural_sort_key(s: str) -> List[Any]:
+    def _natural_sort_key(s: str) -> List[any]:
         return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', str(s))]
 
     def load_chapters(self, base_path: str, language: str) -> List[str]:

@@ -2,7 +2,7 @@ embedding:
   model: "intfloat/multilingual-e5-large" # Options: BAAI/bge-m3, paraphrase-multilingual-mpnet-base-v2
   max_characters: 2000
   device: "cuda" # or "cpu"
-  mode: "summary" # raw or summary
+  mode: "raw" # raw or summary
 
 similarity_weights:
   embedding: 0.5

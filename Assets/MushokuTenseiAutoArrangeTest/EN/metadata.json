@@ -1,0 +1,1146 @@
+{
+  "novel_id": "mushoku-tensei-novel",
+  "novel_name": "Mushoku Tensei",
+  "chapters": {
+    "1": {
+      "chapter_name": "Volume 1 Prologue",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-1"
+    },
+    "2": {
+      "chapter_name": "Volume 1  1 — Could This Be Another World?",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-2"
+    },
+    "3": {
+      "chapter_name": "Volume 1  2 — Expressionless Maid",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-3"
+    },
+    "4": {
+      "chapter_name": "Volume 1  3 — Magic Textbook",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-4"
+    },
+    "5": {
+      "chapter_name": "Volume 1  4 — Teacher",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-5"
+    },
+    "6": {
+      "chapter_name": "Volume 1  5 — Magic and Swordsmanship",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-6"
+    },
+    "7": {
+      "chapter_name": "Volume 1  6 — Reason for Respect",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-7"
+    },
+    "8": {
+      "chapter_name": "Volume 1  7 — Friend",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-8"
+    },
+    "9": {
+      "chapter_name": "Volume 1  8 — Insensitive",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-9"
+    },
+    "10": {
+      "chapter_name": "Volume 1  9 — Emergency Family Meeting",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-10"
+    },
+    "11": {
+      "chapter_name": "Volume 1  10 — Bottleneck",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-11"
+    },
+    "12": {
+      "chapter_name": "Volume 1  11 — Separation",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-12"
+    },
+    "13": {
+      "chapter_name": "Volume 1 Special  — The Mother in Greyrats Household",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-13"
+    },
+    "14": {
+      "chapter_name": "Volume 2 Prologue",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-14"
+    },
+    "15": {
+      "chapter_name": "Volume 2  1 — Young Ladys Violence",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-15"
+    },
+    "16": {
+      "chapter_name": "Volume 2  2 — Self Directed Role",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-16"
+    },
+    "17": {
+      "chapter_name": "Volume 2  3 — Brutality Has Yet to End",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-17"
+    },
+    "18": {
+      "chapter_name": "Volume 2  4 — Staff Meeting & Sunday",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-18"
+    },
+    "19": {
+      "chapter_name": "Volume 2  5 — Young Lady Is 10 Years Old",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-19"
+    },
+    "20": {
+      "chapter_name": "Volume 2  6 — Studying Languages",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-20"
+    },
+    "21": {
+      "chapter_name": "Volume 2  7 — Definite Promise",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-21"
+    },
+    "22": {
+      "chapter_name": "Volume 2  8 — Turning Point",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-22"
+    },
+    "23": {
+      "chapter_name": "Volume 2 Side Story — Aftermath of the Event & Boreas Style Greeting",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-23"
+    },
+    "24": {
+      "chapter_name": "Volume 2 Side Story 2 — Half a Year After Fedoa Region Vanishes",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-24"
+    },
+    "25": {
+      "chapter_name": "Volume 3  1 — Swindler Calling Himself God",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-25"
+    },
+    "26": {
+      "chapter_name": "Volume 3  2 — Superd Race",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-26"
+    },
+    "27": {
+      "chapter_name": "Volume 3  3 — Teachers Secret",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-27"
+    },
+    "28": {
+      "chapter_name": "Volume 3  4 — Reason for Trust",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-28"
+    },
+    "29": {
+      "chapter_name": "Volume 3  5 — Three Days to the Nearest Town",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-29"
+    },
+    "30": {
+      "chapter_name": "Volume 3  6 — Disguise and Infiltration",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-30"
+    },
+    "31": {
+      "chapter_name": "Volume 3  7 — Adventurers Guild",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-31"
+    },
+    "32": {
+      "chapter_name": "Volume 3  8 — Adventurers Inn",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-32"
+    },
+    "33": {
+      "chapter_name": "Volume 3  9 — The First Job and the Sanctity of Life",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-33"
+    },
+    "34": {
+      "chapter_name": "Volume 3  10 — First Job Completed",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-34"
+    },
+    "35": {
+      "chapter_name": "Volume 3  11 — Good Start",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-35"
+    },
+    "36": {
+      "chapter_name": "Volume 3  12 — Warrior & Children",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-36"
+    },
+    "37": {
+      "chapter_name": "Volume 3  13 — Mistake, Disorder, & Determination",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-37"
+    },
+    "38": {
+      "chapter_name": "Volume 3  14 — Start of the Journey",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-38"
+    },
+    "39": {
+      "chapter_name": "Volume 3 Special  — World Map",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-39"
+    },
+    "40": {
+      "chapter_name": "Volume 4  1 — Wind Port",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-40"
+    },
+    "41": {
+      "chapter_name": "Volume 4  2 — Crossing Paths - First Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-41"
+    },
+    "42": {
+      "chapter_name": "Volume 4  3 — Crossing Paths - Second Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-42"
+    },
+    "43": {
+      "chapter_name": "Volume 4  3.5 — Crossing Paths - Side Story",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-43"
+    },
+    "44": {
+      "chapter_name": "Volume 4  4 — Sage within the Ship",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-44"
+    },
+    "45": {
+      "chapter_name": "Volume 4  5 — Demon in the Storehouse",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-45"
+    },
+    "46": {
+      "chapter_name": "Volume 4  6 — Children of the Beast Race",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-46"
+    },
+    "47": {
+      "chapter_name": "Volume 4  7 — No Cost Apartment",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-47"
+    },
+    "48": {
+      "chapter_name": "Volume 4  8 — Slow Life of Dorudia Village - First Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-48"
+    },
+    "49": {
+      "chapter_name": "Volume 4  9 — Slow Life of Dorudia Village - Second Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-49"
+    },
+    "50": {
+      "chapter_name": "Volume 4  10 — Holy Sword Highway",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-50"
+    },
+    "51": {
+      "chapter_name": "Volume 5  1 — Holy Milis Kingdom",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-51"
+    },
+    "52": {
+      "chapter_name": "Volume 5  2 — Paul 1.5 Years Earlier",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-52"
+    },
+    "53": {
+      "chapter_name": "Volume 5  3 — Parent and Child Fight",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-53"
+    },
+    "54": {
+      "chapter_name": "Volume 5  4 — Reunion with Paul",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-54"
+    },
+    "55": {
+      "chapter_name": "Volume 5  5 — Reconfirmation of Objectives",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-55"
+    },
+    "56": {
+      "chapter_name": "Volume 5  6 — One Week in Milishion",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-56"
+    },
+    "57": {
+      "chapter_name": "Volume 5 Side Story — Eris Goblin Suppression",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-57"
+    },
+    "58": {
+      "chapter_name": "Volume 5  7 — To the Central Continent",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-58"
+    },
+    "59": {
+      "chapter_name": "Volume 5 Side Story — Return of Roxy",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-59"
+    },
+    "60": {
+      "chapter_name": "Volume 6  1 — Route Options",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-60"
+    },
+    "61": {
+      "chapter_name": "Volume 6  2 — Rice",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-61"
+    },
+    "62": {
+      "chapter_name": "Volume 6  3 — Shirone Kingdom",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-62"
+    },
+    "63": {
+      "chapter_name": "Volume 6  4 — Absence of God",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-63"
+    },
+    "64": {
+      "chapter_name": "Volume 6  5 — Third Prince",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-64"
+    },
+    "65": {
+      "chapter_name": "Volume 6  6 — Speedy Resolution",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-65"
+    },
+    "66": {
+      "chapter_name": "Volume 6  7 — The Day the Little Sister Maid Was Born",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-66"
+    },
+    "67": {
+      "chapter_name": "Volume 6  8 — Becoming an Adult",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-67"
+    },
+    "68": {
+      "chapter_name": "Volume 6  9 — Turning Point 2",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-68"
+    },
+    "69": {
+      "chapter_name": "Volume 6  10 — Gaping Hole Opened in the Chest",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-69"
+    },
+    "70": {
+      "chapter_name": "Volume 6  11 — End of the Journey",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-70"
+    },
+    "71": {
+      "chapter_name": "Volume 6  12 — Reality of the Disaster",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-71"
+    },
+    "72": {
+      "chapter_name": "Volume 6  13 — Young Ladys Decision",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-72"
+    },
+    "73": {
+      "chapter_name": "Volume 6 Side Story — The Two Who Met",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-73"
+    },
+    "74": {
+      "chapter_name": "Volume 6 Special  — World Map 2",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-74"
+    },
+    "75": {
+      "chapter_name": "Volume 7  1 — Quagmire The Adventurer",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-75"
+    },
+    "76": {
+      "chapter_name": "Volume 7  2 — Letter of Recommendation",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-76"
+    },
+    "77": {
+      "chapter_name": "Volume 7  3 — Entrance Examination",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-77"
+    },
+    "78": {
+      "chapter_name": "Volume 7  4 — First Day of School - First Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-78"
+    },
+    "79": {
+      "chapter_name": "Volume 7  5 — First Day of School - Second Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-79"
+    },
+    "80": {
+      "chapter_name": "Volume 7  6 — Fitts-Senpai",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-80"
+    },
+    "81": {
+      "chapter_name": "Volume 8  1 — An Unreachable Power - First Half",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-81"
+    },
+    "82": {
+      "chapter_name": "Volume 8  2 — An Unreachable Power - Latter Half",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-82"
+    },
+    "83": {
+      "chapter_name": "Volume 8  3 — Daughters of the Beast Race Kidnapping and Confinement Incident…",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-83"
+    },
+    "84": {
+      "chapter_name": "Volume 8  4 — Daughters of the Beast Race Kidnapping and Confinement Incident…",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-84"
+    },
+    "85": {
+      "chapter_name": "Volume 8  5 — The Genius Youths Secret - First Half",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-85"
+    },
+    "86": {
+      "chapter_name": "Volume 8  6 — The Genius Youths Secret - Second Half",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-86"
+    },
+    "87": {
+      "chapter_name": "Volume 8  7 — Precipice of Engagement - First Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-87"
+    },
+    "88": {
+      "chapter_name": "Volume 8  8 — Precipice of Engagement - Second Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-88"
+    },
+    "89": {
+      "chapter_name": "Volume 8  9 — White Mask - First Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-89"
+    },
+    "90": {
+      "chapter_name": "Volume 8  10 — White Mask — Second Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-90"
+    },
+    "91": {
+      "chapter_name": "Volume 8  11 — Daily Life at the Magic University",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-91"
+    },
+    "92": {
+      "chapter_name": "Volume 8 Side Story — Enter the Mad Dog",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-92"
+    },
+    "93": {
+      "chapter_name": "Volume 9  1 — Sylphys Past",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-93"
+    },
+    "94": {
+      "chapter_name": "Volume 9  2 — Guardian Magician Introduction - Fitts",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-94"
+    },
+    "95": {
+      "chapter_name": "Volume 9  3 — Princess, Knight, and Magician",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-95"
+    },
+    "96": {
+      "chapter_name": "Volume 9  4 — First Day of School — Extra Chapter",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-96"
+    },
+    "97": {
+      "chapter_name": "Volume 9  5 — Sharp and Dull",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-97"
+    },
+    "98": {
+      "chapter_name": "Volume 9  6 — Over Thinking",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-98"
+    },
+    "99": {
+      "chapter_name": "Volume 9  7 — The Protected Secret",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-99"
+    },
+    "100": {
+      "chapter_name": "Volume 9  8 — Rain of the Forest - First Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-100"
+    },
+    "101": {
+      "chapter_name": "Volume 9  9 — Rain of the Forest - Second Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-101"
+    },
+    "102": {
+      "chapter_name": "Volume 9  10 — The Final Push",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-102"
+    },
+    "103": {
+      "chapter_name": "Volume 9  11 — Backing",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-103"
+    },
+    "104": {
+      "chapter_name": "Volume 10  1 — Things to Prepare Before Marriage - First Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-104"
+    },
+    "105": {
+      "chapter_name": "Volume 10  2 — Things to Prepare Before Marriage - Second Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-105"
+    },
+    "106": {
+      "chapter_name": "Volume 10  3 — Dramatic",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-106"
+    },
+    "107": {
+      "chapter_name": "Volume 10  4 — Wedding Reception - Preparations",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-107"
+    },
+    "108": {
+      "chapter_name": "Volume 10  5 — Wedding Reception - Holding",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-108"
+    },
+    "109": {
+      "chapter_name": "Volume 10  6 — Wedding Reception - Finished",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-109"
+    },
+    "110": {
+      "chapter_name": "Volume 10  7 — Lifestyle in the House",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-110"
+    },
+    "111": {
+      "chapter_name": "Volume 11  1 — Letter",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-111"
+    },
+    "112": {
+      "chapter_name": "Volume 11  2 — Breakdown",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-112"
+    },
+    "113": {
+      "chapter_name": "Volume 11  3 — Transcendental Wisdom",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-113"
+    },
+    "114": {
+      "chapter_name": "Volume 11  4 — Nostalgia and Impatience",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-114"
+    },
+    "115": {
+      "chapter_name": "Volume 11  5 — Treatment of the Sisters",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-115"
+    },
+    "116": {
+      "chapter_name": "Volume 11  6 — Maid and Boarding Student",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-116"
+    },
+    "117": {
+      "chapter_name": "Volume 11  7 — Delinquent Leader & His Allies",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-117"
+    },
+    "118": {
+      "chapter_name": "Volume 11  8 — Elder Brothers Feelings",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-118"
+    },
+    "119": {
+      "chapter_name": "Volume 11  9 — Norn Greyrat",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-119"
+    },
+    "120": {
+      "chapter_name": "Volume 11  10 — Lifestyle with the Younger Sisters",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-120"
+    },
+    "121": {
+      "chapter_name": "Volume 11  11 — Turning Point 3",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-121"
+    },
+    "122": {
+      "chapter_name": "Volume 11 Side Story — Sharpening Fangs",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-122"
+    },
+    "123": {
+      "chapter_name": "Volume 12  1 — Saying Farewell",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-123"
+    },
+    "124": {
+      "chapter_name": "Volume 12  2 — Towards Begaritto Continent",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-124"
+    },
+    "125": {
+      "chapter_name": "Volume 12  3 — Natural Enemy Encounter",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-125"
+    },
+    "126": {
+      "chapter_name": "Volume 12  4 — Desert Ecology",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-126"
+    },
+    "127": {
+      "chapter_name": "Volume 12  5 — Desert Journey",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-127"
+    },
+    "128": {
+      "chapter_name": "Volume 12  6 — Bazaar",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-128"
+    },
+    "129": {
+      "chapter_name": "Volume 12  7 — The Desert Warriors",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-129"
+    },
+    "130": {
+      "chapter_name": "Volume 12  8 — Arrival",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-130"
+    },
+    "131": {
+      "chapter_name": "Volume 13  1 — Confirmation of the Situation",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-131"
+    },
+    "132": {
+      "chapter_name": "Volume 13  2 — Enter the Labyrinth",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-132"
+    },
+    "133": {
+      "chapter_name": "Volume 13  3 — Her Feelings at that Time",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-133"
+    },
+    "134": {
+      "chapter_name": "Volume 13  4 — Magician of Persistence",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-134"
+    },
+    "135": {
+      "chapter_name": "Volume 13  5 — Without a Hitch",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-135"
+    },
+    "136": {
+      "chapter_name": "Volume 13  6 — Magic Circle on the Sixth Floor",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-136"
+    },
+    "137": {
+      "chapter_name": "Volume 13  7 — Guardian of the Teleport Labyrinth",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-137"
+    },
+    "138": {
+      "chapter_name": "Volume 13  8 — Mortal Combat",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-138"
+    },
+    "139": {
+      "chapter_name": "Volume 13  9 — Parent",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-139"
+    },
+    "140": {
+      "chapter_name": "Volume 13  10 — Facing Forward",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-140"
+    },
+    "141": {
+      "chapter_name": "Volume 13  11 — Return Home",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-141"
+    },
+    "142": {
+      "chapter_name": "Volume 13  12 — Return",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-142"
+    },
+    "143": {
+      "chapter_name": "Volume 13  13 — Report",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-143"
+    },
+    "144": {
+      "chapter_name": "Volume 13  14 — Hell",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-144"
+    },
+    "145": {
+      "chapter_name": "Volume 13  15 — In Front of the Gravestone",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-145"
+    },
+    "146": {
+      "chapter_name": "Volume 13  15.5 Side Story — Is the Mad Dogs Sword Heavy, or Sharp?",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-146"
+    },
+    "147": {
+      "chapter_name": "Volume 14  1 — Roxy Becomes a Teacher",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-147"
+    },
+    "148": {
+      "chapter_name": "Volume 14  2 — Third Year Student",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-148"
+    },
+    "149": {
+      "chapter_name": "Volume 14  3 — Training with Norn",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-149"
+    },
+    "150": {
+      "chapter_name": "Volume 14  4 — What I Raised",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-150"
+    },
+    "151": {
+      "chapter_name": "Volume 14  5 — A Father of Dignity",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-151"
+    },
+    "152": {
+      "chapter_name": "Volume 14  6 — Water King Class",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-152"
+    },
+    "153": {
+      "chapter_name": "Volume 14  7 — Marriage Ceremony",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-153"
+    },
+    "154": {
+      "chapter_name": "Volume 14  8 — Flowers in Both Hands",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-154"
+    },
+    "155": {
+      "chapter_name": "Volume 14  9 — Birthday Party",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-155"
+    },
+    "156": {
+      "chapter_name": "Volume 14  10 — Graduation Ceremony",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-156"
+    },
+    "157": {
+      "chapter_name": "Volume 14  11 — Fourth Phase",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-157"
+    },
+    "158": {
+      "chapter_name": "Volume 14 Side Story — Birth of a New Sword King",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-158"
+    },
+    "159": {
+      "chapter_name": "Volume 15  1 — Floating Citadel",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-159"
+    },
+    "160": {
+      "chapter_name": "Volume 15  2 — Audience with Perugius",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-160"
+    },
+    "161": {
+      "chapter_name": "Volume 15  3 — Past, Curse, Summons, and Jealousy",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-161"
+    },
+    "162": {
+      "chapter_name": "Volume 15  4 — Lamentation",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-162"
+    },
+    "163": {
+      "chapter_name": "Volume 15  5 — Towards Demon Continent Once Again",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-163"
+    },
+    "164": {
+      "chapter_name": "Volume 15  6 — Search for Kishirika",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-164"
+    },
+    "165": {
+      "chapter_name": "Volume 15  7 — Audience with the Immortal Demon Lord",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-165"
+    },
+    "166": {
+      "chapter_name": "Volume 15  8 — Duel with the Immortal Demon Lord",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-166"
+    },
+    "167": {
+      "chapter_name": "Volume 15  9 — Everyday Life in the Floating Citadel",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-167"
+    },
+    "168": {
+      "chapter_name": "Volume 15  10 — Turning Point 4",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-168"
+    },
+    "169": {
+      "chapter_name": "Volume 15  11 — End and Beginning",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-169"
+    },
+    "170": {
+      "chapter_name": "Volume 16  1 — Diary -- First Half",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-170"
+    },
+    "171": {
+      "chapter_name": "Volume 16  2 — Diary - Second Half",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-171"
+    },
+    "172": {
+      "chapter_name": "Volume 16  3 — Resolve",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-172"
+    },
+    "173": {
+      "chapter_name": "Volume 16  4 — Nanahoshis Hypothesis",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-173"
+    },
+    "174": {
+      "chapter_name": "Volume 16  5 — Letter Arrives",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-174"
+    },
+    "175": {
+      "chapter_name": "Volume 16  6 — Preparation",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-175"
+    },
+    "176": {
+      "chapter_name": "Volume 16  7 — Preparation Complete",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-176"
+    },
+    "177": {
+      "chapter_name": "Volume 16  8 — Quagmire vs. Dragon God",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-177"
+    },
+    "178": {
+      "chapter_name": "Volume 16  9 — Mad Sword King vs. Dragon God",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-178"
+    },
+    "179": {
+      "chapter_name": "Volume 16  10 — Eris Greyrat - First Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-179"
+    },
+    "180": {
+      "chapter_name": "Volume 16  11 — Eris Greyrat - Second Part",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-180"
+    },
+    "181": {
+      "chapter_name": "Volume 17  1 — Summon",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-181"
+    },
+    "182": {
+      "chapter_name": "Volume 17  2 — Explanation",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-182"
+    },
+    "183": {
+      "chapter_name": "Volume 17  3 — Towards the First Mission",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-183"
+    },
+    "184": {
+      "chapter_name": "Volume 17  4 — Guardian Magical Beast",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-184"
+    },
+    "185": {
+      "chapter_name": "Volume 17  5 — Mens Meeting",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-185"
+    },
+    "186": {
+      "chapter_name": "Volume 17 Side Story — Women’s Meeting",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-186"
+    },
+    "187": {
+      "chapter_name": "Volume 17  6 — Luke",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-187"
+    },
+    "188": {
+      "chapter_name": "Volume 17  7 — Make Your Decision",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-188"
+    },
+    "189": {
+      "chapter_name": "Volume 17  8 — Organization of Cooperation",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-189"
+    },
+    "190": {
+      "chapter_name": "Volume 17  9 — Armored Dragon King and Second Princess",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-190"
+    },
+    "191": {
+      "chapter_name": "Volume 17  10 — Before Leaving for Asura Kingdom",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-191"
+    },
+    "192": {
+      "chapter_name": "Volume 17 Side Story — Black Wolf Sword King",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-192"
+    },
+    "193": {
+      "chapter_name": "Volume 17 Special  : World Map 3",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-193"
+    },
+    "194": {
+      "chapter_name": "Volume 18  1 — Departure Towards Asura Kingdom",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-194"
+    },
+    "195": {
+      "chapter_name": "Volume 18  2 — Red Dragons Upper Jaw",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-195"
+    },
+    "196": {
+      "chapter_name": "Volume 18  3 — Conjecture",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-196"
+    },
+    "197": {
+      "chapter_name": "Volume 18  4 — Ariels Choice",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-197"
+    },
+    "198": {
+      "chapter_name": "Volume 18  5 — Tristina",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-198"
+    },
+    "199": {
+      "chapter_name": "Volume 18  6 — Along the Way",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-199"
+    },
+    "200": {
+      "chapter_name": "Volume 18  7 — Imperial City Ars",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-200"
+    },
+    "201": {
+      "chapter_name": "Volume 18  8 — Mortal Combat at Dusk",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-201"
+    },
+    "202": {
+      "chapter_name": "Volume 18  9 — Ariels Battlefield",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-202"
+    },
+    "203": {
+      "chapter_name": "Volume 18  10 — Rudeus Battlefield",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-203"
+    },
+    "204": {
+      "chapter_name": "Volume 18  11 — Lukes Recklessness",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-204"
+    },
+    "205": {
+      "chapter_name": "Volume 18  12 — Truth of Orsted and Ten Days in the Capital",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-205"
+    },
+    "206": {
+      "chapter_name": "Volume 18  13 — Farewells and Sylphys Change",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-206"
+    },
+    "207": {
+      "chapter_name": "Volume 18  14 — Return and Determination",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-207"
+    },
+    "208": {
+      "chapter_name": "Volume 19  1 — The Present Situation",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-208"
+    },
+    "209": {
+      "chapter_name": "Volume 19 Side Story — One Example of Work",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-209"
+    },
+    "210": {
+      "chapter_name": "Volume 19  2 — Borrowed Cat",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-210"
+    },
+    "211": {
+      "chapter_name": "Volume 19  3 — Entrance Ceremony & Student Council President",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-211"
+    },
+    "212": {
+      "chapter_name": "Volume 19  4 — Research Progress",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-212"
+    },
+    "213": {
+      "chapter_name": "Volume 19  5 — Signs of Household Collapse",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-213"
+    },
+    "214": {
+      "chapter_name": "Volume 19  6 — Business Start-up",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-214"
+    },
+    "215": {
+      "chapter_name": "Volume 19  7 — Company Venture",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-215"
+    },
+    "216": {
+      "chapter_name": "Volume 19  8 — Dorudia Village Once More",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-216"
+    },
+    "217": {
+      "chapter_name": "Volume 19  9 — Dried Meat Murder Incident",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-217"
+    },
+    "218": {
+      "chapter_name": "Volume 19  10 — Next Battle",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-218"
+    },
+    "219": {
+      "chapter_name": "Volume 20  1 — Zanobas Resolve",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-219"
+    },
+    "220": {
+      "chapter_name": "Volume 20  2 — Foreboding",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-220"
+    },
+    "221": {
+      "chapter_name": "Volume 20  3 — To Shirone Again",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-221"
+    },
+    "222": {
+      "chapter_name": "Volume 20  4 — King Pax",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-222"
+    },
+    "223": {
+      "chapter_name": "Volume 20  5 — Fort Karon",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-223"
+    },
+    "224": {
+      "chapter_name": "Volume 20  6 — Preparations for War",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-224"
+    },
+    "225": {
+      "chapter_name": "Volume 20  7 — War",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-225"
+    },
+    "226": {
+      "chapter_name": "Volume 20  8 — Emergency Situation, Zanoba True Motive",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-226"
+    },
+    "227": {
+      "chapter_name": "Volume 20  9 — To Paxs Side",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-227"
+    },
+    "228": {
+      "chapter_name": "Volume 20  10 — Everything was for Naught",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-228"
+    },
+    "229": {
+      "chapter_name": "Volume 20  11 — Post War",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-229"
+    },
+    "230": {
+      "chapter_name": "Volume 20  12 — Zanobas Chosen Path",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-230"
+    },
+    "231": {
+      "chapter_name": "Volume 20  13 — It is Okay to Rejoice",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-231"
+    },
+    "232": {
+      "chapter_name": "Volume 20.5  1 — Future Plans and Cliffs Troubles",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-232"
+    },
+    "233": {
+      "chapter_name": "Volume 20.5  2 — Cliff and Zanobas Graduation",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-233"
+    },
+    "234": {
+      "chapter_name": "Volume 20.5 Side Story — A Country Hick Goes to the City",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-234"
+    },
+    "235": {
+      "chapter_name": "Volume 20.5 Side Story — Coming of Age Ceremony",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-235"
+    },
+    "236": {
+      "chapter_name": "Volume 20.5  3 — Achievements and Goals",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-236"
+    },
+    "237": {
+      "chapter_name": "Volume 20.5  4 — And to Milishion…",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-237"
+    },
+    "238": {
+      "chapter_name": "Volume 21  1 — Cliffs Return Home",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-238"
+    },
+    "239": {
+      "chapter_name": "Volume 21  2 — Latreia Residence",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-239"
+    },
+    "240": {
+      "chapter_name": "Volume 21  3 — Milis Church Headquarters",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-240"
+    },
+    "241": {
+      "chapter_name": "Volume 21  4 — Meeting with the Pope, and…",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-241"
+    },
+    "242": {
+      "chapter_name": "Volume 21  5 — Playing Dumb",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-242"
+    },
+    "243": {
+      "chapter_name": "Volume 21  6 — Chess Problem",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-243"
+    },
+    "244": {
+      "chapter_name": "Volume 21  7 — Turning Over and Picking Up the King Piece",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-244"
+    },
+    "245": {
+      "chapter_name": "Volume 21  8 — Bullish Negotiations",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-245"
+    },
+    "246": {
+      "chapter_name": "Volume 21  9 — What am I Wavering Over",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-246"
+    },
+    "247": {
+      "chapter_name": "Volume 21  10 — For the House, For my Daughter",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-247"
+    },
+    "248": {
+      "chapter_name": "Volume 21  11 — Results of Obligation",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-248"
+    },
+    "249": {
+      "chapter_name": "Volume 21  12 — The Traitor Escaped",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-249"
+    },
+    "250": {
+      "chapter_name": "Volume 21 Side Story — The Mad Dog and the Child of God",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-250"
+    },
+    "251": {
+      "chapter_name": "Volume 22  1 — Infiltrating Fort Necross",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-251"
+    },
+    "252": {
+      "chapter_name": "Volume 22  2 — Fierce Battle, Demon Lord Atofe",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-252"
+    },
+    "253": {
+      "chapter_name": "Volume 22  3 — The Fourth One",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-253"
+    },
+    "254": {
+      "chapter_name": "Volume 22  4 — Naming",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-254"
+    },
+    "255": {
+      "chapter_name": "Volume 22  5 — Parallel World Teleportation Magic Device",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-255"
+    },
+    "256": {
+      "chapter_name": "Volume 22  6 — Nanahoshi’s Fate",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-256"
+    },
+    "257": {
+      "chapter_name": "Volume 22  7 — A Second",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-257"
+    },
+    "258": {
+      "chapter_name": "Volume 23  1 — Strategy Meeting",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-258"
+    },
+    "259": {
+      "chapter_name": "Volume 23  2 — What They Were Searching for",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-259"
+    },
+    "260": {
+      "chapter_name": "Volume 23  3 — The Person They Were Searching for",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-260"
+    },
+    "261": {
+      "chapter_name": "Volume 23  4 — Supard Races Village",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-261"
+    },
+    "262": {
+      "chapter_name": "Volume 23  5 — Dark King Vita",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-262"
+    },
+    "263": {
+      "chapter_name": "Volume 23  6 — Plague",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-263"
+    },
+    "264": {
+      "chapter_name": "Volume 23  7 — Genius",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-264"
+    },
+    "265": {
+      "chapter_name": "Volume 23  8 — The Capital",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-265"
+    },
+    "266": {
+      "chapter_name": "Volume 23  9 — 4 Days & 3 Nights: Inspection Tour of the Supard Race",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-266"
+    },
+    "267": {
+      "chapter_name": "Volume 23  10 — Disappearance",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-267"
+    },
+    "268": {
+      "chapter_name": "Volume 23  11 — Bottom of the Earth Dragon Valley",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-268"
+    },
+    "269": {
+      "chapter_name": "Volume 23  12 — Looking for a Chance to Win",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-269"
+    },
+    "270": {
+      "chapter_name": "Volume 23  13 — Mad Sword King vs Former Sword God",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-270"
+    },
+    "271": {
+      "chapter_name": "Volume 23  14 — Third Generation vs Second Generation + α",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-271"
+    },
+    "272": {
+      "chapter_name": "Volume 23  15 — North God the Third vs Dead End + α",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-272"
+    },
+    "273": {
+      "chapter_name": "Volume 23  16 — Aleksander vs Rudeus",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-273"
+    },
+    "274": {
+      "chapter_name": "Volume 23  17 — Ogre Gods Bargain",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-274"
+    },
+    "275": {
+      "chapter_name": "Volume 23  18 — Fighting Gods Menace",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-275"
+    },
+    "276": {
+      "chapter_name": "Volume 23  19 — Trump Card",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-276"
+    },
+    "277": {
+      "chapter_name": "Volume 23  20 — Turning Point 5",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-277"
+    },
+    "278": {
+      "chapter_name": "Volume 23  21 — End of Battle",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-278"
+    },
+    "279": {
+      "chapter_name": "Volume 24  1 — The Final Dream",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-279"
+    },
+    "280": {
+      "chapter_name": "Volume 24  2 — 34 Years Old",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-280"
+    },
+    "281": {
+      "chapter_name": "Volume 24 Side Story — Asura Kingdoms 『Biography of Rudeus Greyrat』",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-281"
+    },
+    "282": {
+      "chapter_name": "Volume 24 Final  — Afterlife",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-282"
+    },
+    "283": {
+      "chapter_name": "Volume 24 Epilogue — Prologue Zero",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-283"
+    },
+    "284": {
+      "chapter_name": "Volume 24 Santa Claus Newcomer",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-284"
+    },
+    "285": {
+      "chapter_name": "Holy Night Chaos Breaker (2019 Xmas SS)",
+      "url": "https://novellive.app/book/mushoku-tensei-novel/chapter-285"
+    }
+  }
+}
