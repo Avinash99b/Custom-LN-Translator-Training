@@ -134,12 +134,11 @@
   <header>
     <div class="controls">
       <input type="file" id="folderPicker" webkitdirectory multiple>
-      <input type="file" id="jsonFile" accept=".json">
       <label>Chapter <input id="chapterNum" style="width:90px"></label>
       <label>Top N <input id="topN" type="number" value="10" min="1" max="100" style="width:70px"></label>
       <button id="prevBtn">◀</button>
       <button id="nextBtn">▶</button>
-      <span id="status">Load folder + similarity json</span>
+      <span id="status">Load a folder containing JP, EN, and the similarity matrix JSON</span>
     </div>
   </header>
 
@@ -169,8 +168,50 @@
     let currentChapter = "1.txt";
     let currentEN = "";
 
-    async function readFile(file) {
-      return await file.text();
+    const MATRIX_FILE_NAMES = [
+      "chapter_similarity_matrix.json",
+      "chapter_smilarity_matrix.json"
+    ];
+
+    function getRootRelativePath(path) {
+      const parts = path.split("/");
+      return parts.slice(1).join("/");
+    }
+
+    function isMatrixFile(path) {
+      const rootRelativePath = getRootRelativePath(path);
+      return MATRIX_FILE_NAMES.includes(rootRelativePath);
+    }
+
+    function updateStatus(message) {
+      document.getElementById("status").textContent = message;
+    }
+
+    async function loadMatrixFromFiles(files) {
+      const matrixFile = files.find(file => isMatrixFile(file.webkitRelativePath));
+
+      if (!matrixFile) {
+        matrix = {};
+        updateStatus("Matrix JSON not found at the folder root");
+        return;
+      }
+
+      try {
+        const txt = await matrixFile.text();
+        matrix = JSON.parse(txt);
+
+        const matrixChapters = Object.keys(matrix);
+        if (matrixChapters.length) {
+          currentChapter = matrixChapters[0];
+          document.getElementById("chapterNum").value = currentChapter.replace(/\.txt$/i, "");
+        }
+
+        updateStatus(`Loaded ${Object.keys(jpFiles).length} JP chapters, ${Object.keys(enFiles).length} EN chapters, matrix from ${matrixFile.name}`);
+        render();
+      } catch (error) {
+        matrix = {};
+        updateStatus(`Failed to parse ${matrixFile.name}: ${error.message}`);
+      }
     }
 
     document
@@ -183,37 +224,19 @@
         const files = Array.from(e.target.files);
 
         for (const file of files) {
-
           const path = file.webkitRelativePath;
 
-          const content = await file.text();
-
-          if (path.includes("/JP/") &&
-            file.name.endsWith(".txt")) {
-
-            jpFiles[file.name] = content;
+          if (path.includes("/JP/") && file.name.endsWith(".txt")) {
+            jpFiles[file.name] = await file.text();
+            continue;
           }
 
-          if (path.includes("/EN/") &&
-            file.name.endsWith(".txt")) {
-
-            enFiles[file.name] = content;
+          if (path.includes("/EN/") && file.name.endsWith(".txt")) {
+            enFiles[file.name] = await file.text();
           }
         }
 
-        document.getElementById(
-          "status"
-        ).textContent =
-          `Loaded ${Object.keys(jpFiles).length} JP chapters, `
-          + `${Object.keys(enFiles).length} EN chapters`;
-      });
-
-    document.getElementById("jsonFile").addEventListener("change", async e => {
-      const txt = await e.target.files[0].text();
-      matrix = JSON.parse(txt);
-      currentChapter = Object.keys(matrix)[0];
-      document.getElementById("chapterNum").value = currentChapter.replace(".txt", "");
-      render();
+        await loadMatrixFromFiles(files);
     });
 
     function render() {

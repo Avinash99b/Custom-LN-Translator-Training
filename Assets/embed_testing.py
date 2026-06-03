@@ -11,7 +11,7 @@ ROOT_DIR = input("Enter the root directory containing JP and EN folders: ").stri
 JP_DIR = Path(ROOT_DIR) / "JP"
 EN_DIR = Path(ROOT_DIR) / "EN"
 
-OUTPUT_JSON = "chapter_similarity_matrix.json"
+OUTPUT_JSON = Path(ROOT_DIR) / "chapter_similarity_matrix.json"
 
 # Number of lines to read from each file
 FIRST_N_LINES = 50
