@@ -7,7 +7,7 @@ from sentence_transformers import SentenceTransformer
 
 MODEL_NAME = "BAAI/bge-m3"
 
-ROOT_DIR = "MushokuTenseiAutoArrangeTest"
+ROOT_DIR = input("Enter the root directory containing JP and EN folders: ").strip()
 JP_DIR = Path(ROOT_DIR) / "JP"
 EN_DIR = Path(ROOT_DIR) / "EN"
 

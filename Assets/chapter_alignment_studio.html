@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Chapter Alignment Studio</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #131a2b;
+      --panel2: #182136;
+      --accent: #60a5fa;
+      --text: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column
+    }
+
+    header {
+      padding: 14px 20px;
+      background: #0f172a;
+      border-bottom: 1px solid #243047
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center
+    }
+
+    button,
+    input {
+      background: #1e293b;
+      color: white;
+      border: 1px solid #334155;
+      padding: 8px 10px;
+      border-radius: 8px
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 30% 70%;
+      height: calc(100vh - 80px)
+    }
+
+    .left,
+    .right {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column
+    }
+
+    .left {
+      border-right: 1px solid #243047
+    }
+
+    .panel {
+      padding: 10px
+    }
+
+    .viewer {
+      flex: 1;
+      overflow: auto;
+      padding: 16px;
+      background: var(--panel)
+    }
+
+    .candidates {
+      overflow: auto;
+      height: 30%;
+      padding: 12px
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid #2a3650;
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 10px;
+      cursor: pointer
+    }
+
+    .card:hover {
+      transform: translateY(-1px)
+    }
+
+    .card.active {
+      outline: 2px solid var(--accent)
+    }
+
+    .bar {
+      height: 8px;
+      background: #0f172a;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 6px
+    }
+
+    .fill {
+      height: 100%;
+      background: linear-gradient(90deg, #22c55e, #eab308)
+    }
+
+    h3 {
+      margin: 0 0 8px 0
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between
+    }
+
+    pre {
+      white-space: pre-wrap;
+      line-height: 1.5
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="controls">
+      <input type="file" id="folderPicker" webkitdirectory multiple>
+      <input type="file" id="jsonFile" accept=".json">
+      <label>Chapter <input id="chapterNum" style="width:90px"></label>
+      <label>Top N <input id="topN" type="number" value="10" min="1" max="100" style="width:70px"></label>
+      <button id="prevBtn">◀</button>
+      <button id="nextBtn">▶</button>
+      <span id="status">Load folder + similarity json</span>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="left">
+      <div class="panel">
+        <h3>JP Chapter</h3>
+      </div>
+      <div class="viewer">
+        <pre id="jpText"></pre>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="panel">
+        <h3 id="rightTitle">Top Matches</h3>
+      </div>
+      <div class="candidates" id="candidates"></div>
+      <div class="viewer">
+        <pre id="enText"></pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let jpFiles = {}, enFiles = {}, matrix = {};
+    let currentChapter = "1.txt";
+    let currentEN = "";
+
+    async function readFile(file) {
+      return await file.text();
+    }
+
+    document
+      .getElementById("folderPicker")
+      .addEventListener("change", async (e) => {
+
+        jpFiles = {};
+        enFiles = {};
+
+        const files = Array.from(e.target.files);
+
+        for (const file of files) {
+
+          const path = file.webkitRelativePath;
+
+          const content = await file.text();
+
+          if (path.includes("/JP/") &&
+            file.name.endsWith(".txt")) {
+
+            jpFiles[file.name] = content;
+          }
+
+          if (path.includes("/EN/") &&
+            file.name.endsWith(".txt")) {
+
+            enFiles[file.name] = content;
+          }
+        }
+
+        document.getElementById(
+          "status"
+        ).textContent =
+          `Loaded ${Object.keys(jpFiles).length} JP chapters, `
+          + `${Object.keys(enFiles).length} EN chapters`;
+      });
+
+    document.getElementById("jsonFile").addEventListener("change", async e => {
+      const txt = await e.target.files[0].text();
+      matrix = JSON.parse(txt);
+      currentChapter = Object.keys(matrix)[0];
+      document.getElementById("chapterNum").value = currentChapter.replace(".txt", "");
+      render();
+    });
+
+    function render() {
+      const chapter = document.getElementById("chapterNum").value || currentChapter.replace(".txt", "");
+      currentChapter = chapter.endsWith(".txt") ? chapter : chapter + ".txt";
+
+      console.log("Current Chapter:", currentChapter);
+      console.log("Available Chapters in Matrix:", Object.keys(matrix));
+      console.log("JP Files Loaded:", Object.keys(jpFiles));
+
+      document.getElementById("jpText").textContent = jpFiles[currentChapter] || "Chapter not found";
+
+      const topN = parseInt(document.getElementById("topN").value || 10);
+
+      let matches = Object.entries(matrix[currentChapter] || {})
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, topN);
+
+      const container = document.getElementById("candidates");
+      container.innerHTML = "";
+
+      matches.forEach((m, i) => {
+        const [file, score] = m;
+        const div = document.createElement("div");
+        div.className = "card" + (i === 0 ? " active" : "");
+        div.innerHTML = `
+      <div class="meta">
+        <strong>#${i + 1} ${file}</strong>
+        <span>${(score * 100).toFixed(2)}%</span>
+      </div>
+      <div class="bar"><div class="fill" style="width:${score * 100}%"></div></div>
+   `;
+
+        div.onclick = () => {
+          document.querySelectorAll(".card").forEach(x => x.classList.remove("active"));
+          div.classList.add("active");
+          currentEN = file;
+          document.getElementById("enText").textContent = enFiles[file] || "Missing chapter";
+        };
+
+        container.appendChild(div);
+      });
+
+      if (matches.length) {
+        currentEN = matches[0][0];
+        document.getElementById("enText").textContent = enFiles[currentEN] || "Missing chapter";
+        document.getElementById("rightTitle").textContent = `Best Match: ${currentEN}`;
+      }
+    }
+
+    document.getElementById("chapterNum").addEventListener("change", render);
+    document.getElementById("topN").addEventListener("change", render);
+
+    document.getElementById("prevBtn").onclick = () => {
+      let n = parseInt(document.getElementById("chapterNum").value || 1) - 1;
+      if (n < 1) n = 1;
+      document.getElementById("chapterNum").value = n;
+      render();
+    };
+
+    document.getElementById("nextBtn").onclick = () => {
+      let n = parseInt(document.getElementById("chapterNum").value || 1) + 1;
+      document.getElementById("chapterNum").value = n;
+      render();
+    };
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowLeft") document.getElementById("prevBtn").click();
+      if (e.key === "ArrowRight") document.getElementById("nextBtn").click();
+    });
+  </script>
+</body>
+
+</html>

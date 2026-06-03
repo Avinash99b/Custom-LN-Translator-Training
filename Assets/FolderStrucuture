@@ -1,0 +1,17 @@
+MushokuTenseiAutoArrangeTest/
+
+├── JP/
+
+│   ├── 1.txt 
+
+│   ├── 2.txt
+
+│   └── ...
+
+├── EN/
+
+│   ├── 1.txt
+
+│   ├── 2.txt
+
+│   └── ...

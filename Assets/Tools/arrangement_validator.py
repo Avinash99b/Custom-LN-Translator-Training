@@ -1,0 +1,587 @@
+#!/usr/bin/env python3
+
+import json
+import argparse
+import re
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from threading import Lock
+
+import requests
+
+OLLAMA_URL = "http://localhost:11434/api/generate"
+MODEL = "qwen2.5:7b"
+
+WORKERS = 4
+SAMPLE_SIZE = 1000
+
+MIN_LENGTH_RATIO = 0.15
+MAX_LENGTH_RATIO = 8.0
+LLM_RESPONSE_LOG = "llm_response_log.jsonl"
+
+LOG_LOCK = Lock()
+OUTPUT_LOCK = Lock()
+
+
+def read_text(path: Path):
+    return path.read_text(
+        encoding="utf-8",
+        errors="ignore"
+    )
+
+
+def sample_text(text: str):
+    text = text.strip()
+
+    if len(text) <= SAMPLE_SIZE * 3:
+        return text
+
+    middle_start = max(
+        0,
+        len(text) // 2 - SAMPLE_SIZE // 2
+    )
+
+    return (
+        text[:SAMPLE_SIZE]
+        + "\n\n[MIDDLE]\n\n"
+        + text[
+            middle_start:
+            middle_start + SAMPLE_SIZE
+        ]
+        + "\n\n[END]\n\n"
+        + text[-SAMPLE_SIZE:]
+    )
+
+
+def log_llm_exchange(log_path: Path, entry: dict):
+    record = dict(entry)
+    record["timestamp"] = datetime.now(timezone.utc).isoformat()
+
+    line = json.dumps(
+        record,
+        ensure_ascii=False
+    )
+
+    with LOG_LOCK:
+        with log_path.open(
+            "a",
+            encoding="utf-8"
+        ) as handle:
+            handle.write(line)
+            handle.write("\n")
+
+
+def parse_llm_response(raw_response: str):
+    normalized = raw_response.strip().upper()
+
+    normalized = re.sub(
+        r"^[\s\"'`*_-]+|[\s\"'`*_.!,?:;\-]+$",
+        "",
+        normalized
+    )
+
+    if normalized == "SAME":
+        return True
+
+    if normalized == "DIFFER":
+        return False
+
+    raise RuntimeError(
+        f"Unexpected model output: {raw_response.strip()}"
+    )
+
+
+def ask_llm(chapter, jp_text, en_text, log_path: Path):
+
+    prompt = f"""
+You compare a Japanese light novel chapter and its English translation.
+
+Your goal is to determine whether they tell the SAME STORY.
+
+Focus on:
+- major events
+- character actions
+- character relationships
+- important dialogue outcomes
+- locations
+- chapter progression
+- plot developments
+
+IGNORE:
+- wording differences
+- translation style
+- localization choices
+- added humor
+- rewritten jokes
+- naturalization of expressions
+- cultural adaptation
+- sentence structure
+- paragraph structure
+- small additions that do not change the story
+- small omissions that do not change the story
+- differences in tone or narration
+
+Answer SAME if:
+- the plot is substantially the same
+- the same events occur
+- the same characters participate
+- the same outcomes happen
+- the chapter serves the same purpose in the story
+
+Answer DIFFER only if there is a meaningful story mismatch, such as:
+- missing scenes
+- extra scenes
+- different events
+- different character actions
+- different character relationships
+- different outcomes
+- different chapter progression
+- merged or split chapters
+- major omissions
+- major additions
+- content from another chapter
+
+Be conservative.
+
+If the story is mostly the same, answer SAME.
+
+Answer with EXACTLY one word:
+
+SAME
+
+or
+
+DIFFER
+
+Japanese:
+
+{jp_text}
+
+English:
+
+{en_text}
+"""
+
+    raw_response = ""
+
+    try:
+        response = requests.post(
+            OLLAMA_URL,
+            json={
+                "model": MODEL,
+                "prompt": prompt,
+                "stream": False,
+                "options": {
+                    "temperature": 0,
+                    "num_predict": 2
+                }
+            },
+            timeout=300
+        )
+
+        response.raise_for_status()
+
+        raw_response = (
+            response.json()
+            .get("response", "")
+        )
+        raw_response = str(raw_response)
+
+        match = parse_llm_response(raw_response)
+
+        log_llm_exchange(
+            log_path,
+            {
+                "jp_chapter": chapter[0],
+                "en_chapter": chapter[1],
+                "status": "ok",
+                "raw_response": raw_response,
+                "parsed": "SAME" if match else "DIFFER"
+            }
+        )
+
+        return match
+
+    except Exception as error:
+        log_llm_exchange(
+            log_path,
+            {
+                "jp_chapter": chapter[0],
+                "en_chapter": chapter[1],
+                "status": "error",
+                "raw_response": raw_response,
+                "error": str(error)
+            }
+        )
+
+        raise
+
+
+def validate_and_arrange(
+    jp_name,
+    en_name,
+    jp_file,
+    en_file,
+    log_path,
+    jp_output_dir,
+    en_output_dir
+):
+    """Validate a JP-EN pair and arrange output if valid."""
+
+    jp_full = read_text(jp_file)
+    en_full = read_text(en_file)
+
+    jp_len = len(jp_full)
+    en_len = len(en_full)
+
+    ratio = (
+        en_len /
+        max(jp_len, 1)
+    )
+
+    if ratio < MIN_LENGTH_RATIO:
+        return {
+            "jp_chapter": jp_name,
+            "en_chapter": en_name,
+            "status": "SKIP",
+            "reason": (
+                f"length_ratio_too_small "
+                f"({ratio:.2f})"
+            ),
+            "output_chapter": None
+        }
+
+    if ratio > MAX_LENGTH_RATIO:
+        return {
+            "jp_chapter": jp_name,
+            "en_chapter": en_name,
+            "status": "SKIP",
+            "reason": (
+                f"length_ratio_too_large "
+                f"({ratio:.2f})"
+            ),
+            "output_chapter": None
+        }
+
+    jp_sample = sample_text(jp_full)
+    en_sample = sample_text(en_full)
+
+    try:
+        match = ask_llm(
+            (jp_name, en_name),
+            jp_sample,
+            en_sample,
+            log_path
+        )
+    except Exception as e:
+        return {
+            "jp_chapter": jp_name,
+            "en_chapter": en_name,
+            "status": "ERROR",
+            "reason": str(e),
+            "output_chapter": None
+        }
+
+    if not match:
+        return {
+            "jp_chapter": jp_name,
+            "en_chapter": en_name,
+            "status": "FAIL",
+            "reason": "story_drift",
+            "output_chapter": None
+        }
+
+    # Extract chapter number from jp_name
+    # Handle formats like "1.txt" or "n4830bu-jap-ch-1.txt"
+    jp_match = re.search(r'(\d+)\.txt$', jp_name)
+    if not jp_match:
+        return {
+            "jp_chapter": jp_name,
+            "en_chapter": en_name,
+            "status": "SKIP",
+            "reason": "could_not_extract_chapter_number",
+            "output_chapter": None
+        }
+
+    chapter_num = jp_match.group(1)
+    output_name = f"{chapter_num}.txt"
+
+    # Write output files
+    with OUTPUT_LOCK:
+        jp_out_path = jp_output_dir / output_name
+        en_out_path = en_output_dir / output_name
+
+        jp_out_path.write_text(jp_full, encoding="utf-8")
+        en_out_path.write_text(en_full, encoding="utf-8")
+
+    return {
+        "jp_chapter": jp_name,
+        "en_chapter": en_name,
+        "status": "PASS",
+        "reason": "same_story",
+        "output_chapter": chapter_num
+    }
+
+
+def load_similarity_matrix(matrix_path: Path):
+    """Load the similarity matrix JSON."""
+    try:
+        data = json.loads(
+            matrix_path.read_text(
+                encoding="utf-8"
+            )
+        )
+        return data
+    except Exception as e:
+        raise RuntimeError(
+            f"Failed to load similarity matrix: {e}"
+        )
+
+
+def find_best_matches(
+    matrix,
+    jp_dir,
+    en_dir
+):
+    """For each JP chapter, find the best EN match."""
+
+    matches = {}
+
+    for jp_name, en_scores in matrix.items():
+        if not en_scores:
+            continue
+
+        # Find highest score
+        best_en = max(
+            en_scores.items(),
+            key=lambda x: x[1]
+        )
+
+        en_name = best_en[0]
+        score = best_en[1]
+
+        jp_file = jp_dir / jp_name
+        en_file = en_dir / en_name
+
+        if not jp_file.exists():
+            continue
+
+        if not en_file.exists():
+            continue
+
+        matches[jp_name] = {
+            "en_chapter": en_name,
+            "score": score,
+            "jp_file": jp_file,
+            "en_file": en_file
+        }
+
+    return matches
+
+
+def main(
+    matrix_path,
+    base_path,
+    jp_dir_name="JP",
+    en_dir_name="EN"
+):
+
+    matrix_file = Path(matrix_path)
+    if not matrix_file.exists():
+        raise RuntimeError(
+            f"Similarity matrix not found: {matrix_path}"
+        )
+
+    base = Path(base_path)
+    jp_dir = base / jp_dir_name
+    en_dir = base / en_dir_name
+
+    if not jp_dir.exists():
+        raise RuntimeError(
+            f"Missing folder: {jp_dir}"
+        )
+
+    if not en_dir.exists():
+        raise RuntimeError(
+            f"Missing folder: {en_dir}"
+        )
+
+    jp_output_dir = base / "JP-Output"
+    en_output_dir = base / "EN-Output"
+
+    jp_output_dir.mkdir(exist_ok=True)
+    en_output_dir.mkdir(exist_ok=True)
+
+    llm_log_path = base / LLM_RESPONSE_LOG
+
+    print("Loading similarity matrix...")
+    matrix = load_similarity_matrix(matrix_file)
+
+    print("Finding best matches...")
+    matches = find_best_matches(
+        matrix,
+        jp_dir,
+        en_dir
+    )
+
+    print(f"Found {len(matches)} potential matches")
+    print()
+
+    results = []
+    futures = []
+
+    with ThreadPoolExecutor(
+        max_workers=WORKERS
+    ) as executor:
+
+        for jp_name, match_info in sorted(matches.items()):
+
+            futures.append(
+                executor.submit(
+                    validate_and_arrange,
+                    jp_name,
+                    match_info["en_chapter"],
+                    match_info["jp_file"],
+                    match_info["en_file"],
+                    llm_log_path,
+                    jp_output_dir,
+                    en_output_dir
+                )
+            )
+
+        total = len(futures)
+        completed = 0
+
+        for future in as_completed(futures):
+
+            completed += 1
+
+            try:
+
+                result = future.result()
+                results.append(result)
+
+                print(
+                    f"[{completed}/{total}] "
+                    f"{result['status']} "
+                    f"{result['jp_chapter']} -> "
+                    f"{result['en_chapter']} "
+                    f"({result['reason']})"
+                )
+
+            except Exception as e:
+
+                print(
+                    f"[{completed}/{total}] "
+                    f"ERROR: {e}"
+                )
+
+    # Analyze results
+    passed = [r for r in results if r["status"] == "PASS"]
+    failed = [r for r in results if r["status"] == "FAIL"]
+    skipped = [r for r in results if r["status"] == "SKIP"]
+    errors = [r for r in results if r["status"] == "ERROR"]
+
+    # Detect collisions (multiple JP chapters -> same EN chapter)
+    en_to_jp = {}
+    collisions = []
+
+    for result in passed:
+        en_ch = result["en_chapter"]
+        jp_ch = result["jp_chapter"]
+
+        if en_ch not in en_to_jp:
+            en_to_jp[en_ch] = []
+
+        en_to_jp[en_ch].append(jp_ch)
+
+    for en_ch, jp_chapters in en_to_jp.items():
+        if len(jp_chapters) > 1:
+            collisions.append({
+                "en_chapter": en_ch,
+                "jp_chapters": jp_chapters,
+                "count": len(jp_chapters)
+            })
+
+    # Summary
+    print()
+    print("=" * 60)
+    print("SUMMARY")
+    print("=" * 60)
+    print(f"Passed : {len(passed)}")
+    print(f"Failed : {len(failed)}")
+    print(f"Skipped: {len(skipped)}")
+    print(f"Errors : {len(errors)}")
+    print()
+
+    if collisions:
+        print("⚠️  COLLISIONS DETECTED:")
+        print("-" * 60)
+        for collision in sorted(
+            collisions,
+            key=lambda x: x["en_chapter"]
+        ):
+            print(
+                f"  EN: {collision['en_chapter']}"
+            )
+            for jp_ch in sorted(
+                collision['jp_chapters']
+            ):
+                print(f"    <- JP: {jp_ch}")
+        print()
+
+    if passed:
+        print("✓ Successfully arranged chapters:")
+        for result in sorted(
+            passed,
+            key=lambda x: int(x['output_chapter'])
+        ):
+            print(
+                f"  Chapter {result['output_chapter']}: "
+                f"{result['jp_chapter']} + {result['en_chapter']}"
+            )
+
+    print()
+    print(
+        f"Output files created in:\n"
+        f"  {jp_output_dir}\n"
+        f"  {en_output_dir}"
+    )
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description=(
+            "Validate and arrange translated light novel chapters "
+            "using similarity matrix and LLM verification."
+        )
+    )
+    parser.add_argument(
+        "matrix_path",
+        help="Path to the similarity matrix JSON file"
+    )
+    parser.add_argument(
+        "base_path",
+        help="Path to the novel folder containing JP and EN subfolders"
+    )
+    parser.add_argument(
+        "--jp-dir",
+        default="JP",
+        help="Name of the Japanese chapters directory (default: JP)"
+    )
+    parser.add_argument(
+        "--en-dir",
+        default="EN",
+        help="Name of the English chapters directory (default: EN)"
+    )
+
+    args = parser.parse_args()
+
+    main(
+        args.matrix_path,
+        args.base_path,
+        args.jp_dir,
+        args.en_dir
+    )
