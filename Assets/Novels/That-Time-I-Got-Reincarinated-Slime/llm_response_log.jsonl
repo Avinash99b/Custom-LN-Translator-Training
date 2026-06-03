@@ -108,7 +108,7 @@
 {"jp_chapter": "197.txt", "en_chapter": "195.txt", "status": "ok", "raw_response": "SAME", "parsed": "SAME", "timestamp": "2026-06-03T07:16:53.945235+00:00"}
 {"jp_chapter": "198.txt", "en_chapter": "196.txt", "status": "ok", "raw_response": "SAME", "parsed": "SAME", "timestamp": "2026-06-03T07:16:58.471252+00:00"}
 {"jp_chapter": "199.txt", "en_chapter": "197.txt", "status": "ok", "raw_response": "SAME", "parsed": "SAME", "timestamp": "2026-06-03T07:17:02.889489+00:00"}
-{"jp_chapter": "2.txt", "en_chapter": "2.txt", "status": "ok", "raw_response": "DIFFER", "parsed": "DIFFER", "timestamp": "2026-06-03T07:17:07.309953+00:00"}
+{"jp_chapter": "2.txt", "en_chapter": "2.txt", "status": "ok", "raw_response": "DIFFER", "parsed": "SAME", "timestamp": "2026-06-03T07:17:07.309953+00:00"}
 {"jp_chapter": "20.txt", "en_chapter": "20.txt", "status": "ok", "raw_response": "SAME", "parsed": "SAME", "timestamp": "2026-06-03T07:17:10.456607+00:00"}
 {"jp_chapter": "200.txt", "en_chapter": "198.txt", "status": "ok", "raw_response": "SAME", "parsed": "SAME", "timestamp": "2026-06-03T07:17:14.914768+00:00"}
 {"jp_chapter": "201.txt", "en_chapter": "199.txt", "status": "ok", "raw_response": "SAME", "parsed": "SAME", "timestamp": "2026-06-03T07:17:19.584286+00:00"}

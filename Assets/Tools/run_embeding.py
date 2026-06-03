@@ -42,6 +42,15 @@ def cosine_similarity(a, b):
     return float(np.dot(a, b))
 
 
+def print_progress(prefix: str, current: int, total: int):
+    bar_width = 30
+    filled_width = int(bar_width * current / total) if total else bar_width
+    empty_width = bar_width - filled_width
+    bar = "#" * filled_width + "-" * empty_width
+    end_char = "\n" if current >= total else "\r"
+    print(f"{prefix} [{bar}] {current}/{total}", end=end_char, flush=True)
+
+
 print(f"Loading model: {MODEL_NAME}")
 model = SentenceTransformer(MODEL_NAME)
 
@@ -70,12 +79,14 @@ for file in en_files:
 
 print("Embedding JP chapters...")
 
+jp_items = [(filename, text) for filename, text in jp_texts.items() if text]
+
 jp_embeddings = {}
 
-for filename, text in jp_texts.items():
+total_jp = len(jp_items)
 
-    if not text:
-        continue
+for current_jp, (filename, text) in enumerate(jp_items, start=1):
+    print_progress("JP embeddings", current_jp, total_jp)
 
     jp_embeddings[filename] = model.encode(
         text,
@@ -83,20 +94,28 @@ for filename, text in jp_texts.items():
         show_progress_bar=False
     )
 
+if total_jp == 0:
+    print("JP embeddings [------------------------------] 0/0")
+
 print("Embedding EN chapters...")
+
+en_items = [(filename, text) for filename, text in en_texts.items() if text]
 
 en_embeddings = {}
 
-for filename, text in en_texts.items():
+total_en = len(en_items)
 
-    if not text:
-        continue
+for current_en, (filename, text) in enumerate(en_items, start=1):
+    print_progress("EN embeddings", current_en, total_en)
 
     en_embeddings[filename] = model.encode(
         text,
         normalize_embeddings=True,
         show_progress_bar=False
     )
+
+if total_en == 0:
+    print("EN embeddings [------------------------------] 0/0")
 
 # --------------------------------------------------
 # Similarity matrix
