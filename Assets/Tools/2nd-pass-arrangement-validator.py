@@ -1,3 +1,16 @@
+"""
+1st-pass arrangement
+This script performs the first pass of chapter arrangement by validating the best candidate matches from the similarity matrix using an LLM. It applies a series of pre-filters to skip obviously bad matches, then calls the LLM to verify if the chapters are the same story. It combines the semantic score and LLM confidence to make a final decision. If the best match fails but is close, it tries nearby EN chapters as fallbacks. The results are categorised into PASS/FAIL/SKIP/ERROR and written to output folders and a structured JSON state file.
+Usage:
+  python 1st-pass-arrangement-validator.py <matrix_path> <base_path> [--jp-dir JP_DIR] [--en-dir EN_DIR]
+Example:
+  python 1st-pass-arrangement-validator.py chapter_similarity_matrix.json /path/to/novel --jp-dir JP --en-dir EN
+  
+  It also looks +/-2 chapters away in the EN folder for potential matches if the best candidate fails with a story mismatch or low confidence, and accepts the first one that passes the LLM verification.
+
+"""
+
+
 #!/usr/bin/env python3
 
 import json
