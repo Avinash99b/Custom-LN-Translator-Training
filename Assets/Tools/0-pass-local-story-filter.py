@@ -77,6 +77,9 @@ Lines that MUST be removed (if present):
 Lines that must NEVER be removed:
   - Chapter titles, volume titles, prologue/epilogue headers
   - Section dividers (---, ***, ◆, etc.)
+  - Status lines like "Chapter X", "Volume Y", "Prologue", "Epilogue"
+  - Any line that looks like it could be part of the story text
+  - DO NOT REMOVE STATUS PANELS OF ANY KIND LIKE LEVEL, HP, STATS, SKILL LISTS, etc.
   - Story prose, dialogue, action, description — even a single sentence
   - Character name labels that introduce dialogue (「…」 lines)
 
