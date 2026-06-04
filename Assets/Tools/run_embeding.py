@@ -14,7 +14,7 @@ EN_DIR = Path(ROOT_DIR) / "EN"
 OUTPUT_JSON = Path(ROOT_DIR) / "chapter_similarity_matrix.json"
 
 # Number of lines to read from each file
-FIRST_N_LINES = 50
+FIRST_N_LINES = 100
 
 
 def load_text(path: Path, n_lines: int):

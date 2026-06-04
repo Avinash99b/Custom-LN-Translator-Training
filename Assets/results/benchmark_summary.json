@@ -1,0 +1,30 @@
+{
+  "root": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/Arifureta",
+  "total_chapters": 50,
+  "completed": 50,
+  "elapsed_sec": 9.43425726890564,
+  "chapters_per_sec": 5.299834271511225,
+  "concurrency": 20,
+  "opening_chars": 2500,
+  "models": [
+    "gpt-4o-mini",
+    "gpt-oss-120b"
+  ],
+  "gpt4o_mini": {
+    "ok": 50,
+    "fail": 0,
+    "avg_latency_sec": 3.2062804460525514,
+    "median_latency_sec": 2.9383509159088135
+  },
+  "gpt_oss_120b": {
+    "ok": 49,
+    "fail": 1,
+    "avg_latency_sec": 3.0094946908950804,
+    "median_latency_sec": 2.713669776916504
+  },
+  "disagreements": 0,
+  "output_files": {
+    "gpt4o_mini": "results/gpt-4o-mini.jsonl",
+    "gpt_oss_120b": "results/gpt-oss-120b.jsonl"
+  }
+}

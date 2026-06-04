@@ -12,6 +12,7 @@
       --panel2: #182136;
       --accent: #60a5fa;
       --text: #e5e7eb;
+      --left-width: 32%;
     }
 
     * {
@@ -52,7 +53,7 @@
 
     .main {
       display: grid;
-      grid-template-columns: 30% 70%;
+      grid-template-columns: var(--left-width) 8px minmax(0, 1fr);
       height: calc(100vh - 80px)
     }
 
@@ -67,8 +68,38 @@
       border-right: 1px solid #243047
     }
 
+    .splitter {
+      cursor: col-resize;
+      background: linear-gradient(180deg, transparent, rgba(96, 165, 250, 0.18), transparent);
+      border-left: 1px solid #243047;
+      border-right: 1px solid #243047
+    }
+
+    .splitter:hover,
+    .splitter.dragging {
+      background: linear-gradient(180deg, transparent, rgba(96, 165, 250, 0.32), transparent)
+    }
+
     .panel {
       padding: 10px
+    }
+
+    .panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px
+    }
+
+    .panel-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    .panel-actions button {
+      padding: 6px 10px;
+      font-size: 12px
     }
 
     .viewer {
@@ -76,6 +107,37 @@
       overflow: auto;
       padding: 16px;
       background: var(--panel)
+    }
+
+    .line-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-family: inherit;
+      line-height: 1.5;
+      white-space: normal
+    }
+
+    .line-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      min-width: 0
+    }
+
+    .line-no {
+      min-width: 2.5em;
+      text-align: right;
+      color: #94a3b8;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      user-select: none
+    }
+
+    .line-text {
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-width: 0
     }
 
     .candidates {
@@ -146,20 +208,32 @@
   <div class="main">
     <div class="left">
       <div class="panel">
-        <h3>JP Chapter</h3>
+          <div class="panel-top">
+            <h3>JP Chapter</h3>
+            <div class="panel-actions">
+              <button id="copyJpBtn" type="button">Copy</button>
+            </div>
+          </div>
       </div>
       <div class="viewer">
-        <pre id="jpText"></pre>
+          <div id="jpText" class="line-list"></div>
       </div>
     </div>
 
+      <div id="splitter" class="splitter" aria-label="Resize chapter panels" role="separator"></div>
+
     <div class="right">
       <div class="panel">
-        <h3 id="rightTitle">Top Matches</h3>
+          <div class="panel-top">
+            <h3 id="rightTitle">Top Matches</h3>
+            <div class="panel-actions">
+              <button id="copyEnBtn" type="button">Copy</button>
+            </div>
+          </div>
       </div>
       <div class="candidates" id="candidates"></div>
       <div class="viewer">
-        <pre id="enText"></pre>
+          <div id="enText" class="line-list"></div>
       </div>
     </div>
   </div>
@@ -169,11 +243,13 @@
     let currentChapter = "1.txt";
     let currentEN = "";
     let selectedFiles = [];
+    let isResizing = false;
 
     const MATRIX_FILE_NAMES = [
       "chapter_similarity_matrix.json",
       "chapter_smilarity_matrix.json"
     ];
+    const ARRANGEMENT_STATE_FILE_NAME = "arrangement_state.json";
 
     function getRootRelativePath(path) {
       const parts = path.split("/");
@@ -185,8 +261,85 @@
       return MATRIX_FILE_NAMES.includes(rootRelativePath);
     }
 
+    function isArrangementStateFile(path) {
+      const rootRelativePath = getRootRelativePath(path);
+      return rootRelativePath === ARRANGEMENT_STATE_FILE_NAME;
+    }
+
     function updateStatus(message) {
       document.getElementById("status").textContent = message;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function renderLineNumberedText(containerId, text) {
+      const container = document.getElementById(containerId);
+      const lines = String(text ?? "").split(/\r?\n/);
+      container.innerHTML = lines
+        .map((line, index) => `
+          <div class="line-row">
+            <span class="line-no">${index + 1}</span>
+            <span class="line-text">${line ? escapeHtml(line) : "&nbsp;"}</span>
+          </div>
+        `)
+        .join("");
+    }
+
+    async function copyToClipboard(text, label) {
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const tempInput = document.createElement("textarea");
+          tempInput.value = text;
+          tempInput.style.position = "fixed";
+          tempInput.style.left = "-9999px";
+          document.body.appendChild(tempInput);
+          tempInput.focus();
+          tempInput.select();
+          document.execCommand("copy");
+          tempInput.remove();
+        }
+        updateStatus(`${label} copied to clipboard`);
+      } catch (error) {
+        updateStatus(`Failed to copy ${label.toLowerCase()}: ${error.message}`);
+      }
+    }
+
+    function getCurrentJpText() {
+      return jpFiles[currentChapter] || "Chapter not found";
+    }
+
+    function getCurrentEnText() {
+      return enFiles[currentEN] || "Missing chapter";
+    }
+
+    function setLeftPanelWidth(px) {
+      const main = document.querySelector(".main");
+      const bounds = main.getBoundingClientRect();
+      const minLeft = 260;
+      const maxLeft = Math.max(minLeft, bounds.width - 320);
+      const clamped = Math.min(Math.max(px, minLeft), maxLeft);
+      document.documentElement.style.setProperty("--left-width", `${clamped}px`);
+      localStorage.setItem("chapterAlignmentLeftWidth", String(clamped));
+    }
+
+    function initializeLeftPanelWidth() {
+      const savedWidth = Number(localStorage.getItem("chapterAlignmentLeftWidth"));
+      if (Number.isFinite(savedWidth) && savedWidth > 0) {
+        setLeftPanelWidth(savedWidth);
+        return;
+      }
+
+      const main = document.querySelector(".main");
+      setLeftPanelWidth(main.getBoundingClientRect().width * 0.32);
     }
 
     function getActiveFolders() {
@@ -196,7 +349,64 @@
         : { jpFolder: "JP", enFolder: "EN" };
     }
 
-    async function loadMatrixFromFiles(files) {
+    function buildMatrixFromArrangementState(arrangementState) {
+      const chapterMap = arrangementState?.chapters || {};
+      const generatedMatrix = {};
+
+      for (const [jpChapter, details] of Object.entries(chapterMap)) {
+        if (!details || typeof details !== "object") continue;
+
+        let enChapter = details.output_chapter || details.en_chapter || details.primary_en_chapter;
+        if (enChapter == null || enChapter === "") continue;
+
+        enChapter = String(enChapter);
+        if (!enChapter.endsWith(".txt")) {
+          enChapter = `${enChapter}.txt`;
+        }
+
+        const score = Number.isFinite(details.final_confidence)
+          ? details.final_confidence
+          : (Number.isFinite(details.semantic_val) ? details.semantic_val : 0);
+
+        generatedMatrix[jpChapter] = { [enChapter]: score };
+      }
+
+      return generatedMatrix;
+    }
+
+    async function loadMatchDataFromFiles(files) {
+      const useOutputFolders = document.getElementById("useOutputFolders").checked;
+
+      if (useOutputFolders) {
+        const arrangementStateFile = files.find(file => isArrangementStateFile(file.webkitRelativePath));
+
+        if (!arrangementStateFile) {
+          matrix = {};
+          updateStatus("arrangement_state.json not found at the folder root");
+          return;
+        }
+
+        try {
+          const txt = await arrangementStateFile.text();
+          const arrangementState = JSON.parse(txt);
+          matrix = buildMatrixFromArrangementState(arrangementState);
+
+          const matrixChapters = Object.keys(matrix);
+          if (matrixChapters.length) {
+            currentChapter = matrixChapters[0];
+            document.getElementById("chapterNum").value = currentChapter.replace(/\.txt$/i, "");
+          }
+
+          updateStatus(`Loaded ${Object.keys(jpFiles).length} JP chapters, ${Object.keys(enFiles).length} EN chapters, mapping from ${arrangementStateFile.name}`);
+          render();
+        } catch (error) {
+          matrix = {};
+          updateStatus(`Failed to parse ${arrangementStateFile.name}: ${error.message}`);
+        }
+
+        return;
+      }
+
       const matrixFile = files.find(file => isMatrixFile(file.webkitRelativePath));
 
       if (!matrixFile) {
@@ -245,12 +455,12 @@
 
     async function reloadFromSelection() {
       if (!selectedFiles.length) {
-        updateStatus("Load a folder containing JP/EN or JP-Output/EN-Output and the similarity matrix JSON");
+        updateStatus("Load a folder containing JP/EN or JP-Output/EN-Output and the matching JSON (chapter_similarity_matrix.json or arrangement_state.json)");
         return;
       }
 
       await loadChapterFilesFromSelection(selectedFiles);
-      await loadMatrixFromFiles(selectedFiles);
+      await loadMatchDataFromFiles(selectedFiles);
     }
 
     document
@@ -269,12 +479,7 @@
     function render() {
       const chapter = document.getElementById("chapterNum").value || currentChapter.replace(".txt", "");
       currentChapter = chapter.endsWith(".txt") ? chapter : chapter + ".txt";
-
-      console.log("Current Chapter:", currentChapter);
-      console.log("Available Chapters in Matrix:", Object.keys(matrix));
-      console.log("JP Files Loaded:", Object.keys(jpFiles));
-
-      document.getElementById("jpText").textContent = jpFiles[currentChapter] || "Chapter not found";
+      renderLineNumberedText("jpText", getCurrentJpText());
 
       const topN = parseInt(document.getElementById("topN").value || 10);
 
@@ -284,6 +489,14 @@
 
       const container = document.getElementById("candidates");
       container.innerHTML = "";
+
+      if (!matches.length) {
+        currentEN = "";
+        document.getElementById("rightTitle").textContent = "Top Matches";
+        renderLineNumberedText("enText", "Missing chapter");
+        container.innerHTML = "<div class=\"card\">No matches found</div>";
+        return;
+      }
 
       matches.forEach((m, i) => {
         const [file, score] = m;
@@ -301,21 +514,53 @@
           document.querySelectorAll(".card").forEach(x => x.classList.remove("active"));
           div.classList.add("active");
           currentEN = file;
-          document.getElementById("enText").textContent = enFiles[file] || "Missing chapter";
+          renderLineNumberedText("enText", getCurrentEnText());
+          document.getElementById("rightTitle").textContent = `Best Match: ${currentEN}`;
         };
 
         container.appendChild(div);
       });
 
-      if (matches.length) {
-        currentEN = matches[0][0];
-        document.getElementById("enText").textContent = enFiles[currentEN] || "Missing chapter";
-        document.getElementById("rightTitle").textContent = `Best Match: ${currentEN}`;
-      }
+      currentEN = matches[0][0];
+      renderLineNumberedText("enText", getCurrentEnText());
+      document.getElementById("rightTitle").textContent = `Best Match: ${currentEN}`;
     }
 
     document.getElementById("chapterNum").addEventListener("change", render);
     document.getElementById("topN").addEventListener("change", render);
+
+    document.getElementById("copyJpBtn").onclick = () => {
+      copyToClipboard(getCurrentJpText(), `JP chapter ${currentChapter}`);
+    };
+
+    document.getElementById("copyEnBtn").onclick = () => {
+      copyToClipboard(getCurrentEnText(), `English chapter ${currentEN || "match"}`);
+    };
+
+    const splitter = document.getElementById("splitter");
+
+    splitter.addEventListener("mousedown", () => {
+      isResizing = true;
+      splitter.classList.add("dragging");
+    });
+
+    document.addEventListener("mousemove", (event) => {
+      if (!isResizing) return;
+      setLeftPanelWidth(event.clientX);
+    });
+
+    document.addEventListener("mouseup", () => {
+      if (!isResizing) return;
+      isResizing = false;
+      splitter.classList.remove("dragging");
+    });
+
+    window.addEventListener("resize", () => {
+      const currentWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--left-width"));
+      if (Number.isFinite(currentWidth)) {
+        setLeftPanelWidth(currentWidth);
+      }
+    });
 
     document.getElementById("prevBtn").onclick = () => {
       let n = parseInt(document.getElementById("chapterNum").value || 1) - 1;
@@ -334,6 +579,8 @@
       if (e.key === "ArrowLeft") document.getElementById("prevBtn").click();
       if (e.key === "ArrowRight") document.getElementById("nextBtn").click();
     });
+
+    initializeLeftPanelWidth();
   </script>
 </body>
 
