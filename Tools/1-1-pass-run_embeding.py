@@ -8,13 +8,13 @@ from sentence_transformers import SentenceTransformer
 MODEL_NAME = "BAAI/bge-m3"
 
 ROOT_DIR = input("Enter the root directory containing JP and EN folders: ").strip()
-JP_DIR = Path(ROOT_DIR) / "JP"
-EN_DIR = Path(ROOT_DIR) / "EN"
+JP_DIR = Path(ROOT_DIR) / "JP-Working"
+EN_DIR = Path(ROOT_DIR) / "EN-Working"
 
 OUTPUT_JSON = Path(ROOT_DIR) / "chapter_similarity_matrix.json"
 
 # Number of lines to read from each file
-FIRST_N_LINES = 100
+FIRST_N_LINES = 150
 
 
 def load_text(path: Path, n_lines: int):

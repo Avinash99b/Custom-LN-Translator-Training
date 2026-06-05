@@ -1,0 +1,5 @@
+*.zip
+PreProcessingInputs
+PreProcessingOutputs
+Model-Checkpoints
+auto
