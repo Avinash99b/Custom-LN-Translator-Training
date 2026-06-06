@@ -38,7 +38,7 @@ from tqdm import tqdm
 
 AZURE_OPENAI_URL = "https://bathu-mpkwvf7h-eastus2.cognitiveservices.azure.com/openai/v1/chat/completions"
 MODEL = "gpt-4o-mini"
-API_KEY = os.getenv("LM_STUDIO_API_KEY", "[REACTED_GOTCHA]")  # keep as requested
+API_KEY = os.getenv("AZURE_OPENAI_API_KEY", "none")  # keep as requested
 WORKERS = 3
 
 LLM_TIMEOUT = 300          # seconds per request

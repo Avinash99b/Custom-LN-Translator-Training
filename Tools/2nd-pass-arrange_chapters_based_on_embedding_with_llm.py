@@ -26,7 +26,7 @@ import requests
 
 LM_STUDIO_URL = "https://bathu-mpkwvf7h-eastus2.cognitiveservices.azure.com/openai/v1/chat/completions"
 MODEL = "gpt-4o-mini"
-API_KEY = os.getenv("LM_STUDIO_API_KEY", "[REACTED_GOTCHA]")
+API_KEY = os.getenv("AZURE_OPENAI_API_KEY", "none")
 
 WORKERS = 10
 SAMPLE_HEAD_LINES = 30

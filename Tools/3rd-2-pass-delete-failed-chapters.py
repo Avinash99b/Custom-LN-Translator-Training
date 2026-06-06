@@ -53,7 +53,7 @@ def build_deletion_plan(report: dict):
     for ch in chapters:
         status = str(ch.get("status", "")).upper()
 
-        if status != "FAIL":
+        if status == "PASS":
             continue
 
         jp_file = ch.get("jp_file")

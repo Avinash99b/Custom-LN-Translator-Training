@@ -1,0 +1,283 @@
+{
+  "generated_at": 1780732918.8167963,
+  "base_path": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero",
+  "jp_dir": "JP-Output",
+  "en_dir": "EN-Output",
+  "sample_lines": 50,
+  "deployment": "gpt-4o-mini",
+  "summary": {
+    "total_pairs": 24,
+    "passed": 24,
+    "failed": 0,
+    "errors": 0,
+    "missing_in_en": [],
+    "missing_in_jp": [],
+    "elapsed_sec": 23.389
+  },
+  "chapters": [
+    {
+      "chapter_id": "1",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/1.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/1.txt",
+      "status": "PASS",
+      "confidence": 0.9,
+      "reason": "Both texts share the same prologue title and opening scene, featuring a character in a dire situation with similar dialogue and events.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.9,\n  \"reason\": \"Both texts share the same prologue title and opening scene, featuring a character in a dire situation with similar dialogue and events.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "2",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/2.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/2.txt",
+      "status": "PASS",
+      "confidence": 0.9,
+      "reason": "Both texts describe the same opening scene with the same character, Natsuki Subaru, experiencing a similar situation of being summoned to another world, despite minor differences in wording.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.9,\n  \"reason\": \"Both texts describe the same opening scene with the same character, Natsuki Subaru, experiencing a similar situation of being summoned to another world, despite minor differences in wording.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "3",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/3.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/3.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts describe the same opening scene with Subaru facing bandits, including similar dialogue and events leading to his attack.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts describe the same opening scene with Subaru facing bandits, including similar dialogue and events leading to his attack.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "4",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/4.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/4.txt",
+      "status": "PASS",
+      "confidence": 0.9,
+      "reason": "Both texts share the same chapter title and opening scene with identical characters and dialogue, indicating they are the same chapter.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.9,\n  \"reason\": \"Both texts share the same chapter title and opening scene with identical characters and dialogue, indicating they are the same chapter.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "5",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/5.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/5.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts share the same chapter title and opening scene involving Subaru waking up with a lap pillow from a large cat, along with similar dialogue and events.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts share the same chapter title and opening scene involving Subaru waking up with a lap pillow from a large cat, along with similar dialogue and events.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "6",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/6.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/6.txt",
+      "status": "PASS",
+      "confidence": 0.9,
+      "reason": "Both texts share the same chapter title and opening scene, featuring the same characters and dialogue about their investigation difficulties.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.9,\n  \"reason\": \"Both texts share the same chapter title and opening scene, featuring the same characters and dialogue about their investigation difficulties.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "7",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/7.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/7.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts share the same chapter title and opening scene, featuring the same characters and dialogue about Subaru's situation in the slums.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts share the same chapter title and opening scene, featuring the same characters and dialogue about Subaru's situation in the slums.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "8",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/8.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/8.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts share the same chapter title and opening scene with identical dialogue and events.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts share the same chapter title and opening scene with identical dialogue and events.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "9",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/9.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/9.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts describe Subaru arriving at the loot house in the slums after a revenge match, with similar opening dialogue and emotional states.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts describe Subaru arriving at the loot house in the slums after a revenge match, with similar opening dialogue and emotional states.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "10",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/10.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/10.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts begin with a negotiation scene involving Rom and Subaru, discussing the trade with Felt, and share similar dialogue and events.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts begin with a negotiation scene involving Rom and Subaru, discussing the trade with Felt, and share similar dialogue and events.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "11",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/11.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/11.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts feature the same chapter title and opening scene involving a negotiation between Subaru and Elsa, with similar dialogue and events.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts feature the same chapter title and opening scene involving a negotiation between Subaru and Elsa, with similar dialogue and events.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "12",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/12.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/12.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts describe the same scene with the same characters and events, focusing on the aftermath of a violent act involving Rom, Elsa, Subaru, and Felt.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts describe the same scene with the same characters and events, focusing on the aftermath of a violent act involving Rom, Elsa, Subaru, and Felt.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "13",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/13.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/13.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts start with the same scene involving Subaru awakening in front of a fruit stall, with similar dialogue and events occurring.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts start with the same scene involving Subaru awakening in front of a fruit stall, with similar dialogue and events occurring.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "14",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/14.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/14.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts share the same chapter title and opening scene, featuring Subaru in a three-on-one confrontation in an alley, with similar dialogue and events.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts share the same chapter title and opening scene, featuring Subaru in a three-on-one confrontation in an alley, with similar dialogue and events.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "15",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/15.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/15.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts share the same chapter title and opening scene, featuring the same character, Subaru, in a similar setting and dialogue about his condition.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts share the same chapter title and opening scene, featuring the same character, Subaru, in a similar setting and dialogue about his condition.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "16",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/16.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/16.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts share the same chapter title and opening scene, featuring the same characters and events.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts share the same chapter title and opening scene, featuring the same characters and events.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "17",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/17.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/17.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts share the same chapter title and opening scene, featuring Subaru in the trading street looking for Not-Satella, with similar dialogue and events.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts share the same chapter title and opening scene, featuring Subaru in the trading street looking for Not-Satella, with similar dialogue and events.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "18",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/18.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/18.txt",
+      "status": "PASS",
+      "confidence": 0.9,
+      "reason": "Both texts share the same chapter title and opening scene, featuring the same characters and dialogue about the negotiation involving the insignia.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.9,\n  \"reason\": \"Both texts share the same chapter title and opening scene, featuring the same characters and dialogue about the negotiation involving the insignia.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "19",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/19.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/19.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts share the same chapter title and opening scene involving Subaru and Felt in a negotiation about a stolen item.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts share the same chapter title and opening scene involving Subaru and Felt in a negotiation about a stolen item.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "20",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/20.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/20.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts share the same chapter title and opening scene, featuring the same characters and events.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts share the same chapter title and opening scene, featuring the same characters and events.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "21",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/21.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/21.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts share the same chapter title and opening scene, featuring the same characters and dialogue, indicating they are the same chapter.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts share the same chapter title and opening scene, featuring the same characters and dialogue, indicating they are the same chapter.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "22",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/22.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/22.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts share the same chapter title and opening scene, featuring the same character, Felt, in a similar setting and situation, with matching dialogue and events.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts share the same chapter title and opening scene, featuring the same character, Felt, in a similar setting and situation, with matching dialogue and events.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "23",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/23.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/23.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts begin with the same scene involving Subaru and a silver-haired girl, followed by the introduction of Reinhard and Elsa, indicating they are the same chapter.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts begin with the same scene involving Subaru and a silver-haired girl, followed by the introduction of Reinhard and Elsa, indicating they are the same chapter.\",\n  \"major_drift\": false\n}"
+    },
+    {
+      "chapter_id": "24",
+      "jp_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/JP-Output/24.txt",
+      "en_file": "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels/ReZero/EN-Output/24.txt",
+      "status": "PASS",
+      "confidence": 0.0,
+      "reason": "Both texts share the same chapter title and opening scene, featuring Reinhard, Emilia, and Subaru in a similar setting and dialogue.",
+      "major_drift": false,
+      "same_chapter": true,
+      "raw_response": "{\n  \"same_chapter\": true,\n  \"confidence\": 0.0,\n  \"reason\": \"Both texts share the same chapter title and opening scene, featuring Reinhard, Emilia, and Subaru in a similar setting and dialogue.\",\n  \"major_drift\": false\n}"
+    }
+  ]
+}

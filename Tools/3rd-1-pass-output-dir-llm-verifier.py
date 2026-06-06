@@ -44,7 +44,7 @@ import requests
 
 
 DEFAULT_SAMPLE_LINES = 50
-DEFAULT_WORKERS = 8
+DEFAULT_WORKERS = 3
 REQUEST_TIMEOUT = 300
 
 
@@ -219,29 +219,39 @@ def ask_llm(
 
     url = endpoint.rstrip("/") + "/openai/v1/chat/completions"
 
-    response = requests.post(
-        url,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}",
-        },
-        json=payload,
-        timeout=REQUEST_TIMEOUT,
-    )
-    response.raise_for_status()
+    delay = 1.0
+    while True:
+        response = requests.post(
+            url,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {api_key}",
+            },
+            json=payload,
+            timeout=REQUEST_TIMEOUT,
+        )
+
+        if response.status_code == 429:
+            print(f"Rate limited (429). Retrying in {delay:.1f} seconds...")
+            time.sleep(delay)
+            delay *= 2
+            continue
+
+        response.raise_for_status()
+        break
 
     body = response.json()
     try:
         raw = body["choices"][0]["message"]["content"]
     except (KeyError, IndexError, TypeError) as e:
-        raise RuntimeError(f"Unexpected API response structure: {e}\nBody: {json.dumps(body)[:500]}") from e
+        raise RuntimeError(
+            f"Unexpected API response structure: {e}\nBody: {json.dumps(body)[:500]}"
+        ) from e
 
     parsed = extract_json_from_response(raw)
     result = normalize_result(parsed)
     result["raw_response"] = raw
     return result
-
-
 def verify_pair(
     endpoint: str,
     deployment: str,
@@ -301,7 +311,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--api-key",
-        default=os.getenv("AZURE_OPENAI_API_KEY", "[REACTED_GOTCHA]"),
+        default=os.getenv("AZURE_OPENAI_API_KEY", "none"),
         help="Azure API key",
     )
     args = parser.parse_args()

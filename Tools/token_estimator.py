@@ -1,118 +1,260 @@
 #!/usr/bin/env python3
 
 from pathlib import Path
-import statistics
 
 try:
     import tiktoken
 except ImportError:
-    print("Install first:")
     print("pip install tiktoken")
     raise SystemExit(1)
 
 
-def analyze_folder(folder: Path, encoder):
-    files = sorted(folder.glob("*.txt"))
+def token_count(text: str, encoder):
+    return len(encoder.encode(text))
 
-    token_counts = []
-    char_counts = []
 
-    for file in files:
+def analyze_novel(novel_dir: Path, encoder):
+    en_dir = novel_dir / "EN-Output"
+    jp_dir = novel_dir / "JP-Output"
+
+    if not en_dir.exists() or not jp_dir.exists():
+        return None
+
+    en_files = {
+        f.name: f
+        for f in en_dir.glob("*.txt")
+    }
+
+    jp_files = {
+        f.name: f
+        for f in jp_dir.glob("*.txt")
+    }
+
+    paired_names = sorted(
+        set(en_files.keys()) &
+        set(jp_files.keys())
+    )
+
+    orphan_en = sorted(
+        set(en_files.keys()) -
+        set(jp_files.keys())
+    )
+
+    orphan_jp = sorted(
+        set(jp_files.keys()) -
+        set(en_files.keys())
+    )
+
+    en_tokens = 0
+    jp_tokens = 0
+
+    en_chars = 0
+    jp_chars = 0
+
+    pair_count = 0
+
+    for filename in paired_names:
         try:
-            text = file.read_text(encoding="utf-8", errors="ignore")
+            en_text = en_files[filename].read_text(
+                encoding="utf-8",
+                errors="ignore"
+            )
+
+            jp_text = jp_files[filename].read_text(
+                encoding="utf-8",
+                errors="ignore"
+            )
+
         except Exception:
             continue
 
-        tokens = len(encoder.encode(text))
+        pair_count += 1
 
-        token_counts.append(tokens)
-        char_counts.append(len(text))
+        en_chars += len(en_text)
+        jp_chars += len(jp_text)
 
-    if not token_counts:
-        return {
-            "files": 0,
-            "tokens": 0,
-            "chars": 0,
-            "avg_tokens": 0,
-            "median_tokens": 0,
-            "min_tokens": 0,
-            "max_tokens": 0,
-        }
+        en_tokens += token_count(
+            en_text,
+            encoder
+        )
+
+        jp_tokens += token_count(
+            jp_text,
+            encoder
+        )
 
     return {
-        "files": len(token_counts),
-        "tokens": sum(token_counts),
-        "chars": sum(char_counts),
-        "avg_tokens": statistics.mean(token_counts),
-        "median_tokens": statistics.median(token_counts),
-        "min_tokens": min(token_counts),
-        "max_tokens": max(token_counts),
+        "novel": novel_dir.name,
+        "pairs": pair_count,
+        "en_tokens": en_tokens,
+        "jp_tokens": jp_tokens,
+        "en_chars": en_chars,
+        "jp_chars": jp_chars,
+        "orphan_en": len(orphan_en),
+        "orphan_jp": len(orphan_jp),
     }
 
 
-def print_stats(name, stats):
-    print(f"\n{name}")
-    print("=" * 60)
-    print(f"Files               : {stats['files']:,}")
-    print(f"Characters          : {stats['chars']:,}")
-    print(f"Tokens              : {stats['tokens']:,}")
-    print(f"Avg Tokens/File     : {stats['avg_tokens']:,.1f}")
-    print(f"Median Tokens/File  : {stats['median_tokens']:,.1f}")
-    print(f"Min Tokens/File     : {stats['min_tokens']:,}")
-    print(f"Max Tokens/File     : {stats['max_tokens']:,}")
-
-
 def main():
-    root_input = input(
-        "\nEnter root folder path (containing EN and JP folders):\n> "
-    ).strip()
+    root_input = "/home/avinash/Projects/Custom-LN-Translator-Training/Assets/Novels".strip()
 
     root = Path(root_input)
 
     if not root.exists():
-        print("Folder does not exist.")
+        print("Folder not found.")
         return
 
-    print("\nLoading GPT-4o-mini tokenizer...")
-    encoder = tiktoken.get_encoding("o200k_base")
+    print("\nLoading tokenizer...")
+    encoder = tiktoken.get_encoding(
+        "o200k_base"
+    )
 
-    en_stats = analyze_folder(root / "EN", encoder)
-    jp_stats = analyze_folder(root / "JP", encoder)
+    total_pairs = 0
 
-    total_files = en_stats["files"] + jp_stats["files"]
-    total_tokens = en_stats["tokens"] + jp_stats["tokens"]
-    total_chars = en_stats["chars"] + jp_stats["chars"]
+    total_en_tokens = 0
+    total_jp_tokens = 0
 
-    print("\n" + "=" * 60)
-    print("GPT-4o-mini TOKEN ANALYSIS")
-    print("=" * 60)
+    total_en_chars = 0
+    total_jp_chars = 0
 
-    print_stats("EN", en_stats)
-    print_stats("JP", jp_stats)
+    total_orphan_en = 0
+    total_orphan_jp = 0
 
-    print("\nCOMBINED")
-    print("=" * 60)
-    print(f"Files               : {total_files:,}")
-    print(f"Characters          : {total_chars:,}")
-    print(f"Tokens              : {total_tokens:,}")
+    novels_processed = 0
 
-    if total_files:
-        print(
-            f"Avg Tokens/File     : {total_tokens / total_files:,.1f}"
+    print("\nPER NOVEL")
+    print("=" * 100)
+
+    for novel_dir in sorted(root.iterdir()):
+        if not novel_dir.is_dir():
+            continue
+
+        result = analyze_novel(
+            novel_dir,
+            encoder
         )
 
-    print("\nDATASET SIZE")
-    print("=" * 60)
-    print(f"EN Tokens           : {en_stats['tokens'] / 1_000_000:.3f}M")
-    print(f"JP Tokens           : {jp_stats['tokens'] / 1_000_000:.3f}M")
-    print(f"Total Tokens        : {total_tokens / 1_000_000:.3f}M")
+        if result is None:
+            continue
 
-    if total_tokens:
-        print(
-            f"EN Share            : {en_stats['tokens'] / total_tokens * 100:.2f}%"
+        novels_processed += 1
+
+        total_pairs += result["pairs"]
+
+        total_en_tokens += result["en_tokens"]
+        total_jp_tokens += result["jp_tokens"]
+
+        total_en_chars += result["en_chars"]
+        total_jp_chars += result["jp_chars"]
+
+        total_orphan_en += result["orphan_en"]
+        total_orphan_jp += result["orphan_jp"]
+
+        combined_tokens = (
+            result["en_tokens"] +
+            result["jp_tokens"]
         )
+
         print(
-            f"JP Share            : {jp_stats['tokens'] / total_tokens * 100:.2f}%"
+            f"{result['novel'][:45]:45} | "
+            f"Pairs={result['pairs']:6,} | "
+            f"Tokens={combined_tokens:10,} | "
+            f"Orphan EN={result['orphan_en']:4,} | "
+            f"Orphan JP={result['orphan_jp']:4,}"
+        )
+
+    combined_tokens = (
+        total_en_tokens +
+        total_jp_tokens
+    )
+
+    combined_chars = (
+        total_en_chars +
+        total_jp_chars
+    )
+
+    print("\n")
+    print("=" * 100)
+    print("FINAL TRAINING CORPUS STATISTICS")
+    print("=" * 100)
+
+    print(
+        f"Novels Processed       : "
+        f"{novels_processed:,}"
+    )
+
+    print(
+        f"Aligned Chapter Pairs  : "
+        f"{total_pairs:,}"
+    )
+
+    print()
+
+    print(
+        f"EN Tokens              : "
+        f"{total_en_tokens:,}"
+    )
+
+    print(
+        f"JP Tokens              : "
+        f"{total_jp_tokens:,}"
+    )
+
+    print(
+        f"Combined Tokens        : "
+        f"{combined_tokens:,}"
+    )
+
+    print()
+
+    print(
+        f"EN Dataset Size        : "
+        f"{total_en_tokens/1_000_000:.3f}M"
+    )
+
+    print(
+        f"JP Dataset Size        : "
+        f"{total_jp_tokens/1_000_000:.3f}M"
+    )
+
+    print(
+        f"Combined Dataset Size  : "
+        f"{combined_tokens/1_000_000:.3f}M"
+    )
+
+    print()
+
+    print(
+        f"Characters             : "
+        f"{combined_chars:,}"
+    )
+
+    print(
+        f"Orphan EN Files        : "
+        f"{total_orphan_en:,}"
+    )
+
+    print(
+        f"Orphan JP Files        : "
+        f"{total_orphan_jp:,}"
+    )
+
+    if total_pairs:
+        print()
+
+        print(
+            f"Avg EN Tokens/Pair     : "
+            f"{total_en_tokens/total_pairs:,.1f}"
+        )
+
+        print(
+            f"Avg JP Tokens/Pair     : "
+            f"{total_jp_tokens/total_pairs:,.1f}"
+        )
+
+        print(
+            f"Avg Total Tokens/Pair  : "
+            f"{combined_tokens/total_pairs:,.1f}"
         )
 
     print("\nDone.")

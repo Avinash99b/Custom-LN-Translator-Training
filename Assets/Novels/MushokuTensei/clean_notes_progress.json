@@ -1,0 +1,8938 @@
+[
+  {
+    "key": "JP/1.txt",
+    "chapter": "1.txt",
+    "language": "JP",
+    "status": "ERROR",
+    "removed_ranges": [],
+    "removed_line_count": 0,
+    "error": "400 Client Error: Bad Request for url: https://bathu-mpkwvf7h-eastus2.cognitiveservices.azure.com/openai/v1/chat/completions | body='{\"error\":{\"message\":\"The response was filtered due to the prompt triggering Azure OpenAI\\'s content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read our documentation: https://go.microsoft.com/fwlink/?linkid=2198766\",\"type\":null,\"param\":\"prompt\",\"code\":\"content_filter\",\"status\":400,\"innererror\":{\"code\":\"ResponsibleAIPolicyViolation\",\"content_filter_result\":{\"hate\":{\"filtered\":false,\"severity\":\"safe\"},\"self_harm\":{\"filtered\":false,\"severity\":\"safe\"},\"sexual\":{\"filtered\":true,\"severity\":\"high\"},\"violence\":{\"filtered\":false,\"severity\":\"safe\"}}}}}'"
+  },
+  {
+    "key": "JP/2.txt",
+    "chapter": "2.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/3.txt",
+    "chapter": "3.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/4.txt",
+    "chapter": "4.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/5.txt",
+    "chapter": "5.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/6.txt",
+    "chapter": "6.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/7.txt",
+    "chapter": "7.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 3,
+        "reason": "Chapter title repetition"
+      },
+      {
+        "start": 552,
+        "end": 557,
+        "reason": "Inappropriate content"
+      }
+    ],
+    "removed_line_count": 9
+  },
+  {
+    "key": "JP/8.txt",
+    "chapter": "8.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/9.txt",
+    "chapter": "9.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/10.txt",
+    "chapter": "10.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/11.txt",
+    "chapter": "11.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 262,
+        "end": 262,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 618,
+        "end": 618,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "JP/12.txt",
+    "chapter": "12.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/13.txt",
+    "chapter": "13.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 5,
+        "reason": "Activity reports"
+      },
+      {
+        "start": 612,
+        "end": 622,
+        "reason": "Status lines"
+      }
+    ],
+    "removed_line_count": 12
+  },
+  {
+    "key": "JP/14.txt",
+    "chapter": "14.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title duplication"
+      },
+      {
+        "start": 770,
+        "end": 781,
+        "reason": "Status panel"
+      }
+    ],
+    "removed_line_count": 13
+  },
+  {
+    "key": "JP/15.txt",
+    "chapter": "15.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 199,
+        "end": 199,
+        "reason": "Section divider"
+      },
+      {
+        "start": 201,
+        "end": 201,
+        "reason": "Dream sequence"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "JP/16.txt",
+    "chapter": "16.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Duplicate chapter title"
+      },
+      {
+        "start": 606,
+        "end": 616,
+        "reason": "Status panel"
+      }
+    ],
+    "removed_line_count": 12
+  },
+  {
+    "key": "JP/17.txt",
+    "chapter": "17.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/18.txt",
+    "chapter": "18.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/19.txt",
+    "chapter": "19.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 238,
+        "end": 240,
+        "reason": "Activity reports"
+      },
+      {
+        "start": 268,
+        "end": 268,
+        "reason": "Activity reports"
+      },
+      {
+        "start": 781,
+        "end": 791,
+        "reason": "Status panel"
+      }
+    ],
+    "removed_line_count": 15
+  },
+  {
+    "key": "JP/20.txt",
+    "chapter": "20.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/21.txt",
+    "chapter": "21.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 596,
+        "end": 599,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "JP/22.txt",
+    "chapter": "22.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "duplicate chapter title"
+      },
+      {
+        "start": 276,
+        "end": 276,
+        "reason": "activity report"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "JP/23.txt",
+    "chapter": "23.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/24.txt",
+    "chapter": "24.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/25.txt",
+    "chapter": "25.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/26.txt",
+    "chapter": "26.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/27.txt",
+    "chapter": "27.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/28.txt",
+    "chapter": "28.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/29.txt",
+    "chapter": "29.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 5,
+        "reason": "Activity reports"
+      },
+      {
+        "start": 180,
+        "end": 186,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 223,
+        "end": 266,
+        "reason": "Activity reports"
+      },
+      {
+        "start": 511,
+        "end": 511,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 53
+  },
+  {
+    "key": "JP/30.txt",
+    "chapter": "30.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/31.txt",
+    "chapter": "31.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/32.txt",
+    "chapter": "32.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/33.txt",
+    "chapter": "33.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/34.txt",
+    "chapter": "34.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/35.txt",
+    "chapter": "35.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/36.txt",
+    "chapter": "36.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 882,
+        "end": 882,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 884,
+        "end": 884,
+        "reason": "Chapter title"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "JP/37.txt",
+    "chapter": "37.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 3,
+        "reason": "Author greeting notes"
+      },
+      {
+        "start": 5,
+        "end": 7,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 6
+  },
+  {
+    "key": "JP/38.txt",
+    "chapter": "38.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/39.txt",
+    "chapter": "39.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/40.txt",
+    "chapter": "40.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/41.txt",
+    "chapter": "41.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 166,
+        "end": 166,
+        "reason": "Section divider"
+      },
+      {
+        "start": 248,
+        "end": 248,
+        "reason": "Section divider"
+      },
+      {
+        "start": 380,
+        "end": 380,
+        "reason": "Section divider"
+      },
+      {
+        "start": 528,
+        "end": 528,
+        "reason": "Section divider"
+      },
+      {
+        "start": 536,
+        "end": 536,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 537,
+        "end": 539,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 542,
+        "end": 544,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 571,
+        "end": 573,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 16
+  },
+  {
+    "key": "JP/42.txt",
+    "chapter": "42.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/43.txt",
+    "chapter": "43.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/44.txt",
+    "chapter": "44.txt",
+    "language": "JP",
+    "status": "ERROR",
+    "removed_ranges": [],
+    "removed_line_count": 0,
+    "error": "400 Client Error: Bad Request for url: https://bathu-mpkwvf7h-eastus2.cognitiveservices.azure.com/openai/v1/chat/completions | body='{\"error\":{\"message\":\"The response was filtered due to the prompt triggering Azure OpenAI\\'s content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read our documentation: https://go.microsoft.com/fwlink/?linkid=2198766\",\"type\":null,\"param\":\"prompt\",\"code\":\"content_filter\",\"status\":400,\"innererror\":{\"code\":\"ResponsibleAIPolicyViolation\",\"content_filter_result\":{\"hate\":{\"filtered\":false,\"severity\":\"safe\"},\"self_harm\":{\"filtered\":false,\"severity\":\"safe\"},\"sexual\":{\"filtered\":true,\"severity\":\"high\"},\"violence\":{\"filtered\":false,\"severity\":\"safe\"}}}}}'"
+  },
+  {
+    "key": "JP/45.txt",
+    "chapter": "45.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 5,
+        "reason": "Author greeting notes"
+      },
+      {
+        "start": 475,
+        "end": 499,
+        "reason": "Activity reports"
+      },
+      {
+        "start": 606,
+        "end": 611,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 32
+  },
+  {
+    "key": "JP/46.txt",
+    "chapter": "46.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/47.txt",
+    "chapter": "47.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/48.txt",
+    "chapter": "48.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 877,
+        "end": 877,
+        "reason": "Next chapter announcement"
+      },
+      {
+        "start": 879,
+        "end": 879,
+        "reason": "Next chapter announcement"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "JP/49.txt",
+    "chapter": "49.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/50.txt",
+    "chapter": "50.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/51.txt",
+    "chapter": "51.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/52.txt",
+    "chapter": "52.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/53.txt",
+    "chapter": "53.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/54.txt",
+    "chapter": "54.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/55.txt",
+    "chapter": "55.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 171,
+        "end": 181,
+        "reason": "Format note"
+      },
+      {
+        "start": 937,
+        "end": 940,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 16
+  },
+  {
+    "key": "JP/56.txt",
+    "chapter": "56.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 856,
+        "end": 856,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 857,
+        "end": 857,
+        "reason": "Release announcement"
+      },
+      {
+        "start": 858,
+        "end": 858,
+        "reason": "Chapter title"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "JP/57.txt",
+    "chapter": "57.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/58.txt",
+    "chapter": "58.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/59.txt",
+    "chapter": "59.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/60.txt",
+    "chapter": "60.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/61.txt",
+    "chapter": "61.txt",
+    "language": "JP",
+    "status": "ERROR",
+    "removed_ranges": [],
+    "removed_line_count": 0,
+    "error": "400 Client Error: Bad Request for url: https://bathu-mpkwvf7h-eastus2.cognitiveservices.azure.com/openai/v1/chat/completions | body='{\"error\":{\"message\":\"The response was filtered due to the prompt triggering Azure OpenAI\\'s content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read our documentation: https://go.microsoft.com/fwlink/?linkid=2198766\",\"type\":null,\"param\":\"prompt\",\"code\":\"content_filter\",\"status\":400,\"innererror\":{\"code\":\"ResponsibleAIPolicyViolation\",\"content_filter_result\":{\"hate\":{\"filtered\":false,\"severity\":\"safe\"},\"self_harm\":{\"filtered\":false,\"severity\":\"safe\"},\"sexual\":{\"filtered\":true,\"severity\":\"high\"},\"violence\":{\"filtered\":false,\"severity\":\"safe\"}}}}}'"
+  },
+  {
+    "key": "JP/62.txt",
+    "chapter": "62.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 5,
+        "reason": "Author greeting notes"
+      }
+    ],
+    "removed_line_count": 1
+  },
+  {
+    "key": "JP/63.txt",
+    "chapter": "63.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/64.txt",
+    "chapter": "64.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/65.txt",
+    "chapter": "65.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/66.txt",
+    "chapter": "66.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/67.txt",
+    "chapter": "67.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/68.txt",
+    "chapter": "68.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/69.txt",
+    "chapter": "69.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/70.txt",
+    "chapter": "70.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 5,
+        "reason": "Translator note"
+      },
+      {
+        "start": 842,
+        "end": 849,
+        "reason": "Author greeting notes"
+      },
+      {
+        "start": 850,
+        "end": 853,
+        "reason": "Patreon promotions"
+      },
+      {
+        "start": 855,
+        "end": 859,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 861,
+        "end": 867,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 868,
+        "end": 870,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 871,
+        "end": 873,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 874,
+        "end": 877,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 878,
+        "end": 879,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 880,
+        "end": 882,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 883,
+        "end": 884,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 885,
+        "end": 887,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 888,
+        "end": 890,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 891,
+        "end": 892,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 893,
+        "end": 894,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 895,
+        "end": 895,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 896,
+        "end": 898,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 899,
+        "end": 901,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 902,
+        "end": 902,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 903,
+        "end": 903,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 904,
+        "end": 904,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 905,
+        "end": 905,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 906,
+        "end": 906,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 907,
+        "end": 907,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 908,
+        "end": 908,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 909,
+        "end": 909,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 910,
+        "end": 910,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 911,
+        "end": 911,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 912,
+        "end": 912,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 913,
+        "end": 913,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 914,
+        "end": 914,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 915,
+        "end": 915,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 916,
+        "end": 916,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 917,
+        "end": 917,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 918,
+        "end": 918,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 919,
+        "end": 919,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 920,
+        "end": 920,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 921,
+        "end": 921,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 922,
+        "end": 922,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 923,
+        "end": 923,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 924,
+        "end": 924,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 925,
+        "end": 925,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 926,
+        "end": 926,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 927,
+        "end": 927,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 928,
+        "end": 928,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 929,
+        "end": 929,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 930,
+        "end": 930,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 931,
+        "end": 931,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 932,
+        "end": 932,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 933,
+        "end": 933,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 934,
+        "end": 934,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 935,
+        "end": 935,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 936,
+        "end": 936,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 937,
+        "end": 937,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 938,
+        "end": 938,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 939,
+        "end": 939,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 940,
+        "end": 940,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 941,
+        "end": 941,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 942,
+        "end": 942,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 943,
+        "end": 943,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 944,
+        "end": 944,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 945,
+        "end": 945,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 946,
+        "end": 946,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 947,
+        "end": 947,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 948,
+        "end": 948,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 949,
+        "end": 949,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 950,
+        "end": 950,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 951,
+        "end": 951,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 952,
+        "end": 952,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 953,
+        "end": 953,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 954,
+        "end": 954,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 955,
+        "end": 955,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 956,
+        "end": 956,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 957,
+        "end": 957,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 958,
+        "end": 958,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 959,
+        "end": 959,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 960,
+        "end": 960,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 961,
+        "end": 961,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 962,
+        "end": 962,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 963,
+        "end": 963,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 964,
+        "end": 964,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 965,
+        "end": 965,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 966,
+        "end": 966,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 967,
+        "end": 967,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 968,
+        "end": 968,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 969,
+        "end": 969,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 970,
+        "end": 970,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 971,
+        "end": 971,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 972,
+        "end": 972,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 973,
+        "end": 973,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 974,
+        "end": 974,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 975,
+        "end": 975,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 976,
+        "end": 976,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 977,
+        "end": 977,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 978,
+        "end": 978,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 979,
+        "end": 979,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 980,
+        "end": 980,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 981,
+        "end": 981,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 982,
+        "end": 982,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 983,
+        "end": 983,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 984,
+        "end": 984,
+        "reason": "Discord advertisements"
+      },
+      {
+        "start": 1047,
+        "end": 1047,
+        "reason": "Release announcements"
+      },
+      {
+        "start": 1049,
+        "end": 1049,
+        "reason": "Release announcements"
+      },
+      {
+        "start": 1050,
+        "end": 1050,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 145
+  },
+  {
+    "key": "JP/71.txt",
+    "chapter": "71.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/72.txt",
+    "chapter": "72.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 6,
+        "reason": "備忘録的なもの"
+      },
+      {
+        "start": 11,
+        "end": 11,
+        "reason": "Section divider"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/73.txt",
+    "chapter": "73.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/74.txt",
+    "chapter": "74.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/75.txt",
+    "chapter": "75.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/76.txt",
+    "chapter": "76.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 3,
+        "reason": "Duplicate chapter title"
+      },
+      {
+        "start": 592,
+        "end": 598,
+        "reason": "Activity report"
+      }
+    ],
+    "removed_line_count": 10
+  },
+  {
+    "key": "JP/77.txt",
+    "chapter": "77.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/78.txt",
+    "chapter": "78.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 418,
+        "end": 421,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "JP/79.txt",
+    "chapter": "79.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 49,
+        "end": 49,
+        "reason": "Section divider"
+      },
+      {
+        "start": 120,
+        "end": 120,
+        "reason": "Section divider"
+      },
+      {
+        "start": 221,
+        "end": 221,
+        "reason": "Section divider"
+      },
+      {
+        "start": 261,
+        "end": 261,
+        "reason": "Section divider"
+      },
+      {
+        "start": 347,
+        "end": 347,
+        "reason": "Section divider"
+      },
+      {
+        "start": 394,
+        "end": 399,
+        "reason": "Shout-outs / credits"
+      }
+    ],
+    "removed_line_count": 13
+  },
+  {
+    "key": "JP/80.txt",
+    "chapter": "80.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 5,
+        "end": 5,
+        "reason": "Summary"
+      },
+      {
+        "start": 276,
+        "end": 276,
+        "reason": "Section divider"
+      },
+      {
+        "start": 404,
+        "end": 404,
+        "reason": "Section divider"
+      },
+      {
+        "start": 615,
+        "end": 615,
+        "reason": "Section divider"
+      },
+      {
+        "start": 740,
+        "end": 740,
+        "reason": "Section divider"
+      }
+    ],
+    "removed_line_count": 6
+  },
+  {
+    "key": "JP/81.txt",
+    "chapter": "81.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title repetition"
+      },
+      {
+        "start": 684,
+        "end": 690,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 8
+  },
+  {
+    "key": "JP/82.txt",
+    "chapter": "82.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 773,
+        "end": 774,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "JP/83.txt",
+    "chapter": "83.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title repetition"
+      },
+      {
+        "start": 239,
+        "end": 239,
+        "reason": "Section divider"
+      },
+      {
+        "start": 682,
+        "end": 688,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 9
+  },
+  {
+    "key": "JP/84.txt",
+    "chapter": "84.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 5,
+        "reason": "Author greeting notes"
+      },
+      {
+        "start": 636,
+        "end": 637,
+        "reason": "Translator notes"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/85.txt",
+    "chapter": "85.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/86.txt",
+    "chapter": "86.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/87.txt",
+    "chapter": "87.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/88.txt",
+    "chapter": "88.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/89.txt",
+    "chapter": "89.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 651,
+        "end": 651,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 653,
+        "end": 653,
+        "reason": "Release announcement"
+      },
+      {
+        "start": 654,
+        "end": 654,
+        "reason": "Chapter title"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "JP/90.txt",
+    "chapter": "90.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/91.txt",
+    "chapter": "91.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/92.txt",
+    "chapter": "92.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 549,
+        "end": 550,
+        "reason": "Translator notes"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "JP/93.txt",
+    "chapter": "93.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/94.txt",
+    "chapter": "94.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/95.txt",
+    "chapter": "95.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/96.txt",
+    "chapter": "96.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/97.txt",
+    "chapter": "97.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/98.txt",
+    "chapter": "98.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/99.txt",
+    "chapter": "99.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/100.txt",
+    "chapter": "100.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/101.txt",
+    "chapter": "101.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 546,
+        "end": 546,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 548,
+        "end": 548,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/102.txt",
+    "chapter": "102.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/103.txt",
+    "chapter": "103.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 414,
+        "end": 414,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 666,
+        "end": 666,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 707,
+        "end": 707,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "JP/104.txt",
+    "chapter": "104.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/105.txt",
+    "chapter": "105.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/106.txt",
+    "chapter": "106.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/107.txt",
+    "chapter": "107.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/108.txt",
+    "chapter": "108.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Duplicate chapter title"
+      },
+      {
+        "start": 414,
+        "end": 414,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 416,
+        "end": 416,
+        "reason": "Release announcement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/109.txt",
+    "chapter": "109.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/110.txt",
+    "chapter": "110.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/111.txt",
+    "chapter": "111.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/112.txt",
+    "chapter": "112.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/113.txt",
+    "chapter": "113.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 698,
+        "end": 699,
+        "reason": "Status line"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "JP/114.txt",
+    "chapter": "114.txt",
+    "language": "JP",
+    "status": "ERROR",
+    "removed_ranges": [],
+    "removed_line_count": 0,
+    "error": "400 Client Error: Bad Request for url: https://bathu-mpkwvf7h-eastus2.cognitiveservices.azure.com/openai/v1/chat/completions | body='{\"error\":{\"message\":\"The response was filtered due to the prompt triggering Azure OpenAI\\'s content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read our documentation: https://go.microsoft.com/fwlink/?linkid=2198766\",\"type\":null,\"param\":\"prompt\",\"code\":\"content_filter\",\"status\":400,\"innererror\":{\"code\":\"ResponsibleAIPolicyViolation\",\"content_filter_result\":{\"hate\":{\"filtered\":false,\"severity\":\"safe\"},\"self_harm\":{\"filtered\":false,\"severity\":\"safe\"},\"sexual\":{\"filtered\":true,\"severity\":\"high\"},\"violence\":{\"filtered\":false,\"severity\":\"safe\"}}}}}'"
+  },
+  {
+    "key": "JP/116.txt",
+    "chapter": "116.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/117.txt",
+    "chapter": "117.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/118.txt",
+    "chapter": "118.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/119.txt",
+    "chapter": "119.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/120.txt",
+    "chapter": "120.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 863,
+        "end": 865,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/121.txt",
+    "chapter": "121.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/122.txt",
+    "chapter": "122.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/123.txt",
+    "chapter": "123.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/124.txt",
+    "chapter": "124.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/125.txt",
+    "chapter": "125.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/126.txt",
+    "chapter": "126.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/127.txt",
+    "chapter": "127.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/128.txt",
+    "chapter": "128.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/129.txt",
+    "chapter": "129.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 19,
+        "end": 19,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 104,
+        "end": 104,
+        "reason": "Section divider"
+      },
+      {
+        "start": 1040,
+        "end": 1041,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "JP/130.txt",
+    "chapter": "130.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 5,
+        "reason": "Activity reports"
+      },
+      {
+        "start": 186,
+        "end": 186,
+        "reason": "Section divider"
+      },
+      {
+        "start": 256,
+        "end": 256,
+        "reason": "Section divider"
+      },
+      {
+        "start": 398,
+        "end": 398,
+        "reason": "Section divider"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "JP/131.txt",
+    "chapter": "131.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/132.txt",
+    "chapter": "132.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/133.txt",
+    "chapter": "133.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/134.txt",
+    "chapter": "134.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/135.txt",
+    "chapter": "135.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/136.txt",
+    "chapter": "136.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/137.txt",
+    "chapter": "137.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/138.txt",
+    "chapter": "138.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/139.txt",
+    "chapter": "139.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/140.txt",
+    "chapter": "140.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/141.txt",
+    "chapter": "141.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/142.txt",
+    "chapter": "142.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/143.txt",
+    "chapter": "143.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/144.txt",
+    "chapter": "144.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 391,
+        "end": 391,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 393,
+        "end": 393,
+        "reason": "Release announcement"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "JP/145.txt",
+    "chapter": "145.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/146.txt",
+    "chapter": "146.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/147.txt",
+    "chapter": "147.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 796,
+        "end": 797,
+        "reason": "Activity report"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "JP/148.txt",
+    "chapter": "148.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title duplication"
+      },
+      {
+        "start": 668,
+        "end": 689,
+        "reason": "Activity report"
+      }
+    ],
+    "removed_line_count": 23
+  },
+  {
+    "key": "JP/149.txt",
+    "chapter": "149.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 638,
+        "end": 639,
+        "reason": "Activity report"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "JP/150.txt",
+    "chapter": "150.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title duplication"
+      },
+      {
+        "start": 621,
+        "end": 622,
+        "reason": "Status line"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/151.txt",
+    "chapter": "151.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 650,
+        "end": 651,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "JP/152.txt",
+    "chapter": "152.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Duplicate chapter title"
+      },
+      {
+        "start": 581,
+        "end": 584,
+        "reason": "Activity report"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "JP/153.txt",
+    "chapter": "153.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Duplicate chapter title"
+      },
+      {
+        "start": 595,
+        "end": 596,
+        "reason": "Activity report"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/154.txt",
+    "chapter": "154.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 669,
+        "end": 670,
+        "reason": "Activity report"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "JP/155.txt",
+    "chapter": "155.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 692,
+        "end": 699,
+        "reason": "Activity reports"
+      }
+    ],
+    "removed_line_count": 8
+  },
+  {
+    "key": "JP/156.txt",
+    "chapter": "156.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 543,
+        "end": 546,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "JP/157.txt",
+    "chapter": "157.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/158.txt",
+    "chapter": "158.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/159.txt",
+    "chapter": "159.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/160.txt",
+    "chapter": "160.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/161.txt",
+    "chapter": "161.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/162.txt",
+    "chapter": "162.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/163.txt",
+    "chapter": "163.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/164.txt",
+    "chapter": "164.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/165.txt",
+    "chapter": "165.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/166.txt",
+    "chapter": "166.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/167.txt",
+    "chapter": "167.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/168.txt",
+    "chapter": "168.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 623,
+        "end": 625,
+        "reason": "Chapter title"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/169.txt",
+    "chapter": "169.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/170.txt",
+    "chapter": "170.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/171.txt",
+    "chapter": "171.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/172.txt",
+    "chapter": "172.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/173.txt",
+    "chapter": "173.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title duplication"
+      },
+      {
+        "start": 216,
+        "end": 216,
+        "reason": "Activity report"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "JP/174.txt",
+    "chapter": "174.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/175.txt",
+    "chapter": "175.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/176.txt",
+    "chapter": "176.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/177.txt",
+    "chapter": "177.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/178.txt",
+    "chapter": "178.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/179.txt",
+    "chapter": "179.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 669,
+        "end": 669,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 671,
+        "end": 672,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "JP/180.txt",
+    "chapter": "180.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/181.txt",
+    "chapter": "181.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/182.txt",
+    "chapter": "182.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/183.txt",
+    "chapter": "183.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/184.txt",
+    "chapter": "184.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/185.txt",
+    "chapter": "185.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/186.txt",
+    "chapter": "186.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/187.txt",
+    "chapter": "187.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/188.txt",
+    "chapter": "188.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/189.txt",
+    "chapter": "189.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/190.txt",
+    "chapter": "190.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 553,
+        "end": 555,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/191.txt",
+    "chapter": "191.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/192.txt",
+    "chapter": "192.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 6,
+        "reason": "Author greeting notes"
+      },
+      {
+        "start": 10,
+        "end": 10,
+        "reason": "Activity reports"
+      },
+      {
+        "start": 45,
+        "end": 47,
+        "reason": "Activity reports"
+      }
+    ],
+    "removed_line_count": 6
+  },
+  {
+    "key": "JP/193.txt",
+    "chapter": "193.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/194.txt",
+    "chapter": "194.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/195.txt",
+    "chapter": "195.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/196.txt",
+    "chapter": "196.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/197.txt",
+    "chapter": "197.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/198.txt",
+    "chapter": "198.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/199.txt",
+    "chapter": "199.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 28,
+        "end": 28,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 1
+  },
+  {
+    "key": "JP/200.txt",
+    "chapter": "200.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/201.txt",
+    "chapter": "201.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/202.txt",
+    "chapter": "202.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/203.txt",
+    "chapter": "203.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/204.txt",
+    "chapter": "204.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/205.txt",
+    "chapter": "205.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/206.txt",
+    "chapter": "206.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Duplicate chapter title"
+      },
+      {
+        "start": 547,
+        "end": 547,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 549,
+        "end": 549,
+        "reason": "Chapter title"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/207.txt",
+    "chapter": "207.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/208.txt",
+    "chapter": "208.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 666,
+        "end": 672,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 7
+  },
+  {
+    "key": "JP/209.txt",
+    "chapter": "209.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/210.txt",
+    "chapter": "210.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/211.txt",
+    "chapter": "211.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/212.txt",
+    "chapter": "212.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/213.txt",
+    "chapter": "213.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/214.txt",
+    "chapter": "214.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 141,
+        "end": 145,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 199,
+        "end": 199,
+        "reason": "Activity reports"
+      },
+      {
+        "start": 760,
+        "end": 766,
+        "reason": "Copyright notices"
+      }
+    ],
+    "removed_line_count": 13
+  },
+  {
+    "key": "JP/215.txt",
+    "chapter": "215.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 5,
+        "reason": "Activity report"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Duplicate chapter title"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "JP/216.txt",
+    "chapter": "216.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/217.txt",
+    "chapter": "217.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 521,
+        "end": 521,
+        "reason": "Release announcements"
+      },
+      {
+        "start": 523,
+        "end": 523,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "JP/218.txt",
+    "chapter": "218.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/219.txt",
+    "chapter": "219.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/220.txt",
+    "chapter": "220.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/221.txt",
+    "chapter": "221.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/222.txt",
+    "chapter": "222.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/223.txt",
+    "chapter": "223.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/224.txt",
+    "chapter": "224.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/225.txt",
+    "chapter": "225.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/226.txt",
+    "chapter": "226.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/227.txt",
+    "chapter": "227.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/228.txt",
+    "chapter": "228.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/229.txt",
+    "chapter": "229.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/230.txt",
+    "chapter": "230.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/231.txt",
+    "chapter": "231.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/232.txt",
+    "chapter": "232.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/233.txt",
+    "chapter": "233.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/234.txt",
+    "chapter": "234.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/235.txt",
+    "chapter": "235.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/236.txt",
+    "chapter": "236.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/237.txt",
+    "chapter": "237.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/238.txt",
+    "chapter": "238.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/239.txt",
+    "chapter": "239.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/240.txt",
+    "chapter": "240.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/241.txt",
+    "chapter": "241.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/242.txt",
+    "chapter": "242.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/243.txt",
+    "chapter": "243.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 6,
+        "reason": "Author greeting notes"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "JP/244.txt",
+    "chapter": "244.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/245.txt",
+    "chapter": "245.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/246.txt",
+    "chapter": "246.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/247.txt",
+    "chapter": "247.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Chapter title duplication"
+      },
+      {
+        "start": 518,
+        "end": 518,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 640,
+        "end": 640,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 768,
+        "end": 768,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "JP/248.txt",
+    "chapter": "248.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 181,
+        "end": 181,
+        "reason": "冗談はさておき"
+      },
+      {
+        "start": 183,
+        "end": 183,
+        "reason": "冗談はさておき"
+      },
+      {
+        "start": 481,
+        "end": 481,
+        "reason": "第２１章  青年期  クリフ編  - 終 -"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/249.txt",
+    "chapter": "249.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/253.txt",
+    "chapter": "253.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/254.txt",
+    "chapter": "254.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/256.txt",
+    "chapter": "256.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/257.txt",
+    "chapter": "257.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/258.txt",
+    "chapter": "258.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/259.txt",
+    "chapter": "259.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/260.txt",
+    "chapter": "260.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 605,
+        "end": 607,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/261.txt",
+    "chapter": "261.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 5,
+        "reason": "Activity report"
+      },
+      {
+        "start": 300,
+        "end": 300,
+        "reason": "Section divider"
+      },
+      {
+        "start": 469,
+        "end": 469,
+        "reason": "Section divider"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/262.txt",
+    "chapter": "262.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/263.txt",
+    "chapter": "263.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/264.txt",
+    "chapter": "264.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/265.txt",
+    "chapter": "265.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/266.txt",
+    "chapter": "266.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/267.txt",
+    "chapter": "267.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/268.txt",
+    "chapter": "268.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/269.txt",
+    "chapter": "269.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/270.txt",
+    "chapter": "270.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/271.txt",
+    "chapter": "271.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/272.txt",
+    "chapter": "272.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/273.txt",
+    "chapter": "273.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/274.txt",
+    "chapter": "274.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/275.txt",
+    "chapter": "275.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/276.txt",
+    "chapter": "276.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/277.txt",
+    "chapter": "277.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/278.txt",
+    "chapter": "278.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/279.txt",
+    "chapter": "279.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/280.txt",
+    "chapter": "280.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/281.txt",
+    "chapter": "281.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 821,
+        "end": 823,
+        "reason": "Release announcements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "JP/282.txt",
+    "chapter": "282.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/283.txt",
+    "chapter": "283.txt",
+    "language": "JP",
+    "status": "CLEAN",
+    "removed_ranges": [],
+    "removed_line_count": 0
+  },
+  {
+    "key": "JP/284.txt",
+    "chapter": "284.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 33,
+        "end": 33,
+        "reason": "Editor notes"
+      },
+      {
+        "start": 351,
+        "end": 351,
+        "reason": "Editor notes"
+      },
+      {
+        "start": 353,
+        "end": 353,
+        "reason": "Editor notes"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "JP/285.txt",
+    "chapter": "285.txt",
+    "language": "JP",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Duplicate chapter title"
+      },
+      {
+        "start": 294,
+        "end": 294,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/1.txt",
+    "chapter": "1.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 263,
+        "end": 264,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/2.txt",
+    "chapter": "2.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 309,
+        "end": 310,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/3.txt",
+    "chapter": "3.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 341,
+        "end": 342,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/4.txt",
+    "chapter": "4.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 653,
+        "end": 654,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/5.txt",
+    "chapter": "5.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1263,
+        "end": 1263,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/6.txt",
+    "chapter": "6.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 401,
+        "end": 401,
+        "reason": "Website advertisements"
+      },
+      {
+        "start": 402,
+        "end": 402,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/7.txt",
+    "chapter": "7.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 715,
+        "end": 715,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/8.txt",
+    "chapter": "8.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1067,
+        "end": 1068,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/9.txt",
+    "chapter": "9.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 857,
+        "end": 857,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/10.txt",
+    "chapter": "10.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 677,
+        "end": 678,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/11.txt",
+    "chapter": "11.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 905,
+        "end": 906,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/12.txt",
+    "chapter": "12.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 655,
+        "end": 655,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/13.txt",
+    "chapter": "13.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 805,
+        "end": 805,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 1
+  },
+  {
+    "key": "EN/14.txt",
+    "chapter": "14.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 995,
+        "end": 996,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/15.txt",
+    "chapter": "15.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 3,
+        "reason": "Volume title duplication"
+      },
+      {
+        "start": 359,
+        "end": 360,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "EN/16.txt",
+    "chapter": "16.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 693,
+        "end": 694,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/17.txt",
+    "chapter": "17.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 749,
+        "end": 749,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/18.txt",
+    "chapter": "18.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 743,
+        "end": 744,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/19.txt",
+    "chapter": "19.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 775,
+        "end": 776,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/20.txt",
+    "chapter": "20.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1133,
+        "end": 1134,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/21.txt",
+    "chapter": "21.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 633,
+        "end": 634,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/22.txt",
+    "chapter": "22.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Duplicate title"
+      },
+      {
+        "start": 275,
+        "end": 275,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/23.txt",
+    "chapter": "23.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 405,
+        "end": 405,
+        "reason": "Website advertisement"
+      },
+      {
+        "start": 406,
+        "end": 406,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/24.txt",
+    "chapter": "24.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 7,
+        "end": 7,
+        "reason": "Website advertisements"
+      },
+      {
+        "start": 609,
+        "end": 610,
+        "reason": "Thank you for reading messages"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/25.txt",
+    "chapter": "25.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 543,
+        "end": 544,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/26.txt",
+    "chapter": "26.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 579,
+        "end": 579,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 1
+  },
+  {
+    "key": "EN/27.txt",
+    "chapter": "27.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 967,
+        "end": 968,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/28.txt",
+    "chapter": "28.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 39,
+        "end": 39,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 757,
+        "end": 758,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "EN/29.txt",
+    "chapter": "29.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 927,
+        "end": 928,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/30.txt",
+    "chapter": "30.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Release announcements"
+      },
+      {
+        "start": 1093,
+        "end": 1094,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/31.txt",
+    "chapter": "31.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 645,
+        "end": 646,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/32.txt",
+    "chapter": "32.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 677,
+        "end": 677,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/33.txt",
+    "chapter": "33.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 679,
+        "end": 680,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/34.txt",
+    "chapter": "34.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1139,
+        "end": 1140,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/35.txt",
+    "chapter": "35.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 851,
+        "end": 852,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/36.txt",
+    "chapter": "36.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 5,
+        "end": 5,
+        "reason": "Activity reports"
+      },
+      {
+        "start": 705,
+        "end": 705,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/37.txt",
+    "chapter": "37.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 7,
+        "end": 7,
+        "reason": "Translator notes"
+      },
+      {
+        "start": 9,
+        "end": 15,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 55,
+        "end": 56,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 10
+  },
+  {
+    "key": "EN/38.txt",
+    "chapter": "38.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 933,
+        "end": 934,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/39.txt",
+    "chapter": "39.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 847,
+        "end": 847,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/40.txt",
+    "chapter": "40.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1027,
+        "end": 1028,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/41.txt",
+    "chapter": "41.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 825,
+        "end": 826,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/42.txt",
+    "chapter": "42.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 845,
+        "end": 846,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/43.txt",
+    "chapter": "43.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 719,
+        "end": 720,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/44.txt",
+    "chapter": "44.txt",
+    "language": "EN",
+    "status": "ERROR",
+    "removed_ranges": [],
+    "removed_line_count": 0,
+    "error": "400 Client Error: Bad Request for url: https://bathu-mpkwvf7h-eastus2.cognitiveservices.azure.com/openai/v1/chat/completions | body='{\"error\":{\"message\":\"The response was filtered due to the prompt triggering Azure OpenAI\\'s content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read our documentation: https://go.microsoft.com/fwlink/?linkid=2198766\",\"type\":null,\"param\":\"prompt\",\"code\":\"content_filter\",\"status\":400,\"innererror\":{\"code\":\"ResponsibleAIPolicyViolation\",\"content_filter_result\":{\"hate\":{\"filtered\":false,\"severity\":\"safe\"},\"self_harm\":{\"filtered\":false,\"severity\":\"safe\"},\"sexual\":{\"filtered\":true,\"severity\":\"high\"},\"violence\":{\"filtered\":false,\"severity\":\"safe\"}}}}}'"
+  },
+  {
+    "key": "EN/45.txt",
+    "chapter": "45.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 9,
+        "end": 9,
+        "reason": "Author greeting notes"
+      },
+      {
+        "start": 859,
+        "end": 860,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/46.txt",
+    "chapter": "46.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 917,
+        "end": 918,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/47.txt",
+    "chapter": "47.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 889,
+        "end": 890,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/48.txt",
+    "chapter": "48.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1181,
+        "end": 1181,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/49.txt",
+    "chapter": "49.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1311,
+        "end": 1311,
+        "reason": "Website advertisement"
+      },
+      {
+        "start": 1312,
+        "end": 1312,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/50.txt",
+    "chapter": "50.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 869,
+        "end": 870,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/51.txt",
+    "chapter": "51.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 995,
+        "end": 995,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/52.txt",
+    "chapter": "52.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1421,
+        "end": 1421,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/53.txt",
+    "chapter": "53.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 965,
+        "end": 965,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/54.txt",
+    "chapter": "54.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 881,
+        "end": 882,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/55.txt",
+    "chapter": "55.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1233,
+        "end": 1234,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/56.txt",
+    "chapter": "56.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1043,
+        "end": 1043,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/57.txt",
+    "chapter": "57.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Duplicate title"
+      },
+      {
+        "start": 383,
+        "end": 384,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/58.txt",
+    "chapter": "58.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 733,
+        "end": 734,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/59.txt",
+    "chapter": "59.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 495,
+        "end": 496,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/60.txt",
+    "chapter": "60.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 819,
+        "end": 820,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/61.txt",
+    "chapter": "61.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1493,
+        "end": 1493,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/62.txt",
+    "chapter": "62.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 9,
+        "end": 9,
+        "reason": "Author greeting notes"
+      },
+      {
+        "start": 987,
+        "end": 988,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/63.txt",
+    "chapter": "63.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 655,
+        "end": 656,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/64.txt",
+    "chapter": "64.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 567,
+        "end": 568,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/65.txt",
+    "chapter": "65.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 653,
+        "end": 654,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/66.txt",
+    "chapter": "66.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 945,
+        "end": 946,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/67.txt",
+    "chapter": "67.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 565,
+        "end": 565,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/68.txt",
+    "chapter": "68.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 805,
+        "end": 806,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/69.txt",
+    "chapter": "69.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 985,
+        "end": 986,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/70.txt",
+    "chapter": "70.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 7,
+        "end": 7,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 1481,
+        "end": 1482,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/71.txt",
+    "chapter": "71.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 3,
+        "reason": "Volume title duplication"
+      },
+      {
+        "start": 947,
+        "end": 947,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/72.txt",
+    "chapter": "72.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 7,
+        "end": 7,
+        "reason": "Translator notes"
+      },
+      {
+        "start": 9,
+        "end": 9,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 135,
+        "end": 136,
+        "reason": "Thank you for reading messages"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/73.txt",
+    "chapter": "73.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 771,
+        "end": 772,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/74.txt",
+    "chapter": "74.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 35,
+        "end": 35,
+        "reason": "Patreon promotions"
+      },
+      {
+        "start": 1027,
+        "end": 1027,
+        "reason": "Website advertisements"
+      },
+      {
+        "start": 1035,
+        "end": 1036,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 6
+  },
+  {
+    "key": "EN/75.txt",
+    "chapter": "75.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 963,
+        "end": 964,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/76.txt",
+    "chapter": "76.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 835,
+        "end": 851,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 17
+  },
+  {
+    "key": "EN/77.txt",
+    "chapter": "77.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1247,
+        "end": 1248,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/78.txt",
+    "chapter": "78.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 581,
+        "end": 581,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 583,
+        "end": 584,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/79.txt",
+    "chapter": "79.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 287,
+        "end": 299,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 13
+  },
+  {
+    "key": "EN/80.txt",
+    "chapter": "80.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 553,
+        "end": 554,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/81.txt",
+    "chapter": "81.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 399,
+        "end": 411,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 13
+  },
+  {
+    "key": "EN/82.txt",
+    "chapter": "82.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 581,
+        "end": 581,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/83.txt",
+    "chapter": "83.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 461,
+        "end": 474,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 14
+  },
+  {
+    "key": "EN/84.txt",
+    "chapter": "84.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 465,
+        "end": 469,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 7
+  },
+  {
+    "key": "EN/85.txt",
+    "chapter": "85.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 795,
+        "end": 803,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 9
+  },
+  {
+    "key": "EN/86.txt",
+    "chapter": "86.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1133,
+        "end": 1143,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 11
+  },
+  {
+    "key": "EN/87.txt",
+    "chapter": "87.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1035,
+        "end": 1035,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/88.txt",
+    "chapter": "88.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 817,
+        "end": 818,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/89.txt",
+    "chapter": "89.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 899,
+        "end": 900,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/90.txt",
+    "chapter": "90.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 3,
+        "reason": "Volume title duplication"
+      },
+      {
+        "start": 407,
+        "end": 408,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "EN/91.txt",
+    "chapter": "91.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 533,
+        "end": 534,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/92.txt",
+    "chapter": "92.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 795,
+        "end": 795,
+        "reason": "Supplemental"
+      },
+      {
+        "start": 799,
+        "end": 799,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/93.txt",
+    "chapter": "93.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 851,
+        "end": 851,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/94.txt",
+    "chapter": "94.txt",
+    "language": "EN",
+    "status": "ERROR",
+    "removed_ranges": [],
+    "removed_line_count": 0,
+    "error": "JSON decode error: Expecting ',' delimiter: line 6 column 69 (char 293)  |  raw='{\\n  \"remove_ranges\": [\\n    { \"start\": 1, \"end\": 1, \"reason\": \"Release announcements\" },\\n    { \"start\": 3, \"end\": 3, \"reason\": \"Release announcements\" },\\n    { \"start\": 1271, \"end\": 1271, \"reason\": \"We'"
+  },
+  {
+    "key": "EN/95.txt",
+    "chapter": "95.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 757,
+        "end": 758,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/96.txt",
+    "chapter": "96.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 585,
+        "end": 585,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 1
+  },
+  {
+    "key": "EN/97.txt",
+    "chapter": "97.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 929,
+        "end": 930,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/98.txt",
+    "chapter": "98.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 993,
+        "end": 994,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/99.txt",
+    "chapter": "99.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 995,
+        "end": 995,
+        "reason": "Website advertisement"
+      },
+      {
+        "start": 996,
+        "end": 996,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/100.txt",
+    "chapter": "100.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1057,
+        "end": 1058,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/101.txt",
+    "chapter": "101.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 751,
+        "end": 751,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/102.txt",
+    "chapter": "102.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 997,
+        "end": 998,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/103.txt",
+    "chapter": "103.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1001,
+        "end": 1001,
+        "reason": "Patreon promotion"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/104.txt",
+    "chapter": "104.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 613,
+        "end": 614,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/105.txt",
+    "chapter": "105.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 401,
+        "end": 402,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/106.txt",
+    "chapter": "106.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 893,
+        "end": 894,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/107.txt",
+    "chapter": "107.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Release announcements"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Release announcements"
+      },
+      {
+        "start": 873,
+        "end": 873,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/108.txt",
+    "chapter": "108.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 575,
+        "end": 576,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/109.txt",
+    "chapter": "109.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 745,
+        "end": 746,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/110.txt",
+    "chapter": "110.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 777,
+        "end": 778,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/111.txt",
+    "chapter": "111.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 999,
+        "end": 1000,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/112.txt",
+    "chapter": "112.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 915,
+        "end": 915,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/113.txt",
+    "chapter": "113.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 707,
+        "end": 707,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 1
+  },
+  {
+    "key": "EN/114.txt",
+    "chapter": "114.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 865,
+        "end": 865,
+        "reason": "Activity report"
+      },
+      {
+        "start": 1365,
+        "end": 1366,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "EN/116.txt",
+    "chapter": "116.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 955,
+        "end": 956,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/117.txt",
+    "chapter": "117.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 911,
+        "end": 912,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/118.txt",
+    "chapter": "118.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 843,
+        "end": 844,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/119.txt",
+    "chapter": "119.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 935,
+        "end": 936,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/120.txt",
+    "chapter": "120.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 519,
+        "end": 519,
+        "reason": "Section divider"
+      },
+      {
+        "start": 1159,
+        "end": 1159,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/121.txt",
+    "chapter": "121.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 353,
+        "end": 354,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/122.txt",
+    "chapter": "122.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1407,
+        "end": 1408,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/123.txt",
+    "chapter": "123.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 835,
+        "end": 835,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/124.txt",
+    "chapter": "124.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 745,
+        "end": 746,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/125.txt",
+    "chapter": "125.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 857,
+        "end": 858,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/126.txt",
+    "chapter": "126.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Website advertisements"
+      },
+      {
+        "start": 835,
+        "end": 835,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/127.txt",
+    "chapter": "127.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1090,
+        "end": 1090,
+        "reason": "Thank you message"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/128.txt",
+    "chapter": "128.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1187,
+        "end": 1188,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/129.txt",
+    "chapter": "129.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 29,
+        "end": 29,
+        "reason": "Excerpt citation"
+      },
+      {
+        "start": 151,
+        "end": 151,
+        "reason": "Thank you message"
+      },
+      {
+        "start": 393,
+        "end": 393,
+        "reason": "Website advertisement"
+      },
+      {
+        "start": 394,
+        "end": 394,
+        "reason": "Thank you message"
+      }
+    ],
+    "removed_line_count": 6
+  },
+  {
+    "key": "EN/130.txt",
+    "chapter": "130.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 643,
+        "end": 644,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/131.txt",
+    "chapter": "131.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Website advertisements"
+      },
+      {
+        "start": 701,
+        "end": 701,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/132.txt",
+    "chapter": "132.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 825,
+        "end": 826,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/133.txt",
+    "chapter": "133.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 785,
+        "end": 785,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/134.txt",
+    "chapter": "134.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 703,
+        "end": 704,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/135.txt",
+    "chapter": "135.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Website advertisements"
+      },
+      {
+        "start": 851,
+        "end": 851,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/136.txt",
+    "chapter": "136.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 973,
+        "end": 973,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/137.txt",
+    "chapter": "137.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 795,
+        "end": 796,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/138.txt",
+    "chapter": "138.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 769,
+        "end": 769,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/139.txt",
+    "chapter": "139.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 977,
+        "end": 977,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/140.txt",
+    "chapter": "140.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 887,
+        "end": 888,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/141.txt",
+    "chapter": "141.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 813,
+        "end": 814,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/142.txt",
+    "chapter": "142.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 919,
+        "end": 919,
+        "reason": "Website advertisement"
+      },
+      {
+        "start": 920,
+        "end": 920,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/143.txt",
+    "chapter": "143.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 573,
+        "end": 574,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/144.txt",
+    "chapter": "144.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 579,
+        "end": 579,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/145.txt",
+    "chapter": "145.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Volume title"
+      },
+      {
+        "start": 517,
+        "end": 518,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/146.txt",
+    "chapter": "146.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 899,
+        "end": 903,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "EN/147.txt",
+    "chapter": "147.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1111,
+        "end": 1112,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/148.txt",
+    "chapter": "148.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 517,
+        "end": 518,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/149.txt",
+    "chapter": "149.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 925,
+        "end": 926,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/150.txt",
+    "chapter": "150.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 911,
+        "end": 912,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/151.txt",
+    "chapter": "151.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 885,
+        "end": 886,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/152.txt",
+    "chapter": "152.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 851,
+        "end": 855,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "EN/153.txt",
+    "chapter": "153.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 837,
+        "end": 838,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/154.txt",
+    "chapter": "154.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 925,
+        "end": 929,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "EN/155.txt",
+    "chapter": "155.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1029,
+        "end": 1045,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 17
+  },
+  {
+    "key": "EN/156.txt",
+    "chapter": "156.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 761,
+        "end": 761,
+        "reason": "Website advertisement"
+      },
+      {
+        "start": 762,
+        "end": 762,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/157.txt",
+    "chapter": "157.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 3,
+        "reason": "Volume title duplication"
+      },
+      {
+        "start": 329,
+        "end": 331,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 6
+  },
+  {
+    "key": "EN/158.txt",
+    "chapter": "158.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1161,
+        "end": 1161,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/159.txt",
+    "chapter": "159.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 960,
+        "end": 960,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/160.txt",
+    "chapter": "160.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1240,
+        "end": 1240,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/161.txt",
+    "chapter": "161.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 859,
+        "end": 860,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/162.txt",
+    "chapter": "162.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 759,
+        "end": 760,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/163.txt",
+    "chapter": "163.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1360,
+        "end": 1360,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 1
+  },
+  {
+    "key": "EN/164.txt",
+    "chapter": "164.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 795,
+        "end": 795,
+        "reason": "Part header"
+      },
+      {
+        "start": 943,
+        "end": 943,
+        "reason": "Part header"
+      },
+      {
+        "start": 1093,
+        "end": 1093,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "EN/165.txt",
+    "chapter": "165.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Release announcements"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Release announcements"
+      },
+      {
+        "start": 1231,
+        "end": 1231,
+        "reason": "Activity reports"
+      },
+      {
+        "start": 1335,
+        "end": 1335,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/166.txt",
+    "chapter": "166.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 817,
+        "end": 818,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/167.txt",
+    "chapter": "167.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 795,
+        "end": 796,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/168.txt",
+    "chapter": "168.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 821,
+        "end": 827,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 7
+  },
+  {
+    "key": "EN/169.txt",
+    "chapter": "169.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 713,
+        "end": 714,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/170.txt",
+    "chapter": "170.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 771,
+        "end": 772,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/171.txt",
+    "chapter": "171.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 741,
+        "end": 742,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/172.txt",
+    "chapter": "172.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 873,
+        "end": 873,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/173.txt",
+    "chapter": "173.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 553,
+        "end": 554,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/174.txt",
+    "chapter": "174.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 765,
+        "end": 773,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 11
+  },
+  {
+    "key": "EN/175.txt",
+    "chapter": "175.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Website advertisements"
+      },
+      {
+        "start": 1101,
+        "end": 1102,
+        "reason": "Thank you for reading messages"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/176.txt",
+    "chapter": "176.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 919,
+        "end": 920,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/177.txt",
+    "chapter": "177.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 907,
+        "end": 908,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/178.txt",
+    "chapter": "178.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 523,
+        "end": 524,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/179.txt",
+    "chapter": "179.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 537,
+        "end": 538,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/180.txt",
+    "chapter": "180.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 631,
+        "end": 631,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/181.txt",
+    "chapter": "181.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 789,
+        "end": 789,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/182.txt",
+    "chapter": "182.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1090,
+        "end": 1090,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/183.txt",
+    "chapter": "183.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 809,
+        "end": 810,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/184.txt",
+    "chapter": "184.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 640,
+        "end": 641,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/185.txt",
+    "chapter": "185.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 457,
+        "end": 458,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/186.txt",
+    "chapter": "186.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 815,
+        "end": 816,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/187.txt",
+    "chapter": "187.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 395,
+        "end": 395,
+        "reason": "Part header"
+      },
+      {
+        "start": 441,
+        "end": 441,
+        "reason": "Part header"
+      },
+      {
+        "start": 439,
+        "end": 439,
+        "reason": "Part header"
+      },
+      {
+        "start": 677,
+        "end": 677,
+        "reason": "Part header"
+      },
+      {
+        "start": 821,
+        "end": 821,
+        "reason": "Thank you message"
+      }
+    ],
+    "removed_line_count": 7
+  },
+  {
+    "key": "EN/188.txt",
+    "chapter": "188.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 981,
+        "end": 982,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/189.txt",
+    "chapter": "189.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 803,
+        "end": 804,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/190.txt",
+    "chapter": "190.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 773,
+        "end": 774,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/191.txt",
+    "chapter": "191.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Duplicate volume title"
+      },
+      {
+        "start": 297,
+        "end": 297,
+        "reason": "Shout-outs / credits"
+      },
+      {
+        "start": 625,
+        "end": 625,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/192.txt",
+    "chapter": "192.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 7,
+        "end": 7,
+        "reason": "Translator notes"
+      },
+      {
+        "start": 9,
+        "end": 11,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 135,
+        "end": 136,
+        "reason": "Patreon promotions"
+      }
+    ],
+    "removed_line_count": 6
+  },
+  {
+    "key": "EN/193.txt",
+    "chapter": "193.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 711,
+        "end": 712,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/194.txt",
+    "chapter": "194.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1039,
+        "end": 1040,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/195.txt",
+    "chapter": "195.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 809,
+        "end": 810,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/196.txt",
+    "chapter": "196.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 763,
+        "end": 763,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/197.txt",
+    "chapter": "197.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 735,
+        "end": 736,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/198.txt",
+    "chapter": "198.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1135,
+        "end": 1135,
+        "reason": "Website advertisement"
+      },
+      {
+        "start": 1136,
+        "end": 1136,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/199.txt",
+    "chapter": "199.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 741,
+        "end": 742,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/200.txt",
+    "chapter": "200.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 935,
+        "end": 936,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/201.txt",
+    "chapter": "201.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 935,
+        "end": 936,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/202.txt",
+    "chapter": "202.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1311,
+        "end": 1311,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/203.txt",
+    "chapter": "203.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 851,
+        "end": 852,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/204.txt",
+    "chapter": "204.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 841,
+        "end": 841,
+        "reason": "Website advertisements"
+      },
+      {
+        "start": 842,
+        "end": 842,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/205.txt",
+    "chapter": "205.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 783,
+        "end": 784,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/206.txt",
+    "chapter": "206.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 771,
+        "end": 771,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 1
+  },
+  {
+    "key": "EN/207.txt",
+    "chapter": "207.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 615,
+        "end": 631,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 17
+  },
+  {
+    "key": "EN/208.txt",
+    "chapter": "208.txt",
+    "language": "EN",
+    "status": "ERROR",
+    "removed_ranges": [],
+    "removed_line_count": 0,
+    "error": "JSON decode error: Expecting ',' delimiter: line 4 column 67 (char 159)  |  raw='{\\n  \"remove_ranges\": [\\n    { \"start\": 929, \"end\": 929, \"reason\": \"Website advertisements\" },\\n    { \"start\": 930, \"end\": 930, \"reason\": \"Thank you for reading\" messages }\\n  ]\\n}'"
+  },
+  {
+    "key": "EN/209.txt",
+    "chapter": "209.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1095,
+        "end": 1095,
+        "reason": "Website advertisement"
+      },
+      {
+        "start": 1096,
+        "end": 1096,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/210.txt",
+    "chapter": "210.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1037,
+        "end": 1037,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/211.txt",
+    "chapter": "211.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 845,
+        "end": 846,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/212.txt",
+    "chapter": "212.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 901,
+        "end": 902,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/213.txt",
+    "chapter": "213.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 815,
+        "end": 816,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/214.txt",
+    "chapter": "214.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1095,
+        "end": 1096,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/215.txt",
+    "chapter": "215.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Release announcements"
+      },
+      {
+        "start": 1063,
+        "end": 1064,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/216.txt",
+    "chapter": "216.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 689,
+        "end": 689,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/217.txt",
+    "chapter": "217.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 729,
+        "end": 729,
+        "reason": "Website advertisement"
+      },
+      {
+        "start": 730,
+        "end": 730,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/218.txt",
+    "chapter": "218.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 865,
+        "end": 866,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/219.txt",
+    "chapter": "219.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 995,
+        "end": 996,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/220.txt",
+    "chapter": "220.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 909,
+        "end": 909,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/221.txt",
+    "chapter": "221.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 813,
+        "end": 813,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/222.txt",
+    "chapter": "222.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 921,
+        "end": 922,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/223.txt",
+    "chapter": "223.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 729,
+        "end": 730,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/224.txt",
+    "chapter": "224.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 767,
+        "end": 768,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/225.txt",
+    "chapter": "225.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 967,
+        "end": 967,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 1
+  },
+  {
+    "key": "EN/226.txt",
+    "chapter": "226.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 903,
+        "end": 904,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/227.txt",
+    "chapter": "227.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1289,
+        "end": 1290,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/228.txt",
+    "chapter": "228.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 987,
+        "end": 987,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/229.txt",
+    "chapter": "229.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 859,
+        "end": 860,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/230.txt",
+    "chapter": "230.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 729,
+        "end": 730,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/231.txt",
+    "chapter": "231.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 927,
+        "end": 927,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/232.txt",
+    "chapter": "232.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 811,
+        "end": 812,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/233.txt",
+    "chapter": "233.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Website advertisements"
+      },
+      {
+        "start": 822,
+        "end": 822,
+        "reason": "Thank you for reading messages"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/234.txt",
+    "chapter": "234.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Release announcements"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Release announcements"
+      },
+      {
+        "start": 797,
+        "end": 798,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/235.txt",
+    "chapter": "235.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 979,
+        "end": 981,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "EN/236.txt",
+    "chapter": "236.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 589,
+        "end": 589,
+        "reason": "Website advertisements"
+      },
+      {
+        "start": 590,
+        "end": 590,
+        "reason": "Thank you for reading messages"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/237.txt",
+    "chapter": "237.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 747,
+        "end": 747,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/238.txt",
+    "chapter": "238.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 963,
+        "end": 964,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/239.txt",
+    "chapter": "239.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1309,
+        "end": 1310,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/240.txt",
+    "chapter": "240.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Volume title"
+      },
+      {
+        "start": 815,
+        "end": 815,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/241.txt",
+    "chapter": "241.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1079,
+        "end": 1080,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/242.txt",
+    "chapter": "242.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 291,
+        "end": 291,
+        "reason": "Part header"
+      },
+      {
+        "start": 397,
+        "end": 397,
+        "reason": "Part header"
+      },
+      {
+        "start": 587,
+        "end": 587,
+        "reason": "Part header"
+      },
+      {
+        "start": 789,
+        "end": 789,
+        "reason": "Part header"
+      },
+      {
+        "start": 1037,
+        "end": 1037,
+        "reason": "Advertisement"
+      }
+    ],
+    "removed_line_count": 7
+  },
+  {
+    "key": "EN/243.txt",
+    "chapter": "243.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 9,
+        "end": 9,
+        "reason": "Author greeting notes"
+      },
+      {
+        "start": 1195,
+        "end": 1196,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/244.txt",
+    "chapter": "244.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1107,
+        "end": 1108,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/245.txt",
+    "chapter": "245.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1199,
+        "end": 1200,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/246.txt",
+    "chapter": "246.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1037,
+        "end": 1037,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/247.txt",
+    "chapter": "247.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Release announcements"
+      },
+      {
+        "start": 1193,
+        "end": 1194,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/248.txt",
+    "chapter": "248.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 749,
+        "end": 750,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/249.txt",
+    "chapter": "249.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Volume title"
+      },
+      {
+        "start": 649,
+        "end": 649,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/253.txt",
+    "chapter": "253.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Website advertisements"
+      },
+      {
+        "start": 799,
+        "end": 799,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/254.txt",
+    "chapter": "254.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 7,
+        "end": 7,
+        "reason": "Summary"
+      },
+      {
+        "start": 1621,
+        "end": 1621,
+        "reason": "Website advertisement"
+      },
+      {
+        "start": 1622,
+        "end": 1622,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "EN/256.txt",
+    "chapter": "256.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 663,
+        "end": 663,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 1
+  },
+  {
+    "key": "EN/257.txt",
+    "chapter": "257.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 11,
+        "end": 11,
+        "reason": "Point of View label"
+      },
+      {
+        "start": 177,
+        "end": 177,
+        "reason": "Point of View label"
+      },
+      {
+        "start": 341,
+        "end": 341,
+        "reason": "Part label"
+      },
+      {
+        "start": 923,
+        "end": 923,
+        "reason": "Part label"
+      },
+      {
+        "start": 1011,
+        "end": 1011,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 7
+  },
+  {
+    "key": "EN/258.txt",
+    "chapter": "258.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 859,
+        "end": 860,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/259.txt",
+    "chapter": "259.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1023,
+        "end": 1024,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/260.txt",
+    "chapter": "260.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 773,
+        "end": 773,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 1
+  },
+  {
+    "key": "EN/261.txt",
+    "chapter": "261.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 999,
+        "end": 1000,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/262.txt",
+    "chapter": "262.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1023,
+        "end": 1023,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/263.txt",
+    "chapter": "263.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 9,
+        "end": 9,
+        "reason": "Summary"
+      },
+      {
+        "start": 855,
+        "end": 856,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/264.txt",
+    "chapter": "264.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1213,
+        "end": 1213,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/265.txt",
+    "chapter": "265.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 5,
+        "end": 5,
+        "reason": "Empty line"
+      },
+      {
+        "start": 1065,
+        "end": 1066,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/266.txt",
+    "chapter": "266.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1025,
+        "end": 1026,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/267.txt",
+    "chapter": "267.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1017,
+        "end": 1051,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 35
+  },
+  {
+    "key": "EN/268.txt",
+    "chapter": "268.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1060,
+        "end": 1100,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 41
+  },
+  {
+    "key": "EN/269.txt",
+    "chapter": "269.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 923,
+        "end": 970,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 48
+  },
+  {
+    "key": "EN/270.txt",
+    "chapter": "270.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 649,
+        "end": 701,
+        "reason": "Author Q&A and thank you message"
+      }
+    ],
+    "removed_line_count": 53
+  },
+  {
+    "key": "EN/271.txt",
+    "chapter": "271.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1099,
+        "end": 1151,
+        "reason": "Author's Q&A and thank you message"
+      }
+    ],
+    "removed_line_count": 53
+  },
+  {
+    "key": "EN/272.txt",
+    "chapter": "272.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1113,
+        "end": 1210,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 98
+  },
+  {
+    "key": "EN/273.txt",
+    "chapter": "273.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 705,
+        "end": 777,
+        "reason": "Author Q&A and thank you message"
+      }
+    ],
+    "removed_line_count": 73
+  },
+  {
+    "key": "EN/274.txt",
+    "chapter": "274.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 39,
+        "end": 39,
+        "reason": "Author afterwords"
+      },
+      {
+        "start": 1040,
+        "end": 1141,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 103
+  },
+  {
+    "key": "EN/275.txt",
+    "chapter": "275.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 1161,
+        "end": 1162,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 4
+  },
+  {
+    "key": "EN/276.txt",
+    "chapter": "276.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 945,
+        "end": 1015,
+        "reason": "Author afterwords / Q&A"
+      }
+    ],
+    "removed_line_count": 71
+  },
+  {
+    "key": "EN/277.txt",
+    "chapter": "277.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1151,
+        "end": 1224,
+        "reason": "Author's Q&A and thank you message"
+      }
+    ],
+    "removed_line_count": 74
+  },
+  {
+    "key": "EN/278.txt",
+    "chapter": "278.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 813,
+        "end": 885,
+        "reason": "Author afterwords / Q&A"
+      }
+    ],
+    "removed_line_count": 73
+  },
+  {
+    "key": "EN/279.txt",
+    "chapter": "279.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1233,
+        "end": 1297,
+        "reason": "Author Q&A and promotional content"
+      }
+    ],
+    "removed_line_count": 65
+  },
+  {
+    "key": "EN/280.txt",
+    "chapter": "280.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1829,
+        "end": 1903,
+        "reason": "Author afterwords"
+      }
+    ],
+    "removed_line_count": 75
+  },
+  {
+    "key": "EN/281.txt",
+    "chapter": "281.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1215,
+        "end": 1447,
+        "reason": "Author afterwords / Q&A"
+      }
+    ],
+    "removed_line_count": 233
+  },
+  {
+    "key": "EN/282.txt",
+    "chapter": "282.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Website advertisements"
+      },
+      {
+        "start": 715,
+        "end": 715,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  },
+  {
+    "key": "EN/283.txt",
+    "chapter": "283.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 1,
+        "reason": "Volume title"
+      },
+      {
+        "start": 3,
+        "end": 3,
+        "reason": "Chapter title"
+      },
+      {
+        "start": 477,
+        "end": 477,
+        "reason": "Website advertisement"
+      }
+    ],
+    "removed_line_count": 3
+  },
+  {
+    "key": "EN/284.txt",
+    "chapter": "284.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 1,
+        "end": 3,
+        "reason": "Volume title duplication"
+      },
+      {
+        "start": 495,
+        "end": 496,
+        "reason": "Thank you for reading message"
+      }
+    ],
+    "removed_line_count": 5
+  },
+  {
+    "key": "EN/285.txt",
+    "chapter": "285.txt",
+    "language": "EN",
+    "status": "CLEANED",
+    "removed_ranges": [
+      {
+        "start": 429,
+        "end": 430,
+        "reason": "Website advertisements"
+      }
+    ],
+    "removed_line_count": 2
+  }
+]
