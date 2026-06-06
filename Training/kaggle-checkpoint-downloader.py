@@ -6,15 +6,31 @@ from pathlib import Path
 # CONFIG
 # =====================================================
 
+# curl 'https://kkb-production.jupyter-proxy.kaggle.net/k/324718180/eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwidHlwIjoiSldUIn0..-pXTQkX2S2_feovc7-xJsw.Es88bT4ScxRPI0_t5up61AwLIw0tp0Q-VVkqsNwLdFaab8yHFrUPe6CMBsAYXY65YXNM6MFNhU7srs6OpUQJx5izkhjRWMFkOfRqu-0EX0H1EWZGHxkYDHsU8ct4bBQO8xDNWBAuNt4D2afoQnoa-EC-Bw0ZTWiReWOET1yc2ylTNFrSelFnyd2710HQs9HRucTcZ1r3smGj6tXQvnbJjQr8uoy0yZyl6Q_h-wk5j0Vnlw3L5O9v9r0EHUBdQ7kn.HMSCquM7W966mKCx1IuuXw/proxy/api/contents/qwen3_ln_translation/phase1_chunk_heavy/checkpoint-400' \
+#   -H 'accept: */*' \
+#   -H 'accept-language: en-US,en;q=0.6' \
+#   -H 'cache-control: max-age=0' \
+#   -H 'origin: https://www.kaggle.com' \
+#   -H 'priority: u=1, i' \
+#   -H 'referer: https://www.kaggle.com/' \
+#   -H 'sec-ch-ua: "Chromium";v="148", "Brave";v="148", "Not/A)Brand";v="99"' \
+#   -H 'sec-ch-ua-mobile: ?0' \
+#   -H 'sec-ch-ua-platform: "Linux"' \
+#   -H 'sec-fetch-dest: empty' \
+#   -H 'sec-fetch-mode: cors' \
+#   -H 'sec-fetch-site: cross-site' \
+#   -H 'sec-gpc: 1' \
+#   -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36'
+
 BASE_URL = (
     "https://kkb-production.jupyter-proxy.kaggle.net/"
-    "k/324607562/"
-    "eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwidHlwIjoiSldUIn0..41kNjujIVAhH2AedlZJa4w."
-    "sn8sGZNQRvggDl3QSUkUMyCEc1DHbY3tw74WO8vHMQzLyzeqtqW_lhpHRO4vX7L_y37gEZfknYEzihdXg9WWd7vUz4efSanZ_a-8OGtPmA8y5ZiFijOacdi1wmRiUMHn8ihsVsOHZJsZD7dbKvYR3gIY3i_S_WNf4myF_vKnGm4jllsDm0t1btiPjHnOlqiD-dbHzg3TQe3yMQAV0vDSJtVoRiyxupqf2c0PTw_V0ITGfOTg6PyED6d6-TK7wbIr."
-    "90kVSIr2mcj3huwcGSheEQ/proxy"
+    "k/324803337/"
+    "eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwidHlwIjoiSldUIn0..MqDumrxozPLPrUOnqSanew."
+    "pw41nInel22t7n0bSS0lFLmlv__6agEPF3zI3JEDZyMHxLvaTe3NJDvMfH39puwIQ7M1emKAXdoWiID6T7N2ADfoD_K-XeNTySWcc8_Ah7hi11UyfC7W4H40ww2BEMObJAQsH1z8dwhN_2hFY0xVds_GmCHDcPM1xa3MB70SfkQh8RB7BLhljbfBM3mE02cdTdoukCeF7eY9myhVDoeTbH4wWe82sWrix6ZP2GBFv6DOjvHPLjefj9o6T_dfUzO6."
+    "S-6DKw-UG-cfqDtyoPDfyA/proxy"
 )
 
-CHECKPOINT_NO = 300
+CHECKPOINT_NO = 1100
 CHECKPOINT_PATH = (
     f"qwen3_ln_translation/phase1_chunk_heavy/checkpoint-{CHECKPOINT_NO}"
 )

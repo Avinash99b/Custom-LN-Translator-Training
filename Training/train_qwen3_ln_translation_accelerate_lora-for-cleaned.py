@@ -42,6 +42,7 @@ torch.backends.cudnn.benchmark = True
 
 import torch.distributed as dist
 
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
 BASE_MODEL = "Qwen/Qwen3-4B"
 # Point this to the directory produced by the preprocessing script.
@@ -50,7 +51,7 @@ OUTPUT_ROOT = Path("/kaggle/working/qwen3_ln_translation")
 OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
 
 # Training lengths
-MAX_SEQ_LEN = 1536  # good compromise for dual T4 + long narrative context
+MAX_SEQ_LEN = 512  # good compromise for dual T4 + long narrative context
 FULL_WEIGHT = 0.2   # curriculum phase 1
 CHUNK_WEIGHT = 0.8
 PHASES = [
@@ -444,6 +445,11 @@ def train_phase(
         last = get_last_checkpoint(str(phase_dir))
         resume_from_checkpoint = last
 
+    last = get_last_checkpoint(str(phase_dir))
+    print("DEBUG PHASE DIR:", phase_dir)
+    print("DEBUG LAST CHECKPOINT:", last)
+    resume_from_checkpoint = last
+    
     train_result = trainer.train(resume_from_checkpoint=resume_from_checkpoint)
     metrics = train_result.metrics
     metrics["train_samples"] = len(train_ds)

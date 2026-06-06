@@ -21,14 +21,13 @@ from pathlib import Path
 #   -H 'sec-fetch-mode: cors' \
 #   -H 'sec-fetch-site: cross-site' \
 #   -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36'
-
 BASE_URL = (
     "https://kkb-production.jupyter-proxy.kaggle.net/"
-    "k/324668314/"
-    "eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwidHlwIjoiSldUIn0..qe_g9uvm9lBVsu7r3pBJ0w.-Y8YGY0sJdR-crrDbezeEpU2EJpIZU_VjR-zzOMhRCKiymX7TBgc-4UvwK8-EeqFLDZ5U-0ejW3J4zLt-eBPWFlm8YlvOnDdBCQJJYGmPw3kNGZHTRKU5KrL3W5_zBfCwXPGE9K3L29oJjAo1Hg2FCGmP8LUp7F_O7_ghbrrDK0jWuoGK3M5ltiZ2sPihEjWzomGUImwAF-DSYZ7MzP2Ti7Xx0sKCVraYioxphzlw5Gfe2ULzrBmoypHy7AGU9n0.BGn2peHpBoq2cyE9dOI1Xg/proxy"
+    "k/324810633/"
+    "eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwidHlwIjoiSldUIn0..PApQdo6vdDQa3gAxZXobvA.IxQrvAFL6o2s0bJkvrFSaMjnCxizU_UAszQJRk4kmXteWQ6stnz1M3P1Xf6Fabxnnvf03bfUrNpGyZMyklX0YyvcgNVrTFGA9U2o6ru8ue8YDxo0lG5HPd8U5iY4OUnOuxQRxWHZsNXJkU3CJQu-E4jrMVwaqqYSHv8tVIjjv1YGPF4TfkbqY8w56pHc05kP9-BOtfbC_Ka-FPI--9SnWW2kS0AA_5UoQqPAahq0-RWYgNXZrCpU7tMejeZoW2yw.h2AJg1a7oHtOP7NvYtqmVA/proxy"
 )
 
-CHECKPOINT_NO = 100
+CHECKPOINT_NO = 300
 CHECKPOINT_PATH = (
     f"qwen3_ln_translation/phase1_chunk_heavy/checkpoint-{CHECKPOINT_NO}"
 )
