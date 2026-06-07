@@ -13,6 +13,7 @@
       --accent: #60a5fa;
       --text: #e5e7eb;
       --left-width: 32%;
+      --candidates-height: 30%;
     }
 
     * {
@@ -26,7 +27,8 @@
       font-family: Inter, Arial, sans-serif;
       height: 100vh;
       display: flex;
-      flex-direction: column
+      flex-direction: column;
+      overflow: hidden
     }
 
     header {
@@ -54,14 +56,16 @@
     .main {
       display: grid;
       grid-template-columns: var(--left-width) 8px minmax(0, 1fr);
-      height: calc(100vh - 80px)
+      flex: 1;
+      min-height: 0
     }
 
     .left,
     .right {
       overflow: hidden;
       display: flex;
-      flex-direction: column
+      flex-direction: column;
+      min-height: 0
     }
 
     .left {
@@ -106,7 +110,8 @@
       flex: 1;
       overflow: auto;
       padding: 16px;
-      background: var(--panel)
+      background: var(--panel);
+      min-height: 0
     }
 
     .line-list {
@@ -142,8 +147,31 @@
 
     .candidates {
       overflow: auto;
-      height: 30%;
+      flex: 0 0 var(--candidates-height);
       padding: 12px
+    }
+
+    .right-body {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column
+    }
+
+    .vertical-splitter {
+      height: 8px;
+      cursor: row-resize;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.18), transparent);
+      border-top: 1px solid #243047;
+      border-bottom: 1px solid #243047;
+      flex: 0 0 8px;
+      touch-action: none;
+      user-select: none
+    }
+
+    .vertical-splitter:hover,
+    .vertical-splitter.dragging {
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.32), transparent)
     }
 
     .card {
@@ -299,9 +327,12 @@
             </div>
           </div>
       </div>
-      <div class="candidates" id="candidates"></div>
-      <div class="viewer">
-          <div id="enText" class="line-list"></div>
+      <div class="right-body">
+        <div class="candidates" id="candidates"></div>
+        <div id="verticalSplitter" class="vertical-splitter" aria-label="Resize match and English panels" role="separator"></div>
+        <div class="viewer">
+            <div id="enText" class="line-list"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -309,15 +340,20 @@
   <div id="jpTooltip" class="translation-tooltip" role="tooltip" aria-hidden="true"></div>
 
   <script>
-    let jpFileRefs = {}, enFileRefs = {}, matrix = {};
+    let jpFileRefs = new Map(), enFileRefs = new Map(), matrix = {};
     let jpTextCache = new Map();
     let enTextCache = new Map();
+    let sortedMatchCache = new Map();
 
     let currentChapter = "1.txt";
     let currentEN = "";
     let selectedFiles = [];
     let isResizing = false;
+    let isVerticalResizing = false;
     let renderToken = 0;
+    let resizeRafToken = 0;
+    let pendingResize = null;
+    let resizeTarget = null;
 
     const MATRIX_FILE_NAMES = [
       "chapter_similarity_matrix.json",
@@ -357,6 +393,10 @@
       return String(text ?? "").replace(/\r\n/g, "\n").trim();
     }
 
+    function nextFrame() {
+      return new Promise(resolve => requestAnimationFrame(() => resolve()));
+    }
+
     function splitIntoParagraphs(text) {
       const normalized = normalizeText(text);
       if (!normalized) return [];
@@ -368,19 +408,20 @@
 
     async function readFileText(file, cache) {
       if (!file) return "";
-      if (cache.has(file.name)) return cache.get(file.name);
+      const cacheKey = file.webkitRelativePath || file.name;
+      if (cache.has(cacheKey)) return cache.get(cacheKey);
       const text = await file.text();
-      cache.set(file.name, text);
+      cache.set(cacheKey, text);
       return text;
     }
 
     async function getCurrentJpText() {
-      const text = await readFileText(jpFileRefs[currentChapter], jpTextCache);
+      const text = await readFileText(jpFileRefs.get(currentChapter), jpTextCache);
       return text || "Chapter not found";
     }
 
     async function getCurrentEnText() {
-      const text = await readFileText(enFileRefs[currentEN], enTextCache);
+      const text = await readFileText(enFileRefs.get(currentEN), enTextCache);
       return text || "Missing chapter";
     }
 
@@ -410,6 +451,15 @@
           </div>
         `)
         .join("");
+    }
+
+    function setLoadingState(containerId, message) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = `
+        <div class="paragraph-block">
+          <div class="paragraph-text">${escapeHtml(message)}</div>
+        </div>
+      `;
     }
 
     function updateParagraphBlock(block, state, text, isError = false) {
@@ -487,6 +537,17 @@
       localStorage.setItem("chapterAlignmentLeftWidth", String(clamped));
     }
 
+    function setCandidatesHeight(px) {
+      const rightBody = document.querySelector(".right-body");
+      const bounds = rightBody.getBoundingClientRect();
+      const minHeight = 140;
+      const splitterHeight = 8;
+      const maxHeight = Math.max(minHeight, bounds.height - 220 - splitterHeight);
+      const clamped = Math.min(Math.max(px, minHeight), maxHeight);
+      document.documentElement.style.setProperty("--candidates-height", `${clamped}px`);
+      localStorage.setItem("chapterAlignmentCandidatesHeight", String(clamped));
+    }
+
     function initializeLeftPanelWidth() {
       const savedWidth = Number(localStorage.getItem("chapterAlignmentLeftWidth"));
       if (Number.isFinite(savedWidth) && savedWidth > 0) {
@@ -496,6 +557,19 @@
 
       const main = document.querySelector(".main");
       setLeftPanelWidth(main.getBoundingClientRect().width * 0.32);
+    }
+
+    function initializeCandidatesHeight() {
+      const savedHeight = Number(localStorage.getItem("chapterAlignmentCandidatesHeight"));
+      const rightBody = document.querySelector(".right-body");
+      const bounds = rightBody.getBoundingClientRect();
+
+      if (Number.isFinite(savedHeight) && savedHeight > 0) {
+        setCandidatesHeight(savedHeight);
+        return;
+      }
+
+      setCandidatesHeight(bounds.height * 0.3);
     }
 
     function getActiveFolders() {
@@ -530,6 +604,61 @@
       return generatedMatrix;
     }
 
+    function invalidateMatchCache() {
+      sortedMatchCache.clear();
+    }
+
+    function getSortedMatches(chapter) {
+      if (sortedMatchCache.has(chapter)) {
+        return sortedMatchCache.get(chapter);
+      }
+
+      const sorted = Object.entries(matrix[chapter] || {}).sort((a, b) => b[1] - a[1]);
+      sortedMatchCache.set(chapter, sorted);
+      return sorted;
+    }
+
+    function renderMatchCards(matches) {
+      const container = document.getElementById("candidates");
+      container.innerHTML = "";
+
+      if (!matches.length) {
+        currentEN = "";
+        document.getElementById("rightTitle").textContent = "Top Matches";
+        setLoadingState("enText", "Missing chapter");
+        container.innerHTML = "<div class=\"card\">No matches found</div>";
+        return false;
+      }
+
+      matches.forEach((m, i) => {
+        const [file, score] = m;
+        const div = document.createElement("div");
+        div.className = "card" + (i === 0 ? " active" : "");
+        div.innerHTML = `
+          <div class="meta">
+            <strong>#${i + 1} ${file}</strong>
+            <span>${(score * 100).toFixed(2)}%</span>
+          </div>
+          <div class="bar"><div class="fill" style="width:${score * 100}%"></div></div>
+        `;
+
+        div.onclick = async () => {
+          document.querySelectorAll(".card").forEach(x => x.classList.remove("active"));
+          div.classList.add("active");
+          currentEN = file;
+          const enText = await getCurrentEnText();
+          renderLineNumberedText("enText", enText);
+          document.getElementById("rightTitle").textContent = `Best Match: ${currentEN}`;
+        };
+
+        container.appendChild(div);
+      });
+
+      currentEN = matches[0][0];
+      document.getElementById("rightTitle").textContent = `Best Match: ${currentEN}`;
+      return true;
+    }
+
     async function loadMatchDataFromFiles(files) {
       const useOutputFolders = document.getElementById("useOutputFolders").checked;
 
@@ -546,6 +675,7 @@
           const txt = await arrangementStateFile.text();
           const arrangementState = JSON.parse(txt);
           matrix = buildMatrixFromArrangementState(arrangementState);
+          invalidateMatchCache();
 
           const matrixChapters = Object.keys(matrix);
           if (matrixChapters.length) {
@@ -553,7 +683,7 @@
             document.getElementById("chapterNum").value = currentChapter.replace(/\.txt$/i, "");
           }
 
-          updateStatus(`Loaded ${Object.keys(jpFileRefs).length} JP chapters, ${Object.keys(enFileRefs).length} EN chapters, mapping from ${arrangementStateFile.name}`);
+          updateStatus(`Loaded ${jpFileRefs.size} JP chapters, ${enFileRefs.size} EN chapters, mapping from ${arrangementStateFile.name}`);
           await render();
         } catch (error) {
           matrix = {};
@@ -574,6 +704,7 @@
       try {
         const txt = await matrixFile.text();
         matrix = JSON.parse(txt);
+        invalidateMatchCache();
 
         const matrixChapters = Object.keys(matrix);
         if (matrixChapters.length) {
@@ -581,7 +712,7 @@
           document.getElementById("chapterNum").value = currentChapter.replace(/\.txt$/i, "");
         }
 
-        updateStatus(`Loaded ${Object.keys(jpFileRefs).length} JP chapters, ${Object.keys(enFileRefs).length} EN chapters, matrix from ${matrixFile.name}`);
+        updateStatus(`Loaded ${jpFileRefs.size} JP chapters, ${enFileRefs.size} EN chapters, matrix from ${matrixFile.name}`);
         await render();
       } catch (error) {
         matrix = {};
@@ -590,8 +721,8 @@
     }
 
     async function loadChapterFilesFromSelection(files) {
-      jpFileRefs = {};
-      enFileRefs = {};
+      jpFileRefs = new Map();
+      enFileRefs = new Map();
       jpTextCache = new Map();
       enTextCache = new Map();
 
@@ -601,12 +732,12 @@
         const path = file.webkitRelativePath;
 
         if (path.includes(`/${jpFolder}/`) && file.name.endsWith(".txt")) {
-          jpFileRefs[file.name] = file;
+          jpFileRefs.set(file.name, file);
           continue;
         }
 
         if (path.includes(`/${enFolder}/`) && file.name.endsWith(".txt")) {
-          enFileRefs[file.name] = file;
+          enFileRefs.set(file.name, file);
         }
       }
     }
@@ -638,68 +769,39 @@
       const token = ++renderToken;
       const chapter = document.getElementById("chapterNum").value || currentChapter.replace(".txt", "");
       currentChapter = chapter.endsWith(".txt") ? chapter : chapter + ".txt";
+      const autoTranslate = document.getElementById("autoTranslate").checked;
+      const topN = parseInt(document.getElementById("topN").value || 10, 10);
+      const matches = getSortedMatches(currentChapter).slice(0, topN);
 
-      const jpText = await getCurrentJpText();
+      if (!renderMatchCards(matches)) {
+        return;
+      }
+
+      setLoadingState("enText", "Loading best match…");
+      setLoadingState("jpText", "Loading chapter…");
+
+
+      const enText = await getCurrentEnText();
+      if (token !== renderToken) return;
+      renderLineNumberedText("enText", enText);
+      await nextFrame();
+
+      const jpTextPromise = getCurrentJpText();
+      await nextFrame();
+
+      const jpText = await jpTextPromise;
       if (token !== renderToken) return;
 
-      const autoTranslate = document.getElementById("autoTranslate").checked;
       if (autoTranslate) {
         const paragraphs = splitIntoParagraphs(jpText);
         if (!paragraphs.length) {
-          document.getElementById("jpText").innerHTML = `<div class="paragraph-block"><div class="paragraph-text">No text found</div></div>`;
+          setLoadingState("jpText", "No text found");
         } else {
           await renderParagraphTranslations("jpText", paragraphs, token);
         }
       } else {
         renderLineNumberedText("jpText", jpText);
       }
-
-      const topN = parseInt(document.getElementById("topN").value || 10, 10);
-
-      let matches = Object.entries(matrix[currentChapter] || {})
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, topN);
-
-      const container = document.getElementById("candidates");
-      container.innerHTML = "";
-
-      if (!matches.length) {
-        currentEN = "";
-        document.getElementById("rightTitle").textContent = "Top Matches";
-        renderLineNumberedText("enText", "Missing chapter");
-        container.innerHTML = "<div class=\"card\">No matches found</div>";
-        return;
-      }
-
-      matches.forEach((m, i) => {
-        const [file, score] = m;
-        const div = document.createElement("div");
-        div.className = "card" + (i === 0 ? " active" : "");
-        div.innerHTML = `
-          <div class="meta">
-            <strong>#${i + 1} ${file}</strong>
-            <span>${(score * 100).toFixed(2)}%</span>
-          </div>
-          <div class="bar"><div class="fill" style="width:${score * 100}%"></div></div>
-        `;
-
-        div.onclick = async () => {
-          document.querySelectorAll(".card").forEach(x => x.classList.remove("active"));
-          div.classList.add("active");
-          currentEN = file;
-          const enText = await getCurrentEnText();
-          renderLineNumberedText("enText", enText);
-          document.getElementById("rightTitle").textContent = `Best Match: ${currentEN}`;
-        };
-
-        container.appendChild(div);
-      });
-
-      currentEN = matches[0][0];
-      const enText = await getCurrentEnText();
-      if (token !== renderToken) return;
-      renderLineNumberedText("enText", enText);
-      document.getElementById("rightTitle").textContent = `Best Match: ${currentEN}`;
     }
 
     document.getElementById("chapterNum").addEventListener("change", render);
@@ -712,46 +814,96 @@
     };
 
     document.getElementById("copyEnBtn").onclick = async () => {
-      const autoTranslate = document.getElementById("autoTranslate").checked;
-      if (autoTranslate) {
-        const blocks = Array.from(document.querySelectorAll("#jpText .paragraph-block"));
-        const translatedText = blocks
-          .map(block => {
-            const textEl = block.querySelector(".paragraph-text");
-            return textEl ? textEl.textContent : "";
-          })
-          .filter(Boolean)
-          .join("\n\n");
-        copyToClipboard(translatedText || await getCurrentJpText(), `Translated chapter ${currentChapter}`);
+        //Just copy english chapter
+      if (!currentEN) {
+        alert("No English chapter selected.");
         return;
       }
 
       const text = await getCurrentEnText();
-      copyToClipboard(text, `English chapter ${currentEN || "match"}`);
+      //Convert it to numbered lines
+      const numberedText = text.split('\n').map((line, index) => `${index + 1}: ${line}`).join('\n');
+      copyToClipboard(numberedText, `English chapter ${currentEN || "match"}`);
     };
 
     const splitter = document.getElementById("splitter");
+    const verticalSplitter = document.getElementById("verticalSplitter");
 
-    splitter.addEventListener("mousedown", () => {
-      isResizing = true;
-      splitter.classList.add("dragging");
+    function queueResize(type, value) {
+      pendingResize = { type, value };
+      if (resizeRafToken) return;
+
+      resizeRafToken = requestAnimationFrame(() => {
+        resizeRafToken = 0;
+        if (!pendingResize) return;
+
+        if (pendingResize.type === "width") {
+          setLeftPanelWidth(pendingResize.value);
+        } else if (pendingResize.type === "height") {
+          setCandidatesHeight(pendingResize.value);
+        }
+
+        pendingResize = null;
+      });
+    }
+
+    function startResize(event, type) {
+      event.preventDefault();
+      resizeTarget = type;
+
+      if (type === "width") {
+        isResizing = true;
+        splitter.classList.add("dragging");
+      } else {
+        isVerticalResizing = true;
+        verticalSplitter.classList.add("dragging");
+      }
+
+      event.currentTarget.setPointerCapture?.(event.pointerId);
+    }
+
+    splitter.addEventListener("pointerdown", event => startResize(event, "width"));
+    verticalSplitter.addEventListener("pointerdown", event => startResize(event, "height"));
+
+    document.addEventListener("pointermove", event => {
+      if (resizeTarget === "width" && isResizing) {
+        queueResize("width", event.clientX);
+        return;
+      }
+
+      if (resizeTarget === "height" && isVerticalResizing) {
+        const rightBody = document.querySelector(".right-body");
+        const bounds = rightBody.getBoundingClientRect();
+        queueResize("height", event.clientY - bounds.top);
+      }
     });
 
-    document.addEventListener("mousemove", (event) => {
-      if (!isResizing) return;
-      setLeftPanelWidth(event.clientX);
-    });
+    function stopResize() {
+      if (resizeTarget === "width") {
+        isResizing = false;
+        splitter.classList.remove("dragging");
+      }
 
-    document.addEventListener("mouseup", () => {
-      if (!isResizing) return;
-      isResizing = false;
-      splitter.classList.remove("dragging");
-    });
+      if (resizeTarget === "height") {
+        isVerticalResizing = false;
+        verticalSplitter.classList.remove("dragging");
+      }
+
+      resizeTarget = null;
+    }
+
+    document.addEventListener("pointerup", stopResize);
+    document.addEventListener("pointercancel", stopResize);
 
     window.addEventListener("resize", () => {
       const currentWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--left-width"));
       if (Number.isFinite(currentWidth)) {
         setLeftPanelWidth(currentWidth);
+      }
+
+      const currentHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--candidates-height"));
+      if (Number.isFinite(currentHeight)) {
+        setCandidatesHeight(currentHeight);
       }
     });
 
@@ -977,6 +1129,7 @@
 
     attachTooltipHandlers();
     initializeLeftPanelWidth();
+    initializeCandidatesHeight();
     TranslationService.warmup().catch(() => {});
   </script>
 </body>
