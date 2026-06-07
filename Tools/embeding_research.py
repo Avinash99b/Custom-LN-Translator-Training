@@ -11,9 +11,7 @@ FIRST_N_LINES = 300
 BATCH_SIZE = 32
 
 MODELS = [
-    "jinaai/jina-embeddings-v5-omni-small",
-    "BAAI/bge-m3",
-    "Alibaba-NLP/gte-multilingual-base"
+    "sentence-transformers/LaBSE",
 ]
 def load_text(path: Path, n_lines: int):
     try:
@@ -42,7 +40,7 @@ def main(ROOT_DIR: str):
     for model_name in MODELS:
     
         print(f"Loading model: {model_name}...")
-        model = SentenceTransformer(model_name)
+        model = SentenceTransformer(model_name, trust_remote_code=True)
 
         jp_files = sorted(JP_DIR.glob("*.txt"))
         en_files = sorted(EN_DIR.glob("*.txt"))

@@ -38,9 +38,10 @@
     .app{
       height:100vh;
       display:grid;
-      grid-template-rows: auto 1fr;
+      grid-template-rows: auto auto minmax(0, 1fr);
       gap:12px;
       padding:12px;
+      overflow:hidden;
     }
     .topbar{
       height:var(--topbar-h);
@@ -115,7 +116,7 @@
       display:grid;
       grid-template-columns: repeat(4, minmax(0,1fr));
       gap:10px;
-      margin-bottom:12px;
+      min-height:0;
     }
     .kpi{
       border:1px solid var(--line);
@@ -126,13 +127,23 @@
       min-height:74px;
     }
     .kpi .k{font-size:11px;color:#a9b7ca;text-transform:uppercase;letter-spacing:.08em}
-    .kpi .v{font-size:26px;font-weight:800;letter-spacing:-.03em;margin-top:6px}
+    .kpi .v{
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:-.03em;
+      line-height:1.08;
+      margin-top:6px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
     .kpi .s{font-size:11px;color:var(--muted);margin-top:2px}
     .main{
       min-height:0;
       display:grid;
       grid-template-columns: 1.55fr .82fr;
       gap:12px;
+      overflow:hidden;
     }
     .panel{
       min-height:0;
@@ -162,21 +173,24 @@
       font-size:11px;
     }
     .stack{
-      display:grid;
-      grid-template-rows: auto auto auto auto auto 1fr;
+      display:flex;
+      flex-direction:column;
       min-height:0;
+      overflow:auto;
+      scrollbar-width:thin;
     }
     .controls{
       display:grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(170px,.7fr) minmax(150px,.55fr);
       gap:8px;
-      padding:12px 14px 10px;
+      padding:12px 14px 8px;
+      flex:0 0 auto;
     }
     .control{
       border:1px solid rgba(148,163,184,.12);
       background:rgba(255,255,255,.025);
       border-radius:16px;
-      padding:10px 10px 9px;
+      padding:9px 10px 8px;
       min-width:0;
     }
     .control label{
@@ -201,6 +215,7 @@
       gap:8px;
       flex-wrap:wrap;
       padding:0 14px 10px;
+      flex:0 0 auto;
     }
     .chip{
       padding:8px 12px;
@@ -216,6 +231,7 @@
       grid-template-columns: repeat(3, minmax(0,1fr));
       gap:10px;
       padding:0 14px 12px;
+      flex:0 0 auto;
     }
     .summary .mini{
       border:1px solid rgba(148,163,184,.12);
@@ -242,6 +258,7 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
+      flex:0 0 auto;
     }
     .section h3{margin:0;font-size:13px}
     .section .meta{color:var(--muted);font-size:11px}
@@ -262,6 +279,7 @@
     .vizWrap{
       padding:0 14px 10px;
       min-height:0;
+      flex:0 0 auto;
     }
     .vizCard{
       border:1px solid rgba(148,163,184,.12);
@@ -274,8 +292,8 @@
       position:relative;
     }
     canvas{display:block;width:100%;height:100%}
-    .chart-outer{height:clamp(260px, 31vh, 390px)}
-    .chart-small{height:240px}
+    .chart-outer{height:clamp(300px, 35vh, 440px)}
+    .chart-small{height:clamp(210px, 24vh, 300px)}
 
     .legend{
       display:flex;
@@ -284,13 +302,14 @@
       padding:0 14px 12px;
       color:#c9d4e2;
       font-size:11px;
+      flex:0 0 auto;
     }
     .legend .item{display:flex;align-items:center;gap:7px}
     .sw{width:9px;height:9px;border-radius:3px;display:inline-block}
     .sw.g{background:var(--green)}
     .sw.a{background:var(--amber)}
     .sw.r{background:var(--red)}
-    .sw.c{background:var(--cyan)}
+    .sw.c{background:#f87131}
 
     .tableTools{
       display:flex;
@@ -309,8 +328,9 @@
     }
     .tableTools input{min-width:180px}
     .scrollArea{
-      min-height:0;
-      flex:1 1 auto;
+      height:280px;
+      min-height:220px;
+      flex:0 0 280px;
       overflow:auto;
       border-top:1px solid rgba(148,163,184,.08);
       position:relative;
@@ -374,13 +394,24 @@
       color:var(--muted);
       font-size:11px;
       border-top:1px solid rgba(148,163,184,.08);
+      flex:0 0 auto;
     }
 
-    .sideContent{display:grid;grid-template-rows:auto auto 1fr;min-height:0}
+    .sideContent{
+      display:flex;
+      flex-direction:column;
+      min-height:0;
+      overflow:auto;
+      scrollbar-width:thin;
+    }
     .fileList{
       display:grid;
       gap:8px;
       padding:12px 14px;
+      flex:0 0 auto;
+      max-height:260px;
+      overflow:auto;
+      scrollbar-width:thin;
     }
     .fileCard{
       border:1px solid rgba(148,163,184,.12);
@@ -404,6 +435,8 @@
       padding:0 14px 14px;
       min-height:0;
       overflow:auto;
+      flex:0 0 auto;
+      max-height:320px;
     }
     table.matrix{
       width:max-content;
@@ -428,6 +461,7 @@
       padding:0 14px 12px;
       color:var(--muted);
       font-size:11px;
+      flex:0 0 auto;
     }
 
     .tooltip{
@@ -471,7 +505,7 @@
       <div class="logo"></div>
       <div class="titlewrap">
         <h1 class="title">Similarity Map Pro</h1>
-        <p class="subtitle" id="subtitle">Load one or more JSON similarity reports. Designed to stay fast with 10,000+ chapters using canvas rendering and virtualized rows.</p>
+        <p class="subtitle" id="subtitle">Load one or more JSON similarity reports. Large matrices are summarized in the background before drawing.</p>
       </div>
     </div>
     <div class="top-actions">
@@ -485,9 +519,9 @@
 
   <section class="kpi-row">
     <div class="kpi"><div class="k">Active file</div><div class="v" id="kpiFile">—</div><div class="s" id="kpiFileSub">No file loaded</div></div>
-    <div class="kpi"><div class="k">Diagonal count</div><div class="v" id="kpiDiag">—</div><div class="s">Main matches in active report</div></div>
-    <div class="kpi"><div class="k">Highest wrong score</div><div class="v" id="kpiWrong">—</div><div class="s">Best competing candidate</div></div>
-    <div class="kpi"><div class="k">Risk rows</div><div class="v" id="kpiRisk">—</div><div class="s">Under the current verify threshold</div></div>
+    <div class="kpi"><div class="k">Correct match range</div><div class="v" id="kpiDiag">—</div><div class="s">Diagonal score range</div></div>
+    <div class="kpi"><div class="k">Wrong match max</div><div class="v" id="kpiWrong">—</div><div class="s">Strongest competing candidate</div></div>
+    <div class="kpi"><div class="k">Overlap zone</div><div class="v" id="kpiRisk">—</div><div class="s">Wrong max minus verify margin</div></div>
   </section>
 
   <section class="main">
@@ -511,8 +545,8 @@
       <div class="controls">
         <div class="control"><label>Auto accept margin</label><input id="acceptMargin" type="range" min="0.01" max="0.20" step="0.005" value="0.07"></div>
         <div class="control"><label>Verify margin</label><input id="verifyMargin" type="range" min="0.00" max="0.15" step="0.005" value="0.03"></div>
-        <div class="control"><label>View mode</label><select id="viewMode"><option value="all">All pairs</option><option value="diagonal">Diagonal only</option><option value="offdiag">Off-diagonal only</option></select></div>
-        <div class="control"><label>Top-N wrong candidates</label><input id="topN" type="number" min="1" max="12" value="3"></div>
+        <div class="control"><label>View mode</label><select id="viewMode"><option value="all">Diagonal + top wrong</option><option value="diagonal">Diagonal only</option><option value="offdiag">Top wrong only</option></select></div>
+        <div class="control"><label>Top-N wrong candidates</label><input id="topN" type="number" min="1" max="24" value="3"></div>
       </div>
 
       <div class="chips" id="quickChips">
@@ -600,6 +634,1192 @@
 <div class="tooltip" id="tooltip"></div>
 
 <script>
+(() => {
+  'use strict';
+
+  const $ = (id) => document.getElementById(id);
+  const MAX_WRONG_STORED = 24;
+  const MAX_DISPLAY_ITEMS = 220000;
+  const MAX_SCATTER_POINTS = 30000;
+  const MAX_HOVER_POINTS = 4500;
+  const MAX_SORT_ITEMS = 60000;
+  const ROW_H = 44;
+
+  const state = {
+    reports: [],
+    activeIndex: 0,
+    filter: 'all',
+    viewMode: 'all',
+    search: '',
+    sort: 'row',
+    acceptMargin: 0.07,
+    verifyMargin: 0.03,
+    topN: 3,
+    loadingMessage: '',
+    loadToken: 0,
+    similarityCache: new Map()
+  };
+
+  const tooltip = $('tooltip');
+  const scatterCanvas = $('scatterCanvas');
+  const barCanvas = $('barCanvas');
+  const tableScroll = $('tableScroll');
+  const tableRows = $('tableRows');
+  const fileInput = $('fileInput');
+  const collator = new Intl.Collator(undefined, { numeric:true, sensitivity:'base' });
+
+  let reportSeq = 1;
+  let activeWorker = null;
+  let scatterHotspots = [];
+  let updateQueued = false;
+  let updateTimer = null;
+  let tableQueued = false;
+  let pendingTable = false;
+
+  const fmt = (n) => Number.isFinite(n) ? n.toFixed(4).replace(/0+$/,'').replace(/\.$/,'') : '-';
+  const fmtInt = (n) => Number.isFinite(n) ? Math.round(n).toLocaleString() : '0';
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const dpr = () => Math.max(1, window.devicePixelRatio || 1);
+  const finiteOrNaN = (n) => Number.isFinite(Number(n)) ? Number(n) : NaN;
+
+  function showTip(html, x, y){
+    tooltip.innerHTML = html;
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+    tooltip.style.opacity = 1;
+  }
+
+  function hideTip(){ tooltip.style.opacity = 0; }
+
+  function esc(s){
+    return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
+  }
+
+  function summarizeJson(json, options = {}){
+    const hasOwn = Object.prototype.hasOwnProperty;
+    const topWrongLimit = Math.max(1, Math.min(64, Number(options.topWrongLimit) || 24));
+    const name = String(options.name || 'report.json');
+    const rows = [];
+    const statByRow = new Map();
+    const colSet = new Set();
+    let pairCount = 0;
+    let wrongCount = 0;
+    let wrongMax = -Infinity;
+    let scoreMin = Infinity;
+    let scoreMax = -Infinity;
+
+    function finiteScore(value){
+      const n = Number(value);
+      return Number.isFinite(n) ? n : NaN;
+    }
+
+    function rounded(value){
+      return Number.isFinite(value) ? Number(value.toFixed(6)) : null;
+    }
+
+    function pick(obj, names, fallback){
+      if (!obj || typeof obj !== 'object') return fallback;
+      for (let i=0;i<names.length;i++){
+        const key = names[i];
+        if (hasOwn.call(obj, key) && obj[key] !== undefined && obj[key] !== null && obj[key] !== '') return obj[key];
+      }
+      return fallback;
+    }
+
+    function pickScore(obj){
+      return pick(obj, ['score','similarity','value','cosine','semantic_score','similarity_score','confidence'], NaN);
+    }
+
+    function getStat(rowValue){
+      const row = String(rowValue ?? '');
+      if (!row) return null;
+      let stat = statByRow.get(row);
+      if (!stat){
+        stat = { row, index:rows.length, diag:NaN, topWrong:[] };
+        statByRow.set(row, stat);
+        rows.push(stat);
+      }
+      return stat;
+    }
+
+    function insertTopWrong(list, candidate){
+      let i = list.length;
+      while (i > 0 && list[i - 1].score < candidate.score) i--;
+      if (i >= topWrongLimit) return;
+      list.splice(i, 0, candidate);
+      if (list.length > topWrongLimit) list.length = topWrongLimit;
+    }
+
+    function track(rowValue, colValue, rawScore){
+      const score = finiteScore(rawScore);
+      if (!Number.isFinite(score)) return;
+      const row = String(rowValue ?? '');
+      const col = String(colValue ?? row);
+      const stat = getStat(row);
+      if (!stat || !col) return;
+
+      pairCount++;
+      colSet.add(col);
+      if (score < scoreMin) scoreMin = score;
+      if (score > scoreMax) scoreMax = score;
+
+      if (row === col){
+        stat.diag = score;
+      } else {
+        wrongCount++;
+        if (score > wrongMax) wrongMax = score;
+        insertTopWrong(stat.topWrong, { col, score });
+      }
+    }
+
+    function readCandidate(row, candidate, index){
+      if (Array.isArray(candidate)){
+        if (candidate.length >= 2) track(row, candidate[0], candidate[1]);
+        return;
+      }
+      if (!candidate || typeof candidate !== 'object') return;
+      const col = pick(
+        candidate,
+        ['col','target','b','right','en_name','en','en_chapter','candidate','chapter','chapter_name','file','name','id'],
+        'candidate_' + (index + 1)
+      );
+      track(row, col, pickScore(candidate));
+    }
+
+    function visitCandidateList(row, list){
+      for (let i=0;i<list.length;i++) readCandidate(row, list[i], i);
+    }
+
+    function visitArrayPayload(list){
+      for (let i=0;i<list.length;i++){
+        const item = list[i];
+        if (!item || typeof item !== 'object') continue;
+        const row = pick(
+          item,
+          ['row','source','a','left','jp_name','jp','jp_chapter','chapter','chapter_name','file','name','id'],
+          'row_' + (i + 1)
+        );
+        const nested = pick(item, ['candidates','matches','top','top_k','topk','results'], null);
+        if (Array.isArray(nested)) visitCandidateList(row, nested);
+
+        const col = pick(
+          item,
+          ['col','target','b','right','en_name','en','en_chapter','selected_en_chapter','matched_chapter','candidate','match'],
+          row
+        );
+        track(row, col, pickScore(item));
+      }
+    }
+
+    function visitObjectPayload(obj){
+      if (!obj || typeof obj !== 'object') return;
+
+      const matrix = pick(obj, ['matrix','similarity_matrix','similarities','scores'], null);
+      if (matrix && typeof matrix === 'object' && !Array.isArray(matrix)){
+        visitObjectPayload(matrix);
+        return;
+      }
+
+      const list = Array.isArray(obj.chapters) ? obj.chapters
+        : Array.isArray(obj.items) ? obj.items
+        : Array.isArray(obj.results) ? obj.results
+        : null;
+      if (list){
+        visitArrayPayload(list);
+        return;
+      }
+
+      for (const rowKey in obj){
+        if (!hasOwn.call(obj, rowKey)) continue;
+        const rowValue = obj[rowKey];
+        if (Array.isArray(rowValue)){
+          visitCandidateList(rowKey, rowValue);
+          continue;
+        }
+        if (rowValue && typeof rowValue === 'object'){
+          const nested = pick(rowValue, ['candidates','matches','top','top_k','topk','results'], null);
+          if (Array.isArray(nested)){
+            visitCandidateList(pick(rowValue, ['row','source','jp_name','jp_chapter','name'], rowKey), nested);
+            continue;
+          }
+
+          const directScore = finiteScore(pickScore(rowValue));
+          if (Number.isFinite(directScore)){
+            const col = pick(rowValue, ['col','target','en_name','en_chapter','selected_en_chapter','match','candidate'], rowKey);
+            track(rowKey, col, directScore);
+            continue;
+          }
+
+          for (const colKey in rowValue){
+            if (!hasOwn.call(rowValue, colKey)) continue;
+            track(rowKey, colKey, rowValue[colKey]);
+          }
+          continue;
+        }
+
+        track(rowKey, rowKey, rowValue);
+      }
+    }
+
+    if (Array.isArray(json)) visitArrayPayload(json);
+    else visitObjectPayload(json);
+
+    const outputRows = [];
+    let diagMin = Infinity;
+    let diagMax = -Infinity;
+    let diagTotal = 0;
+    let diagCount = 0;
+    let maxAbsMargin = 0;
+
+    for (let i=0;i<rows.length;i++){
+      const stat = rows[i];
+      const diag = Number.isFinite(stat.diag) ? stat.diag : NaN;
+      const best = stat.topWrong[0] || null;
+      const bestWrongScore = best ? best.score : NaN;
+      const margin = Number.isFinite(diag) && Number.isFinite(bestWrongScore) ? diag - bestWrongScore : NaN;
+
+      if (Number.isFinite(diag)){
+        diagCount++;
+        diagTotal += diag;
+        if (diag < diagMin) diagMin = diag;
+        if (diag > diagMax) diagMax = diag;
+      }
+      if (Number.isFinite(margin) && Math.abs(margin) > maxAbsMargin) maxAbsMargin = Math.abs(margin);
+
+      outputRows.push({
+        row: stat.row,
+        index: stat.index,
+        diag: rounded(diag),
+        bestWrongScore: rounded(bestWrongScore),
+        bestWrongCol: best ? best.col : '',
+        margin: rounded(margin),
+        topWrong: stat.topWrong.map((candidate, idx) => ({
+          col: candidate.col,
+          score: rounded(candidate.score),
+          rank: idx + 1
+        }))
+      });
+    }
+
+    return {
+      name,
+      byteSize: Number(options.byteSize) || 0,
+      pairCount,
+      rows: outputRows,
+      rowsCount: outputRows.length,
+      colsCount: colSet.size,
+      diagCount,
+      wrongCount,
+      diagMin: rounded(diagMin),
+      diagMax: rounded(diagMax),
+      avgDiag: diagCount ? rounded(diagTotal / diagCount) : null,
+      wrongMax: rounded(wrongMax),
+      scoreMin: rounded(scoreMin),
+      scoreMax: rounded(scoreMax),
+      maxAbsMargin: rounded(maxAbsMargin)
+    };
+  }
+
+  function createSummaryWorker(){
+    const workerScript = `
+      const summarizeJson = (${summarizeJson.toString()});
+      self.onmessage = async (event) => {
+        const data = event.data || {};
+        if (data.type !== 'loadBatch') return;
+        const jobs = data.jobs || [];
+        for (const job of jobs) {
+          const started = Date.now();
+          try {
+            self.postMessage({ type:'progress', id:job.id, name:job.name, phase:'Reading' });
+            const text = job.text != null ? String(job.text) : await job.file.text();
+            self.postMessage({ type:'progress', id:job.id, name:job.name, phase:'Parsing and summarizing' });
+            const json = JSON.parse(text);
+            const byteSize = Number(job.byteSize) || (job.file && job.file.size) || text.length;
+            const report = summarizeJson(json, { name:job.name, byteSize, topWrongLimit:job.topWrongLimit });
+            report.loadMs = Date.now() - started;
+            self.postMessage({ type:'result', id:job.id, ok:true, report });
+          } catch (error) {
+            self.postMessage({
+              type:'result',
+              id:job.id,
+              ok:false,
+              name:job.name,
+              error: error && error.message ? error.message : String(error)
+            });
+          }
+        }
+        self.postMessage({ type:'done' });
+      };
+    `;
+    const blob = new Blob([workerScript], { type:'text/javascript' });
+    return new Worker(URL.createObjectURL(blob));
+  }
+
+  function hydrateReport(raw){
+    const rows = (raw.rows || []).map((row, index) => ({
+      row: String(row.row),
+      index,
+      diag: finiteOrNaN(row.diag),
+      bestWrongScore: finiteOrNaN(row.bestWrongScore),
+      bestWrongCol: row.bestWrongCol ? String(row.bestWrongCol) : '',
+      margin: finiteOrNaN(row.margin),
+      topWrong: Array.isArray(row.topWrong)
+        ? row.topWrong.map((candidate, idx) => ({
+          col: String(candidate.col),
+          score: finiteOrNaN(candidate.score),
+          rank: Number(candidate.rank) || idx + 1
+        })).filter(candidate => Number.isFinite(candidate.score))
+        : []
+    }));
+
+    const rowIndex = new Map();
+    const metricByRow = new Map();
+    for (let i=0;i<rows.length;i++){
+      rowIndex.set(rows[i].row, i);
+      metricByRow.set(rows[i].row, rows[i]);
+    }
+
+    const byRow = rows.slice().sort((a,b) => collator.compare(a.row, b.row));
+    const byMargin = rows.slice().sort((a,b) => {
+      const am = Number.isFinite(a.margin) ? a.margin : 99;
+      const bm = Number.isFinite(b.margin) ? b.margin : 99;
+      return am - bm || collator.compare(a.row, b.row);
+    });
+    const byScore = rows.slice().sort((a,b) => {
+      const as = Number.isFinite(a.diag) ? a.diag : -Infinity;
+      const bs = Number.isFinite(b.diag) ? b.diag : -Infinity;
+      return bs - as || collator.compare(a.row, b.row);
+    });
+
+    return {
+      id: reportSeq++,
+      name: raw.name || 'report.json',
+      byteSize: Number(raw.byteSize) || 0,
+      pairCount: Number(raw.pairCount) || 0,
+      loadMs: Number(raw.loadMs) || 0,
+      displayCache: null,
+      metrics: {
+        rows,
+        rowNames: rows.map(row => row.row),
+        rowIndex,
+        metricByRow,
+        sorted: { row:byRow, marginAsc:byMargin, riskDesc:byMargin, scoreDesc:byScore },
+        colsCount: Number(raw.colsCount) || 0,
+        diagCount: Number(raw.diagCount) || 0,
+        wrongCount: Number(raw.wrongCount) || 0,
+        diagMin: finiteOrNaN(raw.diagMin),
+        diagMax: finiteOrNaN(raw.diagMax),
+        avgDiag: finiteOrNaN(raw.avgDiag),
+        wrongMax: finiteOrNaN(raw.wrongMax),
+        scoreMin: finiteOrNaN(raw.scoreMin),
+        scoreMax: finiteOrNaN(raw.scoreMax),
+        maxAbsMargin: finiteOrNaN(raw.maxAbsMargin)
+      }
+    };
+  }
+
+  function setLoadingMessage(message){
+    state.loadingMessage = message || '';
+    if (message){
+      $('subtitle').textContent = message;
+      $('tableFoot').textContent = message;
+      $('mapMeta').textContent = 'Working in a background worker...';
+    }
+  }
+
+  function activeReport(){
+    return state.reports[state.activeIndex] || null;
+  }
+
+  function classifyMargin(m){
+    if (!Number.isFinite(m)) return { label:'Missing', cls:'mid' };
+    if (m >= state.acceptMargin) return { label:'Auto-accept', cls:'good' };
+    if (m >= state.verifyMargin) return { label:'Verify', cls:'mid' };
+    return { label:'Critical', cls:'bad' };
+  }
+
+  function sortedRowsFor(report){
+    return report.metrics.sorted[state.sort] || report.metrics.sorted.row;
+  }
+
+  function getDisplayItems(report){
+    const q = state.search.trim().toLowerCase();
+    const topN = clamp(parseInt(state.topN || '3', 10) || 3, 1, MAX_WRONG_STORED);
+    const key = [
+      state.viewMode,
+      state.filter,
+      q,
+      state.sort,
+      topN,
+      state.acceptMargin.toFixed(3),
+      state.verifyMargin.toFixed(3)
+    ].join('|');
+
+    if (report.displayCache && report.displayCache.key === key) return report.displayCache.data;
+
+    const items = [];
+    let truncated = false;
+
+    function addItem(item){
+      if (q && (item.row + ' ' + item.col).toLowerCase().indexOf(q) === -1) return true;
+      if (state.filter !== 'all'){
+        if (item.kind !== 'diag') return true;
+        if (classifyMargin(item.margin).cls !== state.filter) return true;
+      }
+      items.push(item);
+      return items.length < MAX_DISPLAY_ITEMS;
+    }
+
+    const rows = sortedRowsFor(report);
+    outer:
+    for (let i=0;i<rows.length;i++){
+      const row = rows[i];
+
+      if (state.viewMode !== 'offdiag' && Number.isFinite(row.diag)){
+        const keepGoing = addItem({
+          kind:'diag',
+          row:row.row,
+          col:row.row,
+          score:row.diag,
+          rowIndex:row.index,
+          margin:row.margin,
+          rank:0
+        });
+        if (!keepGoing){ truncated = true; break; }
+      }
+
+      if (state.viewMode !== 'diagonal'){
+        const limit = Math.min(topN, row.topWrong.length);
+        for (let j=0;j<limit;j++){
+          const wrong = row.topWrong[j];
+          const keepGoing = addItem({
+            kind:'wrong',
+            row:row.row,
+            col:wrong.col,
+            score:wrong.score,
+            rowIndex:row.index,
+            margin:row.margin,
+            rank:wrong.rank
+          });
+          if (!keepGoing){ truncated = true; break outer; }
+        }
+      }
+    }
+
+    if (state.sort === 'scoreDesc' && items.length <= MAX_SORT_ITEMS){
+      items.sort((a,b) => b.score - a.score || collator.compare(a.row, b.row) || collator.compare(a.col, b.col));
+    }
+
+    const data = { items, truncated, topN };
+    report.displayCache = { key, data };
+    return data;
+  }
+
+  function fitCanvas(canvas){
+    const rect = canvas.getBoundingClientRect();
+    const scale = dpr();
+    const width = Math.max(1, Math.floor(rect.width * scale));
+    const height = Math.max(1, Math.floor(rect.height * scale));
+    if (canvas.width !== width || canvas.height !== height){
+      canvas.width = width;
+      canvas.height = height;
+      return true;
+    }
+    return false;
+  }
+
+  function clearCanvas(canvas){
+    const ctx = canvas.getContext('2d');
+    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function drawScatter(report, filtered){
+    const canvas = scatterCanvas;
+    fitCanvas(canvas);
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width;
+    const H = canvas.height;
+    const scale = dpr();
+    const m = { l:66 * scale, r:22 * scale, t:18 * scale, b:38 * scale };
+    const pw = Math.max(1, W - m.l - m.r);
+    const ph = Math.max(1, H - m.t - m.b);
+    const xMin = 0.60;
+    const xMax = 0.85;
+    const rowNames = report.metrics.rowNames;
+    const n = Math.max(rowNames.length, 1);
+    const yForIndex = (i) => m.t + ph - (i / Math.max(n - 1, 1)) * ph;
+    const x = (v) => m.l + ((v - xMin) / (xMax - xMin)) * pw;
+
+    scatterHotspots = [];
+    ctx.clearRect(0, 0, W, H);
+
+    const acceptX = x(Math.min(0.85, state.acceptMargin + 0.70));
+    const verifyX = x(Math.min(0.85, state.verifyMargin + 0.66));
+    const overlapX = x(0.66);
+    ctx.fillStyle = 'rgba(251,113,133,.06)';
+    ctx.fillRect(m.l, m.t, Math.max(0, overlapX - m.l), ph);
+    ctx.fillStyle = 'rgba(245,158,11,.07)';
+    ctx.fillRect(overlapX, m.t, Math.max(0, verifyX - overlapX), ph);
+    ctx.fillStyle = 'rgba(245,158,11,.035)';
+    ctx.fillRect(verifyX, m.t, Math.max(0, acceptX - verifyX), ph);
+    ctx.fillStyle = 'rgba(16,185,129,.08)';
+    ctx.fillRect(acceptX, m.t, Math.max(0, W - m.r - acceptX), ph);
+
+    ctx.strokeStyle = 'rgba(148,163,184,.10)';
+    ctx.lineWidth = 1;
+    [0.60,0.65,0.70,0.75,0.80,0.85].forEach(value => {
+      const xx = x(value);
+      ctx.beginPath();
+      ctx.moveTo(xx, m.t);
+      ctx.lineTo(xx, m.t + ph);
+      ctx.stroke();
+      ctx.fillStyle = '#7f90a7';
+      ctx.font = `${11 * scale}px Inter, system-ui, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(value.toFixed(2), xx, H - 12 * scale);
+    });
+
+    const yTicks = Math.min(rowNames.length, 6);
+    for (let i=0;i<yTicks;i++){
+      const idx = Math.round((rowNames.length - 1) * i / Math.max(yTicks - 1, 1));
+      const yy = yForIndex(idx);
+      ctx.beginPath();
+      ctx.moveTo(m.l, yy);
+      ctx.lineTo(W - m.r, yy);
+      ctx.stroke();
+      ctx.fillStyle = '#7f90a7';
+      ctx.textAlign = 'right';
+      ctx.fillText(rowNames[idx] || '', m.l - 8 * scale, yy + 4 * scale);
+    }
+
+    [
+      { x:x(0.70), color:'rgba(251,113,133,.65)' },
+      { x:x(0.73), color:'rgba(245,158,11,.65)' },
+      { x:x(0.75), color:'rgba(52,211,153,.65)' }
+    ].forEach(threshold => {
+      ctx.strokeStyle = threshold.color;
+      ctx.setLineDash([6 * scale, 6 * scale]);
+      ctx.beginPath();
+      ctx.moveTo(threshold.x, m.t);
+      ctx.lineTo(threshold.x, m.t + ph);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = `700 ${14 * scale}px Inter, system-ui, sans-serif`;
+    ctx.textAlign = 'left';
+    ctx.fillText(report.name + ' · cosine similarity score', m.l, 14 * scale);
+    ctx.fillStyle = '#7f90a7';
+    ctx.font = `${11 * scale}px Inter, system-ui, sans-serif`;
+    ctx.fillText('score ->', W - 48 * scale, H - 8 * scale);
+
+    const items = filtered.items;
+    if (!items.length) return;
+    const step = Math.max(1, Math.ceil(items.length / MAX_SCATTER_POINTS));
+    const hoverStep = Math.max(1, Math.ceil(Math.min(items.length, MAX_SCATTER_POINTS) / MAX_HOVER_POINTS));
+    let drawn = 0;
+
+    function drawItem(item){
+      const xx = x(clamp(item.score, xMin, xMax));
+      const yy = yForIndex(item.rowIndex);
+      if (item.kind === 'diag'){
+        const cls = classifyMargin(item.margin).cls;
+        ctx.fillStyle = cls === 'good' ? 'rgba(52,211,153,.98)' : cls === 'mid' ? 'rgba(245,158,11,.98)' : 'rgba(251,113,133,.98)';
+        ctx.beginPath();
+        ctx.arc(xx, yy, 4.8 * scale, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.fillStyle = 'rgba(248,113,49,.90)';
+        ctx.beginPath();
+        ctx.moveTo(xx, yy - 4.6 * scale);
+        ctx.lineTo(xx + 4.6 * scale, yy + 4.6 * scale);
+        ctx.lineTo(xx - 4.6 * scale, yy + 4.6 * scale);
+        ctx.closePath();
+        ctx.fill();
+      }
+      return { xx, yy };
+    }
+
+    for (let i=0;i<items.length;i+=step){
+      const point = drawItem(items[i]);
+      drawn++;
+      if (scatterHotspots.length < MAX_HOVER_POINTS && drawn % hoverStep === 0){
+        scatterHotspots.push({ d:items[i], xx:point.xx, yy:point.yy });
+      }
+    }
+  }
+
+  function drawBars(report){
+    const canvas = barCanvas;
+    fitCanvas(canvas);
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width;
+    const H = canvas.height;
+    const scale = dpr();
+    const m = { l:48 * scale, r:14 * scale, t:18 * scale, b:42 * scale };
+    const pw = Math.max(1, W - m.l - m.r);
+    const ph = Math.max(1, H - m.t - m.b);
+    const rows = sortedRowsFor(report);
+    const maxAbs = Math.max(state.acceptMargin * 1.4, report.metrics.maxAbsMargin || 0, 0.12);
+    const zeroY = m.t + ph * 0.5;
+    const yScale = ph / (maxAbs * 2);
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(255,255,255,.02)';
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.strokeStyle = 'rgba(148,163,184,.10)';
+    ctx.lineWidth = 1;
+    for (let i=0;i<=4;i++){
+      const value = maxAbs - (2 * maxAbs * i / 4);
+      const y = zeroY - value * yScale;
+      ctx.beginPath();
+      ctx.moveTo(m.l, y);
+      ctx.lineTo(W - m.r, y);
+      ctx.stroke();
+      ctx.fillStyle = '#7f90a7';
+      ctx.font = `${11 * scale}px Inter, system-ui, sans-serif`;
+      ctx.textAlign = 'right';
+      ctx.fillText(fmt(value), m.l - 8 * scale, y + 4 * scale);
+    }
+
+    ctx.strokeStyle = 'rgba(148,163,184,.18)';
+    ctx.beginPath();
+    ctx.moveTo(m.l, zeroY);
+    ctx.lineTo(W - m.r, zeroY);
+    ctx.stroke();
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = `700 ${14 * scale}px Inter, system-ui, sans-serif`;
+    ctx.textAlign = 'left';
+    ctx.fillText('margin = diagonal score - best wrong score', m.l, 14 * scale);
+
+    const yAccept = zeroY - state.acceptMargin * yScale;
+    const yVerify = zeroY - state.verifyMargin * yScale;
+    ctx.strokeStyle = 'rgba(52,211,153,.45)';
+    ctx.setLineDash([6 * scale, 6 * scale]);
+    ctx.beginPath();
+    ctx.moveTo(m.l, yAccept);
+    ctx.lineTo(W - m.r, yAccept);
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(245,158,11,.45)';
+    ctx.beginPath();
+    ctx.moveTo(m.l, yVerify);
+    ctx.lineTo(W - m.r, yVerify);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    const count = rows.length;
+    if (!count) return;
+    const drawMax = Math.min(count, Math.max(80, Math.floor(pw / (3 * scale))));
+    const step = Math.max(1, Math.ceil(count / drawMax));
+    const drawnCount = Math.ceil(count / step);
+    const gap = drawnCount > 90 ? 1 * scale : 4 * scale;
+    const bw = Math.max(1 * scale, (pw - gap * Math.max(0, drawnCount - 1)) / Math.max(1, drawnCount));
+    let drawn = 0;
+
+    for (let i=0;i<count;i+=step){
+      const row = rows[i];
+      const margin = Number.isFinite(row.margin) ? row.margin : 0;
+      const h = Math.max(1, Math.abs(margin * yScale));
+      const x = m.l + drawn * (bw + gap);
+      const y = margin >= 0 ? zeroY - h : zeroY;
+      const cls = classifyMargin(row.margin).cls;
+      ctx.fillStyle = cls === 'good' ? 'rgba(52,211,153,.95)' : cls === 'mid' ? 'rgba(245,158,11,.95)' : 'rgba(251,113,133,.95)';
+      ctx.fillRect(x, y, bw, h);
+      drawn++;
+    }
+
+    ctx.fillStyle = '#7f90a7';
+    ctx.font = `${11 * scale}px Inter, system-ui, sans-serif`;
+    ctx.textAlign = 'right';
+    ctx.fillText('rows ->', W - 10 * scale, H - 8 * scale);
+  }
+
+  function countRisk(report){
+    let risky = 0;
+    const rows = report.metrics.rows;
+    for (let i=0;i<rows.length;i++){
+      if (Number.isFinite(rows[i].margin) && rows[i].margin < state.verifyMargin) risky++;
+    }
+    return risky;
+  }
+
+  function overlapLabel(report){
+    const wrongMax = report.metrics.wrongMax;
+    if (!Number.isFinite(wrongMax)) return '-';
+    return fmt(Math.max(0, wrongMax - state.verifyMargin)) + ' - ' + fmt(wrongMax);
+  }
+
+  function renderFileList(){
+    const list = $('fileList');
+    if (!state.reports.length){
+      list.innerHTML = `<div class="fileCard"><div><strong>No files loaded</strong><div class="sub">Use the button above.</div></div><div class="right">-</div></div>`;
+      return;
+    }
+    list.innerHTML = state.reports.map((report, i) => {
+      const risky = countRisk(report);
+      return `
+        <div class="fileCard ${i === state.activeIndex ? 'active' : ''}" data-index="${i}">
+          <div>
+            <strong>${esc(report.name)}</strong>
+            <div class="sub">${fmtInt(report.pairCount)} pairs · ${fmtInt(report.metrics.rows.length)} rows · ${fmtInt(report.metrics.colsCount)} cols</div>
+          </div>
+          <div class="right">${fmtInt(risky)} risky</div>
+        </div>`;
+    }).join('');
+
+    list.querySelectorAll('.fileCard').forEach(card => {
+      card.onclick = () => {
+        state.activeIndex = Number(card.dataset.index);
+        tableScroll.scrollTop = 0;
+        scheduleUpdate();
+      };
+    });
+  }
+
+  function similarityBetweenReports(a, b){
+    if (a.id === b.id) return 1;
+    const key = a.id < b.id ? a.id + ':' + b.id : b.id + ':' + a.id;
+    if (state.similarityCache.has(key)) return state.similarityCache.get(key);
+
+    const small = a.metrics.rows.length <= b.metrics.rows.length ? a : b;
+    const large = small === a ? b : a;
+    let total = 0;
+    let count = 0;
+
+    for (let i=0;i<small.metrics.rows.length;i++){
+      const left = small.metrics.rows[i];
+      const right = large.metrics.metricByRow.get(left.row);
+      if (!right) continue;
+      if (Number.isFinite(left.margin) && Number.isFinite(right.margin)){
+        total += 1 - Math.min(1, Math.abs(left.margin - right.margin) / 0.20);
+        count++;
+      }
+    }
+
+    const score = count ? total / count : NaN;
+    state.similarityCache.set(key, score);
+    return score;
+  }
+
+  function renderMatrix(){
+    const tbl = $('comparisonMatrix');
+    if (!state.reports.length){
+      tbl.innerHTML = `<tr><td style="padding:12px;color:#93a4bb">Load multiple reports to compare them.</td></tr>`;
+      $('compareSummary').textContent = 'Load multiple reports to compare them.';
+      return;
+    }
+
+    const maxFiles = 12;
+    const reports = state.reports.slice(0, maxFiles);
+    const head = ['<tr><th></th>'];
+    for (const report of reports) head.push(`<th>${esc(report.name)}</th>`);
+    head.push('</tr>');
+
+    const body = [];
+    for (let i=0;i<reports.length;i++){
+      body.push(`<tr><th>${esc(reports[i].name)}</th>`);
+      for (let j=0;j<reports.length;j++){
+        if (i === j){
+          body.push('<td class="self">self</td>');
+          continue;
+        }
+        const score = similarityBetweenReports(reports[i], reports[j]);
+        const cls = !Number.isFinite(score) ? 'mid' : score >= 0.75 ? 'good' : score >= 0.5 ? 'mid' : 'bad';
+        body.push(`<td class="${cls}">${Number.isFinite(score) ? score.toFixed(2) : 'n/a'}</td>`);
+      }
+      body.push('</tr>');
+    }
+
+    tbl.innerHTML = head.join('') + body.join('');
+    const best = reports.map(report => ({
+      report,
+      risky: countRisk(report),
+      avgDiag: Number.isFinite(report.metrics.avgDiag) ? report.metrics.avgDiag : 0
+    })).sort((a,b) => (a.risky - b.risky) || (b.avgDiag - a.avgDiag));
+
+    $('compareSummary').textContent = reports.length > 1
+      ? `Best-looking file right now: ${best[0].report.name} · ${fmtInt(best[0].risky)} risky row${best[0].risky === 1 ? '' : 's'} under current thresholds.`
+      : 'Single-file mode. Load more JSON reports to activate comparison.';
+  }
+
+  function renderTabs(){
+    const subtitle = $('subtitle');
+    if (state.loadingMessage){
+      subtitle.textContent = state.loadingMessage;
+      return;
+    }
+    if (!state.reports.length){
+      subtitle.textContent = 'Load one or more JSON similarity reports. Large matrices are summarized in the background before drawing.';
+      return;
+    }
+    subtitle.textContent = `${state.reports.length} file${state.reports.length === 1 ? '' : 's'} loaded. The active report draws from compact per-row summaries instead of the full matrix.`;
+  }
+
+  function updateKPIs(report, filtered){
+    if (!report){
+      $('kpiFile').textContent = '-';
+      $('kpiFileSub').textContent = 'No file loaded';
+      $('kpiDiag').textContent = '-';
+      $('kpiWrong').textContent = '-';
+      $('kpiRisk').textContent = '-';
+      $('sumSize').textContent = '-';
+      $('sumOverlap').textContent = '-';
+      $('sumVisible').textContent = '-';
+      $('mapMeta').textContent = '-';
+      return;
+    }
+
+    const metrics = report.metrics;
+    const diagRange = Number.isFinite(metrics.diagMin) && Number.isFinite(metrics.diagMax)
+      ? fmt(metrics.diagMin) + ' - ' + fmt(metrics.diagMax)
+      : '-';
+    const visibleLabel = filtered.truncated
+      ? `${fmtInt(filtered.items.length)} shown (capped)`
+      : `${fmtInt(filtered.items.length)} visible`;
+
+    $('kpiFile').textContent = report.name;
+    $('kpiFileSub').textContent = `${fmtInt(report.pairCount)} pairs · ${fmtInt(metrics.rows.length)} rows`;
+    $('kpiDiag').textContent = diagRange;
+    $('kpiWrong').textContent = fmt(metrics.wrongMax);
+    $('kpiRisk').textContent = overlapLabel(report);
+    $('sumSize').textContent = `${fmtInt(metrics.rows.length)} × ${fmtInt(metrics.colsCount)}`;
+    $('sumOverlap').textContent = `${fmtInt(countRisk(report))} risk rows`;
+    $('sumVisible').textContent = visibleLabel;
+    $('mapMeta').textContent = `${fmtInt(metrics.diagCount)} correct points · ${fmtInt(metrics.wrongCount)} wrong matrix cells summarized to top ${filtered.topN} per row`;
+  }
+
+  function buildVisibleRows(filtered){
+    const total = filtered.items.length;
+    const overscan = 12;
+    const start = Math.max(0, Math.floor(tableScroll.scrollTop / ROW_H) - overscan);
+    const end = Math.min(total, Math.ceil((tableScroll.scrollTop + tableScroll.clientHeight) / ROW_H) + overscan);
+
+    tableRows.style.height = (total * ROW_H) + 'px';
+    const nodes = [];
+    for (let i=start;i<end;i++){
+      const item = filtered.items[i];
+      const status = item.kind === 'diag'
+        ? classifyMargin(item.margin)
+        : { label:'Wrong #' + item.rank, cls:'mid' };
+      const gap = item.kind === 'diag' ? fmt(item.margin) : '-';
+      nodes.push(`
+        <div class="row" style="transform:translateY(${i * ROW_H}px)">
+          <div class="cell" title="${esc(item.row)}">${esc(item.row)}</div>
+          <div class="cell" title="${esc(item.col)}">${esc(item.col)}</div>
+          <div class="cell">${fmt(item.score)}</div>
+          <div class="cell">${gap}</div>
+          <div class="cell"><span class="badge ${status.cls}">${status.label}</span></div>
+        </div>
+      `);
+    }
+    tableRows.innerHTML = nodes.join('');
+
+    const showing = total ? `${fmtInt(start)}-${fmtInt(Math.max(start, end - 1))}` : '0';
+    const capped = filtered.truncated ? ' · capped for browser responsiveness' : '';
+    $('tableFoot').textContent = `${fmtInt(total)} visible summary pair${total === 1 ? '' : 's'} · showing ${showing}${capped}`;
+  }
+
+  function renderTable(report, filtered){
+    $('tableMeta').textContent = 'Rows are virtualized; full matrices are reduced to diagonal + top wrong candidates.';
+    if (!report){
+      tableRows.innerHTML = '';
+      tableRows.style.height = '0px';
+      return;
+    }
+    if (!pendingTable){
+      pendingTable = true;
+      requestAnimationFrame(() => {
+        pendingTable = false;
+        buildVisibleRows(filtered);
+      });
+    }
+  }
+
+  function update(){
+    const report = activeReport();
+    renderTabs();
+    renderFileList();
+    renderMatrix();
+
+    if (!report){
+      updateKPIs(null, { items:[], truncated:false, topN:state.topN });
+      tableRows.innerHTML = '';
+      tableRows.style.height = '0px';
+      $('tableFoot').textContent = state.loadingMessage || 'Load files to populate the table.';
+      clearCanvas(scatterCanvas);
+      clearCanvas(barCanvas);
+      return;
+    }
+
+    const filtered = getDisplayItems(report);
+    updateKPIs(report, filtered);
+    drawScatter(report, filtered);
+    drawBars(report);
+    renderTable(report, filtered);
+  }
+
+  function finishLoad(results, token){
+    if (token !== state.loadToken) return;
+    if (activeWorker){
+      activeWorker.terminate();
+      activeWorker = null;
+    }
+
+    const good = results.filter(result => result.ok && result.report && result.report.rows && result.report.rows.length);
+    const failed = results.filter(result => !result.ok);
+    if (!good.length){
+      setLoadingMessage('');
+      alert('No valid JSON similarity reports were found.');
+      scheduleUpdate();
+      return;
+    }
+
+    state.reports = good.map(result => hydrateReport(result.report));
+    state.activeIndex = 0;
+    state.similarityCache.clear();
+    tableScroll.scrollTop = 0;
+    setLoadingMessage('');
+    scheduleUpdate();
+
+    if (failed.length){
+      $('compareSummary').textContent = `${failed.length} file${failed.length === 1 ? '' : 's'} failed to parse. First error: ${failed[0].error || 'unknown error'}`;
+    }
+  }
+
+  async function summarizeJobsFallback(jobs, token){
+    const results = [];
+    for (let i=0;i<jobs.length;i++){
+      const job = jobs[i];
+      try {
+        setLoadingMessage(`Loading ${job.name} (${i + 1}/${jobs.length}) without worker fallback...`);
+        const text = job.text != null ? String(job.text) : await job.file.text();
+        const json = JSON.parse(text);
+        const report = summarizeJson(json, {
+          name:job.name,
+          byteSize:Number(job.byteSize) || (job.file && job.file.size) || text.length,
+          topWrongLimit:MAX_WRONG_STORED
+        });
+        results.push({ ok:true, report });
+      } catch (error) {
+        results.push({ ok:false, name:job.name, error:error && error.message ? error.message : String(error) });
+      }
+      await new Promise(resolve => setTimeout(resolve, 0));
+    }
+    finishLoad(results, token);
+  }
+
+  function loadJobs(jobs){
+    if (!jobs.length) return;
+    const token = ++state.loadToken;
+    if (activeWorker){
+      activeWorker.terminate();
+      activeWorker = null;
+    }
+
+    setLoadingMessage(`Preparing ${jobs.length} JSON file${jobs.length === 1 ? '' : 's'}...`);
+    update();
+
+    if (!window.Worker || !window.Blob){
+      summarizeJobsFallback(jobs, token);
+      return;
+    }
+
+    const results = [];
+    try {
+      activeWorker = createSummaryWorker();
+    } catch (error) {
+      summarizeJobsFallback(jobs, token);
+      return;
+    }
+
+    activeWorker.onmessage = (event) => {
+      if (token !== state.loadToken) return;
+      const data = event.data || {};
+      if (data.type === 'progress'){
+        setLoadingMessage(`${data.phase} ${data.name || 'report'}...`);
+      } else if (data.type === 'result'){
+        results.push(data);
+      } else if (data.type === 'done'){
+        finishLoad(results, token);
+      }
+    };
+
+    activeWorker.onerror = (event) => {
+      if (token !== state.loadToken) return;
+      console.warn('Worker failed; falling back to main-thread parsing.', event.message || event);
+      if (activeWorker){
+        activeWorker.terminate();
+        activeWorker = null;
+      }
+      summarizeJobsFallback(jobs, token);
+    };
+
+    activeWorker.postMessage({
+      type:'loadBatch',
+      jobs:jobs.map((job, id) => ({
+        id,
+        name:job.name,
+        file:job.file || null,
+        text:job.text,
+        byteSize:job.byteSize || (job.file && job.file.size) || 0,
+        topWrongLimit:MAX_WRONG_STORED
+      }))
+    });
+  }
+
+  function loadFiles(files){
+    const jobs = Array.from(files || []).map(file => ({ name:file.name, file, byteSize:file.size }));
+    loadJobs(jobs);
+  }
+
+  function scheduleUpdate(){
+    clearTimeout(updateTimer);
+    updateTimer = setTimeout(() => {
+      if (updateQueued) return;
+      updateQueued = true;
+      requestAnimationFrame(() => {
+        updateQueued = false;
+        update();
+      });
+    }, 35);
+  }
+
+  function scheduleTableRerender(){
+    if (tableQueued) return;
+    tableQueued = true;
+    requestAnimationFrame(() => {
+      tableQueued = false;
+      const report = activeReport();
+      if (!report) return;
+      renderTable(report, getDisplayItems(report));
+    });
+  }
+
+  function resetTableAndUpdate(){
+    tableScroll.scrollTop = 0;
+    scheduleUpdate();
+  }
+
+  scatterCanvas.addEventListener('mousemove', (event) => {
+    if (!scatterHotspots.length){
+      hideTip();
+      return;
+    }
+    const rect = scatterCanvas.getBoundingClientRect();
+    const scale = dpr();
+    const mx = (event.clientX - rect.left) * scale;
+    const my = (event.clientY - rect.top) * scale;
+    let best = null;
+    let bestDist = (18 * scale) * (18 * scale);
+
+    for (let i=0;i<scatterHotspots.length;i++){
+      const hotspot = scatterHotspots[i];
+      const dx = hotspot.xx - mx;
+      const dy = hotspot.yy - my;
+      const dist = dx * dx + dy * dy;
+      if (dist < bestDist){
+        bestDist = dist;
+        best = hotspot;
+      }
+    }
+
+    if (!best){
+      hideTip();
+      return;
+    }
+
+    const item = best.d;
+    showTip(
+      `<div class="t">${esc(item.row)} -> ${esc(item.col)}</div>
+       <div class="b">score ${fmt(item.score)}</div>
+       <div class="m">${item.kind === 'diag' ? `gap ${fmt(item.margin)}` : `wrong candidate #${item.rank}`}</div>`,
+      event.clientX,
+      event.clientY
+    );
+  });
+  scatterCanvas.addEventListener('mouseleave', hideTip);
+
+  fileInput.addEventListener('change', event => loadFiles(event.target.files));
+  $('demoBtn').addEventListener('click', () => {
+    const demoA = {
+      "1.txt":{"1.txt":0.794264,"10.txt":0.550001,"11.txt":0.519428,"12.txt":0.60282,"13.txt":0.602937,"14.txt":0.577086,"15.txt":0.586671},
+      "2.txt":{"2.txt":0.801771,"5.txt":0.671904,"8.txt":0.606211},
+      "3.txt":{"3.txt":0.762114,"4.txt":0.695002,"9.txt":0.653254},
+      "4.txt":{"4.txt":0.736512,"1.txt":0.680918,"7.txt":0.714221}
+    };
+    const demoB = {
+      "1.txt":{"1.txt":0.8131,"10.txt":0.515,"11.txt":0.534,"12.txt":0.611},
+      "2.txt":{"2.txt":0.783,"5.txt":0.651,"8.txt":0.593},
+      "3.txt":{"3.txt":0.741,"4.txt":0.702,"9.txt":0.642},
+      "5.txt":{"5.txt":0.802,"6.txt":0.661,"7.txt":0.623}
+    };
+    loadJobs([
+      { name:'demo-report-A.json', text:JSON.stringify(demoA), byteSize:JSON.stringify(demoA).length },
+      { name:'demo-report-B.json', text:JSON.stringify(demoB), byteSize:JSON.stringify(demoB).length }
+    ]);
+  });
+
+  ['dragenter','dragover'].forEach(evt => {
+    document.body.addEventListener(evt, event => event.preventDefault(), { passive:false });
+  });
+  document.body.addEventListener('drop', event => {
+    event.preventDefault();
+    if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files.length) loadFiles(event.dataTransfer.files);
+  });
+
+  $('acceptMargin').addEventListener('input', () => {
+    state.acceptMargin = parseFloat($('acceptMargin').value);
+    resetTableAndUpdate();
+  });
+  $('verifyMargin').addEventListener('input', () => {
+    state.verifyMargin = parseFloat($('verifyMargin').value);
+    resetTableAndUpdate();
+  });
+  $('topN').addEventListener('input', () => {
+    state.topN = clamp(parseInt($('topN').value || '3', 10) || 3, 1, MAX_WRONG_STORED);
+    $('topN').value = String(state.topN);
+    resetTableAndUpdate();
+  });
+  $('viewMode').addEventListener('change', event => {
+    state.viewMode = event.target.value;
+    resetTableAndUpdate();
+  });
+  $('sortSelect').addEventListener('change', event => {
+    state.sort = event.target.value;
+    resetTableAndUpdate();
+  });
+  $('searchInput').addEventListener('input', event => {
+    state.search = event.target.value;
+    resetTableAndUpdate();
+  });
+  tableScroll.addEventListener('scroll', scheduleTableRerender);
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(item => item.classList.remove('active'));
+      chip.classList.add('active');
+      state.filter = chip.dataset.filter;
+      resetTableAndUpdate();
+    });
+  });
+
+  window.addEventListener('resize', scheduleUpdate, { passive:true });
+  window.addEventListener('paste', event => {
+    const text = event.clipboardData && event.clipboardData.getData('text/plain') ? event.clipboardData.getData('text/plain').trim() : '';
+    if (!text) return;
+    if ((text.startsWith('{') && text.endsWith('}')) || (text.startsWith('[') && text.endsWith(']'))){
+      loadJobs([{ name:'pasted-report.json', text, byteSize:text.length }]);
+    }
+  });
+
+  update();
+})();
+</script>
+
+<script type="text/plain" id="legacy-similarity-map-script">
 (() => {
   const $ = (id) => document.getElementById(id);
   const state = {

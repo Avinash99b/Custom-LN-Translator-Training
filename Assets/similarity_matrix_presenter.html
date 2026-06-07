@@ -272,14 +272,17 @@ window.addEventListener('mouseup', () => {
 document.getElementById('fileInput').onchange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    //Chapter naming is 1.txt,2.txt.., so sort the keys numerically to maintain correct chapter order in matrix layout
 
     const reader = new FileReader();
     reader.onload = (event) => {
         try {
             data = JSON.parse(event.target.result);
             jpKeys = Object.keys(data);
+            jpKeys.sort((a, b) => parseInt(a) - parseInt(b));
             if(jpKeys.length === 0) return;
             enKeys = Object.keys(data[jpKeys[0]]);
+            enKeys.sort((a, b) => parseInt(a) - parseInt(b));
             
             document.getElementById('matrix-dimens').textContent = `${jpKeys.length} Rows × ${enKeys.length} Cols Matrix`;
             

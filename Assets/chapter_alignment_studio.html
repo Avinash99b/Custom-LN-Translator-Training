@@ -291,7 +291,7 @@
   <header>
     <div class="controls">
       <input type="file" id="folderPicker" webkitdirectory multiple>
-      <label><input id="useOutputFolders" type="checkbox"> Use Output Folders</label>
+      <label><input id="useAlignedFolders" type="checkbox"> Use Aligned Folders</label>
       <label><input id="autoTranslate" type="checkbox"> Auto-Translate</label>
       <label>Chapter <input id="chapterNum" style="width:90px"></label>
       <label>Top N <input id="topN" type="number" value="10" min="1" max="100" style="width:70px"></label>
@@ -359,7 +359,7 @@
       "chapter_similarity_matrix.json",
       "chapter_smilarity_matrix.json"
     ];
-    const ARRANGEMENT_STATE_FILE_NAME = "arrangement_state.json";
+    const ALIGNED_MANIFEST_FILE_NAME = "aligned_pairs_manifest.json";
 
     function getRootRelativePath(path) {
       const parts = path.split("/");
@@ -371,9 +371,9 @@
       return MATRIX_FILE_NAMES.includes(rootRelativePath);
     }
 
-    function isArrangementStateFile(path) {
+    function isAlignedManifestFile(path) {
       const rootRelativePath = getRootRelativePath(path);
-      return rootRelativePath === ARRANGEMENT_STATE_FILE_NAME;
+      return rootRelativePath === ALIGNED_MANIFEST_FILE_NAME;
     }
 
     function updateStatus(message) {
@@ -573,34 +573,26 @@
     }
 
     function getActiveFolders() {
-      const useOutput = document.getElementById("useOutputFolders").checked;
-      return useOutput
-        ? { jpFolder: "JP-Output", enFolder: "EN-Output" }
+      const useAligned = document.getElementById("useAlignedFolders").checked;
+      return useAligned
+        ? { jpFolder: "JP-Aligned", enFolder: "EN-Aligned" }
         : { jpFolder: "JP", enFolder: "EN" };
     }
 
-    function buildMatrixFromArrangementState(arrangementState) {
-      const chapterMap = arrangementState?.chapters || {};
+    function buildMatrixFromAlignedManifest(alignedManifest) {
       const generatedMatrix = {};
 
-      for (const [jpChapter, details] of Object.entries(chapterMap)) {
-        if (!details || typeof details !== "object") continue;
+      alignedManifest.forEach(entry => {
+        const jpChapter = entry.jp_source;
+        const enChapter = entry.en_source;
+        const similarity = entry.similarity;
 
-        let enChapter = details.output_chapter || details.en_chapter || details.primary_en_chapter;
-        if (enChapter == null || enChapter === "") continue;
-
-        enChapter = String(enChapter);
-        if (!enChapter.endsWith(".txt")) {
-          enChapter = `${enChapter}.txt`;
+        if (!generatedMatrix[jpChapter]) {
+          generatedMatrix[jpChapter] = {};
         }
 
-        const score = Number.isFinite(details.final_confidence)
-          ? details.final_confidence
-          : (Number.isFinite(details.semantic_val) ? details.semantic_val : 0);
-
-        generatedMatrix[jpChapter] = { [enChapter]: score };
-      }
-
+        generatedMatrix[jpChapter][enChapter] = similarity;
+      });
       return generatedMatrix;
     }
 
@@ -660,21 +652,25 @@
     }
 
     async function loadMatchDataFromFiles(files) {
-      const useOutputFolders = document.getElementById("useOutputFolders").checked;
+      const useAlignedFolders = document.getElementById("useAlignedFolders").checked;
 
-      if (useOutputFolders) {
-        const arrangementStateFile = files.find(file => isArrangementStateFile(file.webkitRelativePath));
+      if (useAlignedFolders) {
+        //aligned_pairs_manifest.json
+        //[{ "aligned_number": 1,"jp_source": "1.txt","en_source": "1.txt","similarity": 0.763826,  "segment_offset": 0}...]
+        //
 
-        if (!arrangementStateFile) {
+        const alignedManifestFile = files.find(file => isAlignedManifestFile(file.webkitRelativePath));
+
+        if (!alignedManifestFile) {
           matrix = {};
-          updateStatus("arrangement_state.json not found at the folder root");
+          updateStatus("aligned_pairs_manifest.json not found at the folder root");
           return;
         }
 
         try {
-          const txt = await arrangementStateFile.text();
-          const arrangementState = JSON.parse(txt);
-          matrix = buildMatrixFromArrangementState(arrangementState);
+          const txt = await alignedManifestFile.text();
+          const alignedManifest = JSON.parse(txt);
+          matrix = buildMatrixFromAlignedManifest(alignedManifest);
           invalidateMatchCache();
 
           const matrixChapters = Object.keys(matrix);
@@ -683,11 +679,11 @@
             document.getElementById("chapterNum").value = currentChapter.replace(/\.txt$/i, "");
           }
 
-          updateStatus(`Loaded ${jpFileRefs.size} JP chapters, ${enFileRefs.size} EN chapters, mapping from ${arrangementStateFile.name}`);
+          updateStatus(`Loaded ${jpFileRefs.size} JP chapters, ${enFileRefs.size} EN chapters, mapping from ${alignedManifestFile.name}`);
           await render();
         } catch (error) {
           matrix = {};
-          updateStatus(`Failed to parse ${arrangementStateFile.name}: ${error.message}`);
+          updateStatus(`Failed to parse ${alignedManifestFile.name}: ${error.message}`);
         }
 
         return;
@@ -760,7 +756,7 @@
       });
 
     document
-      .getElementById("useOutputFolders")
+      .getElementById("useAlignedFolders")
       .addEventListener("change", async () => {
         await reloadFromSelection();
       });
