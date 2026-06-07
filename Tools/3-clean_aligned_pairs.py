@@ -7,7 +7,7 @@ import re
 import shutil
 import sys
 from pathlib import Path
-
+import time
 import requests
 from tqdm import tqdm
 
@@ -29,6 +29,8 @@ OUTPUT_EN = "EN-Output"
 
 MAX_CONSECUTIVE_DIVERGENCES = 1
 MAX_WORKERS = 3  # Added to easily control concurrency
+
+MAX_BACKOFF_RETRIES = 5
 
 # Confidence thresholds
 CONFIDENCE_ACCEPT  = 80   # >= this → same story, proceed to cleaning
@@ -230,21 +232,29 @@ def call_lm_studio(jp_numbered_text: str, en_numbered_text: str) -> str:
         "api-key": API_KEY,
     }
 
-    resp = requests.post(
-        AZURE_OPENAI_URL,
-        headers=headers,
-        json=payload,
-        timeout=LLM_TIMEOUT,
-    )
-
-    if not resp.ok:
-        raise requests.HTTPError(
-            f"{resp.status_code} Client Error: {resp.reason} for url: {AZURE_OPENAI_URL} | body={resp.text[:1000]!r}",
-            response=resp,
+    while True:
+        resp = requests.post(
+            AZURE_OPENAI_URL,
+            headers=headers,
+            json=payload,
+            timeout=LLM_TIMEOUT,
         )
 
-    data = resp.json()
-    return data["choices"][0]["message"]["content"].strip()
+        if not resp.ok and resp.status_code in (429, 503) and MAX_BACKOFF_RETRIES > 0:
+            MAX_BACKOFF_RETRIES -= 1
+            print(f"Rate limited or service unavailable. Retrying in {2 ** (5 - MAX_BACKOFF_RETRIES)} seconds... (Retries left: {MAX_BACKOFF_RETRIES})")
+            time.sleep(2 ** (5 - MAX_BACKOFF_RETRIES))  # Exponential backoff
+            continue
+
+        if not resp.ok:
+            raise requests.HTTPError(
+                f"{resp.status_code} Client Error: {resp.reason} for url: {AZURE_OPENAI_URL} | body={resp.text[:1000]!r}",
+                response=resp,
+            )
+
+        data = resp.json()
+        return data["choices"][0]["message"]["content"]
+    return ""  # Unreachable, but satisfies function signature
 
 
 # ============================================================
