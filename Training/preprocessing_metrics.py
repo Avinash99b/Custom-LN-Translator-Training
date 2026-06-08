@@ -2,7 +2,7 @@ from pathlib import Path
 import numpy as np
 from datasets import load_from_disk
 
-TOKENIZED_ROOT = Path("/home/avinash/Projects/Custom-LN-Translator-Training/PreProcessingOutputs/Arifureta-Novel-Copy")
+TOKENIZED_ROOT = Path("/home/avinash/Projects/Custom-LN-Translator-Training/PreProcessingOutputs/")
 
 splits = {
     "full_train": load_from_disk(str(TOKENIZED_ROOT / "full_chapter" / "train")),

@@ -12,7 +12,7 @@ from peft import PeftModel
 
 BASE_MODEL = "Qwen/Qwen3-4B"
 
-LORA_CHECKPOINT = ("/home/avinash/Projects/Custom-LN-Translator-Training/Model-Checkpoints/Arifureta/GPU/ArrangedButNonCleanedDataset/checkpoint-1100"
+LORA_CHECKPOINT = ("/home/avinash/Projects/Custom-LN-Translator-Training/Model-Checkpoints/checkpoint-100"
 )
 
 # =====================================================
