@@ -6,10 +6,12 @@ from pathlib import Path
 # CONFIG
 # =====================================================
 
-# curl 'https://kkb-production.jupyter-proxy.kaggle.net/k/324718180/eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwidHlwIjoiSldUIn0..-pXTQkX2S2_feovc7-xJsw.Es88bT4ScxRPI0_t5up61AwLIw0tp0Q-VVkqsNwLdFaab8yHFrUPe6CMBsAYXY65YXNM6MFNhU7srs6OpUQJx5izkhjRWMFkOfRqu-0EX0H1EWZGHxkYDHsU8ct4bBQO8xDNWBAuNt4D2afoQnoa-EC-Bw0ZTWiReWOET1yc2ylTNFrSelFnyd2710HQs9HRucTcZ1r3smGj6tXQvnbJjQr8uoy0yZyl6Q_h-wk5j0Vnlw3L5O9v9r0EHUBdQ7kn.HMSCquM7W966mKCx1IuuXw/proxy/api/contents/qwen3_ln_translation/phase1_chunk_heavy/checkpoint-400' \
+# curl 'https://kkb-production.jupyter-proxy.kaggle.net/k/325783236/eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwidHlwIjoiSldUIn0..F0DnME67a8eCey372AP1iQ.8sZ8NTTg9IuvkWezJrCk_pirS1DNuSiluPfb8VRDAnBObf_OfW-nrLoX2m47g6euH6mFT2z2mYJyMTu92H2lXM5mQaZgSv1oSI4uyt4oJfAq-rS1G_jbErWNG4pWnlJvk3sdrC-aCOd2YRCeJDGjizLtfVhQk59oDzFs7TSunQ0swE_3cFna7HAzbEw4Z_-NkIt03fvjNgSGg7OwWezE0Zgv5enFSvcGcff6PeN-dTUm8qAFP6Sa1q2pwe4GiMBy.xXhx_JWusJ09ubtew7hwaw/proxy/api/contents/merged_qwen3_ln_translator' \
 #   -H 'accept: */*' \
 #   -H 'accept-language: en-US,en;q=0.6' \
 #   -H 'cache-control: max-age=0' \
+#   -H 'if-modified-since: Wed, 10 Jun 2026 02:31:25 GMT' \
+#   -H 'if-none-match: "8adff1fca64bb67176d18f0270352c09b6484156"' \
 #   -H 'origin: https://www.kaggle.com' \
 #   -H 'priority: u=1, i' \
 #   -H 'referer: https://www.kaggle.com/' \
@@ -21,21 +23,20 @@ from pathlib import Path
 #   -H 'sec-fetch-site: cross-site' \
 #   -H 'sec-gpc: 1' \
 #   -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36'
-
 BASE_URL = (
     "https://kkb-production.jupyter-proxy.kaggle.net/"
-    "k/324803337/"
-    "eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwidHlwIjoiSldUIn0..MqDumrxozPLPrUOnqSanew."
-    "pw41nInel22t7n0bSS0lFLmlv__6agEPF3zI3JEDZyMHxLvaTe3NJDvMfH39puwIQ7M1emKAXdoWiID6T7N2ADfoD_K-XeNTySWcc8_Ah7hi11UyfC7W4H40ww2BEMObJAQsH1z8dwhN_2hFY0xVds_GmCHDcPM1xa3MB70SfkQh8RB7BLhljbfBM3mE02cdTdoukCeF7eY9myhVDoeTbH4wWe82sWrix6ZP2GBFv6DOjvHPLjefj9o6T_dfUzO6."
-    "S-6DKw-UG-cfqDtyoPDfyA/proxy"
+    "k/325783236/"
+    "eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwidHlwIjoiSldUIn0..F0DnME67a8eCey372AP1iQ."
+    "8sZ8NTTg9IuvkWezJrCk_pirS1DNuSiluPfb8VRDAnBObf_OfW-nrLoX2m47g6euH6mFT2z2mYJyMTu92H2lXM5mQaZgSv1oSI4uyt4oJfAq-rS1G_jbErWNG4pWnlJvk3sdrC-aCOd2YRCeJDGjizLtfVhQk59oDzFs7TSunQ0swE_3cFna7HAzbEw4Z_-NkIt03fvjNgSGg7OwWezE0Zgv5enFSvcGcff6PeN-dTUm8qAFP6Sa1q2pwe4GiMBy."
+    "xXhx_JWusJ09ubtew7hwaw/proxy"
 )
 
 CHECKPOINT_NO = 1100
 CHECKPOINT_PATH = (
-    f"qwen3_ln_translation/phase1_chunk_heavy/checkpoint-{CHECKPOINT_NO}"
+    f"merged_qwen3_ln_translator"
 )
 
-OUTPUT_DIR = Path(f"/home/avinash/Projects/Custom-LN-Translator-Training/Model-Checkpoints/Arifureta/GPU/ArrangedButNonCleanedDataset/checkpoint-{CHECKPOINT_NO}")
+OUTPUT_DIR = Path(f"/home/avinash/Projects/Custom-LN-Translator-Training/Model-Checkpoints/merged_qwen3_ln_translator")
 
 HEADERS = {
     "accept": "*/*",

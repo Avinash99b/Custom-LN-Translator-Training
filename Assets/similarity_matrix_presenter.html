@@ -3,336 +3,614 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Chapter Alignment Analyzer</title>
-
+<title>Chapter Alignment Analyzer</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-    :root { 
-        --bg: #090d16; 
-        --panel: #0f172a; 
-        --accent: #3b82f6; 
-        --text: #f1f5f9;
-        --border: rgba(255,255,255,0.08);
-    }
-    
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; overflow: hidden; height: 100vh; }
-    
-    .layout { display: grid; grid-template-columns: 320px 1fr; height: 100vh; }
-    
-    /* Sidebar Styling */
-    .sidebar { 
-        background: var(--panel); 
-        border-right: 1px solid var(--border); 
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
-    .sidebar-header { padding: 20px; border-bottom: 1px solid var(--border); }
-    .sidebar-header h3 { font-size: 18px; margin-bottom: 4px; color: #fff; }
-    .sidebar-header p { font-size: 12px; opacity: 0.6; }
-    
-    .chapter-list { flex: 1; overflow-y: auto; padding: 10px; }
-    .chapter-item { 
-        padding: 10px 14px; 
-        border-radius: 8px; 
-        margin-bottom: 4px; 
-        font-size: 13px; 
-        cursor: pointer;
-        transition: background 0.2s, border-color 0.2s;
-        border: 1px solid transparent;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .chapter-item:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); }
-    .chapter-num { font-weight: 600; opacity: 0.5; font-mono: monospace; margin-right: 8px; }
-    .chapter-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .prediction-badge { font-size: 11px; background: rgba(59, 130, 246, 0.2); color: #60a5fa; padding: 2px 6px; border-radius: 4px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: none; }
-    .chapter-item:hover .prediction-badge { display: block; }
-    
-    /* Main Panel Styling */
-    .main { display: flex; flex-direction: column; padding: 20px; overflow: hidden; position: relative; }
-    .controls { 
-        margin-bottom: 15px; 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center;
-        background: var(--panel);
-        padding: 12px 20px;
-        border-radius: 12px;
-        border: 1px solid var(--border);
-    }
-    .file-input-wrapper { display: flex; align-items: center; gap: 15px; }
-    input[type="file"] { color: #94a3b8; font-size: 13px; }
-    .instructions { font-size: 12px; color: #94a3b8; }
-    
-    #canvas-container { 
-        flex: 1; 
-        background: #040711; 
-        border-radius: 12px; 
-        cursor: grab; 
-        position: relative; 
-        border: 1px solid var(--border); 
-        overflow: hidden; 
-    }
-    #canvas-container:active { cursor: grabbing; }
-    canvas { display: block; width: 100%; height: 100%; }
-    
-    /* Fixed Interactive Tooltip */
-    .tooltip { 
-        position: fixed; 
-        background: rgba(15, 23, 42, 0.95); 
-        padding: 12px; 
-        border-radius: 8px; 
-        border: 1px solid var(--accent); 
-        pointer-events: none; 
-        display: none; 
-        z-index: 1000; 
-        font-size: 12px; 
-        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.7);
-        backdrop-filter: blur(4px);
-        line-height: 1.5;
-    }
-    .tooltip strong { color: #fff; }
-    .tooltip .score-val { font-size: 14px; font-weight: bold; margin-top: 4px; color: #4ade80;}
+  :root {
+    --bg: #0b0f1a;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f1f5f9;
+    --text2: #94a3b8;
+    --text3: #64748b;
+    --accent: #3b82f6;
+    --green: #1D9E75;
+    --amber: #BA7517;
+    --red: #A32D2D;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: 14px;
+  }
+
+  /* ── Layout ── */
+  .app { display: flex; flex-direction: column; height: 100vh; gap: 10px; padding: 10px; }
+
+  /* ── Topbar ── */
+  .topbar {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 10px 16px; flex-shrink: 0;
+  }
+  .topbar-title { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: var(--text); }
+  .topbar-title i { font-size: 20px; color: var(--accent); }
+  .load-btn {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(59,130,246,0.4); background: rgba(59,130,246,0.1);
+    color: #60a5fa; font-size: 13px; cursor: pointer; transition: background 0.15s;
+  }
+  .load-btn:hover { background: rgba(59,130,246,0.2); }
+  .status-text { font-size: 12px; color: var(--text3); margin-left: auto; }
+  input[type=file] { display: none; }
+
+  /* ── Stats row ── */
+  .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; flex-shrink: 0; }
+  .stat-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; }
+  .stat-label { font-size: 11px; color: var(--text3); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .stat-val { font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; }
+  .stat-sub { font-size: 11px; color: var(--text3); margin-top: 3px; }
+
+  /* ── Main panels ── */
+  .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; min-height: 0; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); display: flex; flex-direction: column; overflow: hidden; }
+  .panel-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+    font-size: 13px; font-weight: 500; color: var(--text);
+  }
+  .panel-header i { color: var(--text3); font-size: 16px; }
+  .panel-badge {
+    margin-left: auto; font-size: 11px; color: var(--text3);
+    background: var(--panel2); border: 1px solid var(--border);
+    border-radius: 4px; padding: 2px 8px;
+  }
+  .canvas-wrap { flex: 1; position: relative; overflow: hidden; cursor: crosshair; min-height: 0; }
+  canvas.main { display: block; position: absolute; top: 0; left: 0; }
+  .empty-state {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 8px;
+    color: var(--text3); font-size: 13px; pointer-events: none;
+  }
+  .empty-state i { font-size: 36px; }
+  .panel-legend {
+    display: flex; gap: 14px; padding: 7px 14px; flex-shrink: 0;
+    border-top: 1px solid var(--border); flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text3); }
+  .legend-swatch { width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+
+  /* ── Bottom charts ── */
+  .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex-shrink: 0; }
+  .chart-panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; }
+  .chart-panel h3 { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .chart-wrap { position: relative; height: 150px; }
+
+  /* ── Tooltip ── */
+  .tt {
+    position: fixed; background: rgba(10,15,28,0.97); border: 1px solid rgba(59,130,246,0.35);
+    border-radius: var(--radius); padding: 10px 13px; pointer-events: none;
+    display: none; z-index: 9999; font-size: 12px; line-height: 1.7;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6); min-width: 190px;
+    backdrop-filter: blur(6px);
+  }
+  .tt-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 4px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+  .tt-row { display: flex; justify-content: space-between; gap: 18px; }
+  .tt-key { color: var(--text3); }
+  .tt-val { font-weight: 500; color: var(--text); }
+  .c-green { color: #4ade80; }
+  .c-amber { color: #fbbf24; }
+  .c-red   { color: #f87171; }
+
+  /* ── Instructions overlay ── */
+  .hint { font-size: 11px; color: var(--text3); padding: 4px 14px; flex-shrink: 0; text-align: right; }
 </style>
 </head>
 <body>
+<div class="app">
 
-<div class="layout">
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h3>Chapters Matrix</h3>
-            <p id="matrix-dimens">No matrix loaded</p>
-        </div>
-        <div class="chapter-list" id="chapterList"></div>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-title">
+      <i class="ti ti-chart-scatter"></i>
+      Chapter Alignment Analyzer
     </div>
-    <div class="main">
-        <div class="controls">
-            <div class="file-input-wrapper">
-                <input type="file" id="fileInput" accept=".json">
-            </div>
-            <div class="instructions">💡 Scroll to Zoom | Drag Matrix to Pan | Hover Nodes for Insights</div>
-        </div>
-        <div id="canvas-container">
-            <canvas id="heatmapCanvas"></canvas>
-        </div>
+    <button class="load-btn" id="loadBtn">
+      <i class="ti ti-folder-open"></i> Load files
+    </button>
+    <input type="file" id="fileInput" multiple accept=".json">
+    <span class="status-text" id="statusText">
+      Select <code>chapter_similarity_matrix.json</code> + <code>aligned_pairs_manifest.json</code>
+    </span>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-label">JP chapters</div><div class="stat-val" id="s-jp">—</div></div>
+    <div class="stat-card"><div class="stat-label">EN chapters</div><div class="stat-val" id="s-en">—</div></div>
+    <div class="stat-card"><div class="stat-label">Aligned pairs</div><div class="stat-val" id="s-pairs">—</div></div>
+    <div class="stat-card">
+      <div class="stat-label">Mean similarity</div>
+      <div class="stat-val" id="s-mean">—</div>
+      <div class="stat-sub" id="s-mean-sub"></div>
     </div>
+    <div class="stat-card">
+      <div class="stat-label">High confidence ≥ 0.9</div>
+      <div class="stat-val" id="s-perfect">—</div>
+    </div>
+  </div>
+
+  <!-- Dual canvas panels -->
+  <div class="panels">
+
+    <!-- Heatmap -->
+    <div class="panel">
+      <div class="panel-header">
+        <i class="ti ti-grid-3x3"></i>
+        Similarity heatmap
+        <span class="panel-badge" id="hm-badge">JP × EN</span>
+      </div>
+      <div class="canvas-wrap" id="hmWrap">
+        <div class="empty-state" id="hmEmpty">
+          <i class="ti ti-file-upload"></i>
+          <span>Load chapter_similarity_matrix.json</span>
+        </div>
+        <canvas class="main" id="hmCanvas" style="display:none"></canvas>
+      </div>
+      <div class="panel-legend" id="hmLegend" style="display:none">
+        <div class="legend-item"><div class="legend-swatch" style="background:#0f0"></div>High (≥0.8)</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#fa0"></div>Medium (0.5–0.8)</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#f33"></div>Low (&lt;0.5)</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#3b82f6;opacity:0.7"></div>Best match overlay</div>
+      </div>
+    </div>
+
+    <!-- Diagonal plot -->
+    <div class="panel">
+      <div class="panel-header">
+        <i class="ti ti-line"></i>
+        Alignment diagonal plot
+        <span class="panel-badge" id="diag-badge">— pairs</span>
+      </div>
+      <div class="canvas-wrap" id="diagWrap">
+        <div class="empty-state" id="diagEmpty">
+          <i class="ti ti-file-upload"></i>
+          <span>Load aligned_pairs_manifest.json</span>
+        </div>
+        <canvas class="main" id="diagCanvas" style="display:none"></canvas>
+      </div>
+      <div class="panel-legend" id="diagLegend" style="display:none">
+        <div class="legend-item"><div class="legend-swatch" style="background:#1D9E75"></div>sim ≥ 0.8</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#BA7517"></div>0.6–0.8</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#A32D2D"></div>&lt; 0.6</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#3b82f6;opacity:0.5"></div>Perfect diagonal ref</div>
+        <div class="legend-item">Dot size ∝ similarity</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom charts -->
+  <div class="bottom-row">
+    <div class="chart-panel">
+      <h3>Similarity distribution</h3>
+      <div class="chart-wrap">
+        <canvas id="distChart" role="img" aria-label="Histogram of pairwise chapter similarity scores">Similarity histogram</canvas>
+      </div>
+    </div>
+    <div class="chart-panel">
+      <h3>Segment offset per aligned pair</h3>
+      <div class="chart-wrap">
+        <canvas id="offsetChart" role="img" aria-label="Scatter of segment offset vs aligned chapter number">Segment offset scatter</canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="hint">Scroll to zoom &nbsp;·&nbsp; Drag to pan &nbsp;·&nbsp; Hover for details</div>
 </div>
 
-<div id="tooltip" class="tooltip"></div>
+<!-- Tooltip -->
+<div class="tt" id="ttBox"></div>
 
 <script>
-let data = {};
-let jpKeys = [], enKeys = [];
-let bestMatches = new Map(); // Fast lookup structure for index matching
+// ─── State ───────────────────────────────────────────────────────────────────
+let matrixData = null, pairsData = null;
+let jpKeys = [], enKeys = [], bestMap = new Map();
+const CELL = 16;
 
-const canvas = document.getElementById('heatmapCanvas');
-const ctx = canvas.getContext('2d');
-const container = document.getElementById('canvas-container');
-const tooltip = document.getElementById('tooltip');
+let hmState  = { scale:1, ox:40, oy:40, dragging:false, lx:0, ly:0 };
+let diagState= { scale:1, ox:40, oy:40, dragging:false, lx:0, ly:0 };
 
-// Offscreen Buffer for high performance graphics mapping
-let offscreenCanvas = document.createElement('canvas');
-let offscreenCtx = offscreenCanvas.getContext('2d');
-let isBufferReady = false;
+let offscreen = null, offCtx = null, offReady = false;
+let distChartInst = null, offChartInst = null;
 
-// Configurable Canvas Matrix Constraints
-let state = { 
-    scale: 1, 
-    offsetX: 150, 
-    offsetY: 150, 
-    cellSize: 18,
-    paddingCushion: 1000 // Extra empty spatial coordinates allowing deep edge tracking zoom out
+const ttBox = document.getElementById('ttBox');
+const isDark = true; // always dark
+const gridCol   = 'rgba(255,255,255,0.06)';
+const labelCol  = 'rgba(148,163,184,0.8)';
+
+// ─── File loading ─────────────────────────────────────────────────────────────
+document.getElementById('loadBtn').onclick = () => document.getElementById('fileInput').click();
+document.getElementById('fileInput').onchange = e => {
+  const files = Array.from(e.target.files);
+  const mFile = files.find(f => f.name === 'chapter_similarity_matrix.json');
+  const pFile = files.find(f => f.name === 'aligned_pairs_manifest.json');
+  const total = (mFile?1:0) + (pFile?1:0);
+  if (!total) { setStatus('No matching JSON files found — need chapter_similarity_matrix.json and/or aligned_pairs_manifest.json'); return; }
+  let done = 0;
+  const finish = () => { if (++done === total) afterLoad(); };
+  if (mFile) { const r=new FileReader(); r.onload=ev=>{try{matrixData=JSON.parse(ev.target.result);}catch(ex){alert('Malformed matrix JSON: '+ex.message);} finish();}; r.readAsText(mFile); }
+  if (pFile) { const r=new FileReader(); r.onload=ev=>{try{pairsData=JSON.parse(ev.target.result);}catch(ex){alert('Malformed pairs JSON: '+ex.message);} finish();}; r.readAsText(pFile); }
 };
 
-let lastMousePos = { x: 0, y: 0 };
-let isDragging = false;
+function numSort(a,b){ return parseInt(a)-parseInt(b); }
+function setStatus(t){ document.getElementById('statusText').textContent = t; }
 
-function resizeCanvas() {
-    canvas.width = container.clientWidth;
-    canvas.height = container.clientHeight;
-    requestAnimationFrame(draw);
-}
-window.addEventListener('resize', resizeCanvas);
-
-// Builds optimized pre-cached layout data model
-function buildOffscreenBuffer() {
-    if (jpKeys.length === 0) return;
-    
-    const size = state.cellSize;
-    offscreenCanvas.width = enKeys.length * size;
-    offscreenCanvas.height = jpKeys.length * size;
-    
-    offscreenCtx.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
-    
-    // Draw directly to virtual backing store layout
-    jpKeys.forEach((jp, i) => {
-        enKeys.forEach((en, j) => {
-            const score = data[jp][en];
-            // Pure performance layout color assignment
-            offscreenCtx.fillStyle = `hsl(${score * 120}, 75%, 45%)`;
-            offscreenCtx.fillRect(j * size, i * size, size - 1, size - 1);
-        });
+// ─── After load ───────────────────────────────────────────────────────────────
+function afterLoad() {
+  if (matrixData) {
+    jpKeys = Object.keys(matrixData).sort(numSort);
+    enKeys = jpKeys.length ? Object.keys(matrixData[jpKeys[0]]).sort(numSort) : [];
+    bestMap.clear();
+    jpKeys.forEach(jp => {
+      let best='', bv=-1;
+      enKeys.forEach(en => { if (matrixData[jp][en] > bv) { bv=matrixData[jp][en]; best=en; } });
+      bestMap.set(jp, {en:best, score:bv});
     });
-    isBufferReady = true;
+    document.getElementById('s-jp').textContent = jpKeys.length;
+    document.getElementById('s-en').textContent = enKeys.length;
+    document.getElementById('hm-badge').textContent = jpKeys.length + ' × ' + enKeys.length;
+    buildHeatmapBuffer();
+    document.getElementById('hmCanvas').style.display = 'block';
+    document.getElementById('hmEmpty').style.display   = 'none';
+    document.getElementById('hmLegend').style.display  = 'flex';
+  }
+  if (pairsData) {
+    const n = pairsData.length;
+    const scores = pairsData.map(p => p.similarity);
+    const mean = scores.reduce((a,b)=>a+b,0)/scores.length;
+    const sorted = scores.slice().sort((a,b)=>a-b);
+    const median = sorted[Math.floor(n/2)];
+    const perfect = scores.filter(s => s >= 0.9).length;
+
+    document.getElementById('s-pairs').textContent   = n;
+    document.getElementById('s-mean').textContent    = (mean*100).toFixed(1)+'%';
+    document.getElementById('s-mean-sub').textContent= 'median ' + (median*100).toFixed(1)+'%';
+    document.getElementById('s-perfect').textContent = perfect + ' (' + ((perfect/n)*100).toFixed(0) + '%)';
+    document.getElementById('diag-badge').textContent= n + ' pairs';
+
+    document.getElementById('diagCanvas').style.display = 'block';
+    document.getElementById('diagEmpty').style.display   = 'none';
+    document.getElementById('diagLegend').style.display  = 'flex';
+
+    buildDistChart(scores);
+    buildOffsetChart();
+  }
+  setStatus('Loaded — hover cells/points for metrics  ·  scroll to zoom  ·  drag to pan');
+  resizeAll();
 }
 
-// Ultra-fast 60FPS Render Call using buffer blitting
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (!isBufferReady) return;
-
-    ctx.save();
-    ctx.translate(state.offsetX, state.offsetY);
-    ctx.scale(state.scale, state.scale);
-    
-    // Blit the static layout matrix natively 
-    ctx.drawImage(offscreenCanvas, 0, 0);
-    ctx.restore();
+// ─── Score colours ────────────────────────────────────────────────────────────
+function scoreColor(s) {
+  const r = Math.round(s < 0.5 ? 255 : (1-s)*2*255);
+  const g = Math.round(s > 0.5 ? 255 :  s*2*255);
+  return `rgb(${r},${g},30)`;
+}
+function simColor(s) {
+  if (s >= 0.8) return '#1D9E75';
+  if (s >= 0.6) return '#BA7517';
+  return '#A32D2D';
+}
+function simClass(s) {
+  if (s >= 0.8) return 'c-green';
+  if (s >= 0.6) return 'c-amber';
+  return 'c-red';
 }
 
-// Coordinate tracking math engine
-function updateHoverMetric(clientX, clientY) {
-    if (jpKeys.length === 0) return;
-    
-    const rect = canvas.getBoundingClientRect();
-    const localX = (clientX - rect.left - state.offsetX) / state.scale;
-    const localY = (clientY - rect.top - state.offsetY) / state.scale;
-    
-    const col = Math.floor(localX / state.cellSize);
-    const row = Math.floor(localY / state.cellSize);
-
-    if (row >= 0 && row < jpKeys.length && col >= 0 && col < enKeys.length) {
-        const jpKey = jpKeys[row];
-        const enKey = enKeys[col];
-        const score = data[jpKey][enKey];
-        
-        tooltip.style.display = 'block';
-        tooltip.style.left = (clientX + 20) + 'px';
-        tooltip.style.top = (clientY + 15) + 'px';
-        tooltip.innerHTML = `
-            <div><strong>Source Row [${row + 1}]:</strong> ${jpKey}</div>
-            <div><strong>Target Col [${col + 1}]:</strong> ${enKey}</div>
-            <div class="score-val">Match Value: ${(score * 100).toFixed(2)}%</div>
-        `;
-    } else {
-        tooltip.style.display = 'none';
+// ─── Heatmap offscreen buffer ─────────────────────────────────────────────────
+function buildHeatmapBuffer() {
+  offscreen = document.createElement('canvas');
+  offscreen.width  = enKeys.length * CELL;
+  offscreen.height = jpKeys.length * CELL;
+  offCtx = offscreen.getContext('2d');
+  jpKeys.forEach((jp, i) => {
+    enKeys.forEach((en, j) => {
+      offCtx.fillStyle = scoreColor(matrixData[jp][en]);
+      offCtx.fillRect(j*CELL, i*CELL, CELL-1, CELL-1);
+    });
+  });
+  // Blue best-match overlay
+  jpKeys.forEach((jp, i) => {
+    const bm = bestMap.get(jp);
+    const j  = enKeys.indexOf(bm.en);
+    if (j >= 0) {
+      offCtx.fillStyle = 'rgba(59,130,246,0.55)';
+      offCtx.fillRect(j*CELL, i*CELL, CELL-1, CELL-1);
     }
+  });
+  offReady = true;
 }
 
-// Interaction Engine System Events
-container.onwheel = (e) => {
+// ─── Canvas draw functions ────────────────────────────────────────────────────
+function drawHeatmap() {
+  const c = document.getElementById('hmCanvas');
+  if (!c || !offReady) return;
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.save();
+  ctx.translate(hmState.ox, hmState.oy);
+  ctx.scale(hmState.scale, hmState.scale);
+  ctx.drawImage(offscreen, 0, 0);
+  ctx.restore();
+}
+
+function drawDiag() {
+  const c = document.getElementById('diagCanvas');
+  if (!c || !pairsData) return;
+  const W=c.width, H=c.height;
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,W,H);
+  const pairs = pairsData;
+  const n = pairs.length;
+  if (!n) return;
+
+  ctx.save();
+  ctx.translate(diagState.ox, diagState.oy);
+  ctx.scale(diagState.scale, diagState.scale);
+
+  const pw = (W - diagState.ox*2) / diagState.scale;
+  const ph = (H - diagState.oy*2) / diagState.scale;
+  const sx = v => (v/(n+1))*pw;
+  const sy = v => ph - (v/(n+1))*ph;
+
+  // Grid
+  ctx.lineWidth = 0.5/diagState.scale;
+  ctx.strokeStyle = gridCol;
+  const step = Math.max(1, Math.floor(n/8));
+  for (let i=step; i<=n; i+=step) {
+    ctx.beginPath(); ctx.moveTo(sx(i),0); ctx.lineTo(sx(i),ph); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,sy(i)); ctx.lineTo(pw,sy(i)); ctx.stroke();
+  }
+
+  // Axis labels
+  ctx.fillStyle = labelCol;
+  ctx.font = `${10/diagState.scale}px system-ui`;
+  ctx.textAlign = 'center';
+  for (let i=step; i<=n; i+=step) {
+    ctx.fillText(i, sx(i), ph + 12/diagState.scale);
+  }
+  ctx.textAlign = 'right';
+  for (let i=step; i<=n; i+=step) {
+    ctx.fillText(i, -4/diagState.scale, sy(i)+3/diagState.scale);
+  }
+
+  // Perfect diagonal reference
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(59,130,246,0.3)';
+  ctx.lineWidth = 1/diagState.scale;
+  ctx.setLineDash([5/diagState.scale, 5/diagState.scale]);
+  ctx.moveTo(sx(0), sy(0)); ctx.lineTo(sx(n), sy(n));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Connection lines (JP → EN)
+  ctx.lineWidth = 0.8/diagState.scale;
+  pairs.forEach(p => {
+    const jpN = parseInt(p.jp_source);
+    const enN = parseInt(p.en_source);
+    if (jpN === enN) return; // skip if on diagonal
+    ctx.beginPath();
+    ctx.strokeStyle = simColor(p.similarity) + '44';
+    ctx.moveTo(sx(jpN), sy(jpN));
+    ctx.lineTo(sx(enN), sy(jpN));
+    ctx.stroke();
+  });
+
+  // Dots
+  pairs.forEach(p => {
+    const jpN = parseInt(p.jp_source);
+    const enN = parseInt(p.en_source);
+    const r   = Math.max(2, (2.5 + p.similarity * 5)) / diagState.scale;
+    ctx.beginPath();
+    ctx.arc(sx(enN), sy(jpN), r, 0, Math.PI*2);
+    ctx.fillStyle = simColor(p.similarity);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = 0.5/diagState.scale;
+    ctx.stroke();
+  });
+
+  ctx.restore();
+}
+
+// ─── Resize ───────────────────────────────────────────────────────────────────
+function resizeAll() {
+  ['hm','diag'].forEach(id => {
+    const wrap  = document.getElementById(id+'Wrap');
+    const canvas= document.getElementById(id+'Canvas');
+    if (!wrap || !canvas) return;
+    canvas.width  = wrap.clientWidth;
+    canvas.height = wrap.clientHeight;
+  });
+  drawHeatmap();
+  drawDiag();
+}
+window.addEventListener('resize', resizeAll);
+
+// ─── Pan + zoom factory ───────────────────────────────────────────────────────
+function attachPanZoom(wrapId, st, drawFn) {
+  const wrap = document.getElementById(wrapId);
+  wrap.addEventListener('wheel', e => {
     e.preventDefault();
-    
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
+    const rect = wrap.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    const factor = e.deltaY < 0 ? 1.12 : 0.9;
+    const ns = Math.min(Math.max(0.04, st.scale * factor), 16);
+    st.ox = mx - (mx - st.ox) * (ns / st.scale);
+    st.oy = my - (my - st.oy) * (ns / st.scale);
+    st.scale = ns;
+    drawFn();
+  }, { passive: false });
 
-    // Zoom targeting mouse pointer vector
-    const wheelFactor = e.deltaY < 0 ? 1.1 : 0.9;
-    const newScale = Math.min(Math.max(0.05, state.scale * wheelFactor), 8);
-
-    state.offsetX = mouseX - (mouseX - state.offsetX) * (newScale / state.scale);
-    state.offsetY = mouseY - (mouseY - state.offsetY) * (newScale / state.scale);
-    state.scale = newScale;
-
-    draw();
-    updateHoverMetric(e.clientX, e.clientY);
-};
-
-container.onmousedown = (e) => {
-    isDragging = true;
-    lastMousePos = { x: e.clientX, y: e.clientY };
-    tooltip.style.display = 'none'; // Lock tooltips during matrix panning executions
-};
-
-window.addEventListener('mousemove', (e) => {
-    if (isDragging) {
-        state.offsetX += e.clientX - lastMousePos.x;
-        state.offsetY += e.clientY - lastMousePos.y;
-        lastMousePos = { x: e.clientX, y: e.clientY };
-        draw();
-    } else {
-        // Only trigger intersection updates if pointer enters container bounds
-        const bounds = container.getBoundingClientRect();
-        if(e.clientX >= bounds.left && e.clientX <= bounds.right && e.clientY >= bounds.top && e.clientY <= bounds.bottom) {
-            updateHoverMetric(e.clientX, e.clientY);
-        } else {
-            tooltip.style.display = 'none';
-        }
+  wrap.addEventListener('mousedown', e => {
+    st.dragging = true; st.lx = e.clientX; st.ly = e.clientY;
+    ttBox.style.display = 'none';
+    wrap.style.cursor = 'grabbing';
+  });
+  window.addEventListener('mousemove', e => {
+    if (st.dragging) {
+      st.ox += e.clientX - st.lx; st.oy += e.clientY - st.ly;
+      st.lx = e.clientX; st.ly = e.clientY;
+      drawFn();
     }
+  });
+  window.addEventListener('mouseup', () => { st.dragging = false; wrap.style.cursor = 'crosshair'; });
+}
+attachPanZoom('hmWrap',   hmState,   drawHeatmap);
+attachPanZoom('diagWrap', diagState, drawDiag);
+
+// ─── Heatmap tooltip ──────────────────────────────────────────────────────────
+document.getElementById('hmWrap').addEventListener('mousemove', e => {
+  if (hmState.dragging || !offReady) return;
+  const rect = document.getElementById('hmWrap').getBoundingClientRect();
+  const lx = (e.clientX - rect.left  - hmState.ox) / hmState.scale;
+  const ly = (e.clientY - rect.top   - hmState.oy) / hmState.scale;
+  const col = Math.floor(lx / CELL), row = Math.floor(ly / CELL);
+  if (row >= 0 && row < jpKeys.length && col >= 0 && col < enKeys.length) {
+    const jp = jpKeys[row], en = enKeys[col];
+    const sc = matrixData[jp][en];
+    const bm = bestMap.get(jp);
+    const cls = simClass(sc);
+    ttBox.innerHTML = `
+      <div class="tt-title">${jp} ↔ ${en}</div>
+      <div class="tt-row"><span class="tt-key">Similarity</span><span class="tt-val ${cls}">${(sc*100).toFixed(2)}%</span></div>
+      <div class="tt-row"><span class="tt-key">JP row</span><span class="tt-val">#${row+1} (${jp})</span></div>
+      <div class="tt-row"><span class="tt-key">EN col</span><span class="tt-val">#${col+1} (${en})</span></div>
+      <div class="tt-row"><span class="tt-key">Best EN for this JP</span><span class="tt-val">${bm.en}</span></div>
+      <div class="tt-row"><span class="tt-key">Best score</span><span class="tt-val ${simClass(bm.score)}">${(bm.score*100).toFixed(1)}%</span></div>
+    `;
+    showTT(e.clientX, e.clientY);
+  } else {
+    ttBox.style.display = 'none';
+  }
 });
+document.getElementById('hmWrap').addEventListener('mouseleave', () => ttBox.style.display = 'none');
 
-window.addEventListener('mouseup', () => {
-    isDragging = false;
+// ─── Diagonal plot tooltip ────────────────────────────────────────────────────
+document.getElementById('diagWrap').addEventListener('mousemove', e => {
+  if (diagState.dragging || !pairsData) return;
+  const c    = document.getElementById('diagCanvas');
+  const rect = document.getElementById('diagWrap').getBoundingClientRect();
+  const pairs= pairsData, n = pairs.length;
+  const pw   = (c.width  - diagState.ox*2) / diagState.scale;
+  const ph   = (c.height - diagState.oy*2) / diagState.scale;
+  const sx   = v => diagState.ox + (v/(n+1))*pw*diagState.scale;
+  const sy   = v => diagState.oy + (ph - (v/(n+1))*ph)*diagState.scale;
+
+  let closest = null, minD = Infinity;
+  pairs.forEach(p => {
+    const cx = sx(parseInt(p.en_source));
+    const cy = sy(parseInt(p.jp_source));
+    const d  = Math.hypot(e.clientX - rect.left - cx, e.clientY - rect.top - cy);
+    if (d < minD) { minD = d; closest = p; }
+  });
+  if (closest && minD < 22) {
+    const off  = closest.segment_offset;
+    const delta= parseInt(closest.en_source) - parseInt(closest.jp_source);
+    const cls  = simClass(closest.similarity);
+    ttBox.innerHTML = `
+      <div class="tt-title">Aligned pair #${closest.aligned_number}</div>
+      <div class="tt-row"><span class="tt-key">JP source</span><span class="tt-val">${closest.jp_source}</span></div>
+      <div class="tt-row"><span class="tt-key">EN source</span><span class="tt-val">${closest.en_source}</span></div>
+      <div class="tt-row"><span class="tt-key">Similarity</span><span class="tt-val ${cls}">${(closest.similarity*100).toFixed(2)}%</span></div>
+      <div class="tt-row"><span class="tt-key">Segment offset</span><span class="tt-val">${off >= 0 ? '+':''}${off}</span></div>
+      <div class="tt-row"><span class="tt-key">JP↔EN chapter Δ</span><span class="tt-val">${delta >= 0 ? '+':''}${delta}</span></div>
+    `;
+    showTT(e.clientX, e.clientY);
+  } else {
+    ttBox.style.display = 'none';
+  }
 });
+document.getElementById('diagWrap').addEventListener('mouseleave', () => ttBox.style.display = 'none');
 
-// Dynamic File Parsing Pipeline
-document.getElementById('fileInput').onchange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    //Chapter naming is 1.txt,2.txt.., so sort the keys numerically to maintain correct chapter order in matrix layout
+function showTT(cx, cy) {
+  ttBox.style.display = 'block';
+  const tw = ttBox.offsetWidth  || 200;
+  const th = ttBox.offsetHeight || 140;
+  const vw = window.innerWidth, vh = window.innerHeight;
+  let left = cx + 16, top = cy + 12;
+  if (left + tw > vw - 8) left = cx - tw - 8;
+  if (top  + th > vh - 8) top  = cy - th - 8;
+  ttBox.style.left = left + 'px';
+  ttBox.style.top  = top  + 'px';
+}
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        try {
-            data = JSON.parse(event.target.result);
-            jpKeys = Object.keys(data);
-            jpKeys.sort((a, b) => parseInt(a) - parseInt(b));
-            if(jpKeys.length === 0) return;
-            enKeys = Object.keys(data[jpKeys[0]]);
-            enKeys.sort((a, b) => parseInt(a) - parseInt(b));
-            
-            document.getElementById('matrix-dimens').textContent = `${jpKeys.length} Rows × ${enKeys.length} Cols Matrix`;
-            
-            // Pre-calculate target structures for instant side-panel matching response
-            bestMatches.clear();
-            jpKeys.forEach(jp => {
-                let topTarget = "";
-                let maxScore = -1;
-                enKeys.forEach(en => {
-                    if(data[jp][en] > maxScore) {
-                        maxScore = data[jp][en];
-                        topTarget = en;
-                    }
-                });
-                bestMatches.set(jp, { name: topTarget, val: maxScore });
-            });
+// ─── Distribution histogram ───────────────────────────────────────────────────
+function buildDistChart(scores) {
+  if (distChartInst) distChartInst.destroy();
+  const bins=20, bw=1/bins;
+  const counts = new Array(bins).fill(0);
+  scores.forEach(s => { const i=Math.min(bins-1, Math.floor(s/bw)); counts[i]++; });
+  const labels = counts.map((_,i) => ((i*bw)*100).toFixed(0)+'%');
+  const colors = counts.map((_,i) => {
+    const mid = (i+0.5)*bw;
+    return simColor(mid) + 'cc';
+  });
+  distChartInst = new Chart(document.getElementById('distChart'), {
+    type:'bar',
+    data:{ labels, datasets:[{ label:'Pairs', data:counts, backgroundColor:colors, borderWidth:0, borderRadius:2 }] },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ title: items => 'Score bucket: '+items[0].label } } },
+      scales:{
+        x:{ ticks:{ color:labelCol, font:{size:10}, maxRotation:0, autoSkip:true, maxTicksLimit:10 }, grid:{ color:gridCol } },
+        y:{ ticks:{ color:labelCol, font:{size:10} }, grid:{ color:gridCol } }
+      }
+    }
+  });
+}
 
-            // Populate high performance side nodes list
-            const listContainer = document.getElementById('chapterList');
-            listContainer.innerHTML = jpKeys.map((k, index) => {
-                const matchObj = bestMatches.get(k);
-                const percentage = (matchObj.val * 100).toFixed(0);
-                return `
-                    <div class="chapter-item" data-row-idx="${index}">
-                        <span class="chapter-num">#${String(index + 1).padStart(2, '0')}</span>
-                        <span class="chapter-name" title="${k}">${k}</span>
-                        <span class="prediction-badge" title="Highest prob: ${matchObj.name}">🎯 ${percentage}% ${matchObj.name}</span>
-                    </div>
-                `;
-            }).join('');
+// ─── Offset scatter ───────────────────────────────────────────────────────────
+function buildOffsetChart() {
+  if (offChartInst) offChartInst.destroy();
+  const pts    = pairsData.map(p => ({ x:p.aligned_number, y:p.segment_offset, sim:p.similarity }));
+  const colors = pts.map(p => simColor(p.sim) + 'cc');
+  offChartInst = new Chart(document.getElementById('offsetChart'), {
+    type:'scatter',
+    data:{ datasets:[{
+      label:'Offset',
+      data: pts,
+      backgroundColor: colors,
+      pointRadius: pts.map(p => 2.5 + p.sim*5),
+      pointHoverRadius: 7,
+      borderWidth: 0
+    }] },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{ display:false },
+        tooltip:{ callbacks:{
+          label: item => `#${item.raw.x}: offset ${item.raw.y>=0?'+':''}${item.raw.y}, sim ${(item.raw.sim*100).toFixed(1)}%`
+        }}
+      },
+      scales:{
+        x:{ title:{ display:true, text:'Pair #', color:labelCol, font:{size:10} }, ticks:{ color:labelCol, font:{size:10} }, grid:{ color:gridCol } },
+        y:{ title:{ display:true, text:'Seg. offset', color:labelCol, font:{size:10} }, ticks:{ color:labelCol, font:{size:10} }, grid:{ color:gridCol } }
+      }
+    }
+  });
+}
 
-            // Reset matrix coordinates state
-            state.scale = Math.min(canvas.width / (enKeys.length * state.cellSize), canvas.height / (jpKeys.length * state.cellSize)) * 0.8;
-            if(state.scale > 1) state.scale = 1;
-            state.offsetX = 40;
-            state.offsetY = 40;
-
-            buildOffscreenBuffer();
-            resizeCanvas();
-            
-        } catch (err) {
-            alert("Malformed processing alignment structure array detected inside targeted JSON file.");
-            console.error(err);
-        }
-    };
-    reader.readAsText(file);
-};
-
-// Layout startup initial alignment pass
-resizeCanvas();
+// ─── Init ─────────────────────────────────────────────────────────────────────
+resizeAll();
 </script>
 </body>
 </html>

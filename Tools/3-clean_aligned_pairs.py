@@ -27,8 +27,8 @@ SOURCE_EN = "EN-Aligned"
 OUTPUT_JP = "JP-Output"
 OUTPUT_EN = "EN-Output"
 
-MAX_CONSECUTIVE_DIVERGENCES = 1
-MAX_WORKERS = 3  # Added to easily control concurrency
+MAX_CONSECUTIVE_DIVERGENCES = 2
+MAX_WORKERS = 10  # Added to easily control concurrency
 
 MAX_BACKOFF_RETRIES = 5
 

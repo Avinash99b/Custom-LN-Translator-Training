@@ -16,9 +16,7 @@
       --candidates-height: 30%;
     }
 
-    * {
-      box-sizing: border-box
-    }
+    * { box-sizing: border-box }
 
     body {
       margin: 0;
@@ -44,14 +42,15 @@
       align-items: center
     }
 
-    button,
-    input {
+    button, input, select {
       background: #1e293b;
       color: white;
       border: 1px solid #334155;
       padding: 8px 10px;
       border-radius: 8px
     }
+
+    select { cursor: pointer }
 
     .main {
       display: grid;
@@ -60,33 +59,27 @@
       min-height: 0
     }
 
-    .left,
-    .right {
+    .left, .right {
       overflow: hidden;
       display: flex;
       flex-direction: column;
       min-height: 0
     }
 
-    .left {
-      border-right: 1px solid #243047
-    }
+    .left { border-right: 1px solid #243047 }
 
     .splitter {
       cursor: col-resize;
-      background: linear-gradient(180deg, transparent, rgba(96, 165, 250, 0.18), transparent);
+      background: linear-gradient(180deg, transparent, rgba(96,165,250,0.18), transparent);
       border-left: 1px solid #243047;
       border-right: 1px solid #243047
     }
 
-    .splitter:hover,
-    .splitter.dragging {
-      background: linear-gradient(180deg, transparent, rgba(96, 165, 250, 0.32), transparent)
+    .splitter:hover, .splitter.dragging {
+      background: linear-gradient(180deg, transparent, rgba(96,165,250,0.32), transparent)
     }
 
-    .panel {
-      padding: 10px
-    }
+    .panel { padding: 10px }
 
     .panel-top {
       display: flex;
@@ -95,16 +88,8 @@
       gap: 10px
     }
 
-    .panel-actions {
-      display: flex;
-      gap: 8px;
-      align-items: center
-    }
-
-    .panel-actions button {
-      padding: 6px 10px;
-      font-size: 12px
-    }
+    .panel-actions { display: flex; gap: 8px; align-items: center }
+    .panel-actions button { padding: 6px 10px; font-size: 12px }
 
     .viewer {
       flex: 1;
@@ -161,7 +146,7 @@
     .vertical-splitter {
       height: 8px;
       cursor: row-resize;
-      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.18), transparent);
+      background: linear-gradient(90deg, transparent, rgba(96,165,250,0.18), transparent);
       border-top: 1px solid #243047;
       border-bottom: 1px solid #243047;
       flex: 0 0 8px;
@@ -169,9 +154,8 @@
       user-select: none
     }
 
-    .vertical-splitter:hover,
-    .vertical-splitter.dragging {
-      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.32), transparent)
+    .vertical-splitter:hover, .vertical-splitter.dragging {
+      background: linear-gradient(90deg, transparent, rgba(96,165,250,0.32), transparent)
     }
 
     .card {
@@ -183,13 +167,16 @@
       cursor: pointer
     }
 
-    .card:hover {
-      transform: translateY(-1px)
+    .card:hover { transform: translateY(-1px) }
+    .card.active { outline: 2px solid var(--accent) }
+
+    .card.aligned-card {
+      border-color: #1e4a6e;
+      background: #0f1f35;
+      cursor: default
     }
 
-    .card.active {
-      outline: 2px solid var(--accent)
-    }
+    .card.aligned-card.active { outline: 2px solid #38bdf8 }
 
     .bar {
       height: 8px;
@@ -204,19 +191,25 @@
       background: linear-gradient(90deg, #22c55e, #eab308)
     }
 
-    h3 {
-      margin: 0 0 8px 0
-    }
+    h3 { margin: 0 0 8px 0 }
 
     .meta {
       display: flex;
-      justify-content: space-between
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px
     }
 
-    pre {
-      white-space: pre-wrap;
-      line-height: 1.5
+    .aligned-pair-label {
+      font-size: 11px;
+      color: #64748b;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 3px
     }
+
+    pre { white-space: pre-wrap; line-height: 1.5 }
 
     .panel-actions label {
       display: inline-flex;
@@ -235,9 +228,7 @@
       word-break: break-word
     }
 
-    .paragraph-block.translation-error {
-      border-color: #7f1d1d
-    }
+    .paragraph-block.translation-error { border-color: #7f1d1d }
 
     .paragraph-meta {
       display: flex;
@@ -255,25 +246,20 @@
       letter-spacing: .02em
     }
 
-    .paragraph-state {
-      color: #94a3b8
-    }
+    .paragraph-state { color: #94a3b8 }
 
-    .paragraph-text {
-      line-height: 1.65;
-      white-space: pre-wrap
-    }
+    .paragraph-text { line-height: 1.65; white-space: pre-wrap }
 
     .translation-tooltip {
       position: fixed;
       z-index: 9999;
       display: none;
       max-width: min(520px, calc(100vw - 24px));
-      background: rgba(15, 23, 42, 0.98);
+      background: rgba(15,23,42,0.98);
       color: #e5e7eb;
       border: 1px solid #334155;
       border-radius: 12px;
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.45);
       padding: 10px 12px;
       font-size: 13px;
       line-height: 1.55;
@@ -281,9 +267,7 @@
       pointer-events: none
     }
 
-    .translation-tooltip.visible {
-      display: block
-    }
+    .translation-tooltip.visible { display: block }
   </style>
 </head>
 
@@ -291,7 +275,13 @@
   <header>
     <div class="controls">
       <input type="file" id="folderPicker" webkitdirectory multiple>
-      <label><input id="useAlignedFolders" type="checkbox"> Use Aligned Folders</label>
+      <label>Mode
+        <select id="folderMode">
+          <option value="original">Original</option>
+          <option value="aligned">Aligned</option>
+          <option value="output">Output</option>
+        </select>
+      </label>
       <label><input id="autoTranslate" type="checkbox"> Auto-Translate</label>
       <label>Chapter <input id="chapterNum" style="width:90px"></label>
       <label>Top N <input id="topN" type="number" value="10" min="1" max="100" style="width:70px"></label>
@@ -304,34 +294,34 @@
   <div class="main">
     <div class="left">
       <div class="panel">
-          <div class="panel-top">
-            <h3>JP Chapter</h3>
-            <div class="panel-actions">
-              <button id="copyJpBtn" type="button">Copy</button>
-            </div>
+        <div class="panel-top">
+          <h3>JP Chapter</h3>
+          <div class="panel-actions">
+            <button id="copyJpBtn" type="button">Copy</button>
           </div>
+        </div>
       </div>
       <div class="viewer">
-          <div id="jpText" class="line-list"></div>
+        <div id="jpText" class="line-list"></div>
       </div>
     </div>
 
-      <div id="splitter" class="splitter" aria-label="Resize chapter panels" role="separator"></div>
+    <div id="splitter" class="splitter" aria-label="Resize chapter panels" role="separator"></div>
 
     <div class="right">
       <div class="panel">
-          <div class="panel-top">
-            <h3 id="rightTitle">Top Matches</h3>
-            <div class="panel-actions">
-              <button id="copyEnBtn" type="button">Copy</button>
-            </div>
+        <div class="panel-top">
+          <h3 id="rightTitle">Top Matches</h3>
+          <div class="panel-actions">
+            <button id="copyEnBtn" type="button">Copy</button>
           </div>
+        </div>
       </div>
       <div class="right-body">
         <div class="candidates" id="candidates"></div>
         <div id="verticalSplitter" class="vertical-splitter" aria-label="Resize match and English panels" role="separator"></div>
         <div class="viewer">
-            <div id="enText" class="line-list"></div>
+          <div id="enText" class="line-list"></div>
         </div>
       </div>
     </div>
@@ -340,7 +330,11 @@
   <div id="jpTooltip" class="translation-tooltip" role="tooltip" aria-hidden="true"></div>
 
   <script>
-    let jpFileRefs = new Map(), enFileRefs = new Map(), matrix = {};
+    // ── state ──────────────────────────────────────────────────────────────────
+    let jpFileRefs = new Map();   // filename -> File  (JP or JP-Aligned)
+    let enFileRefs = new Map();   // filename -> File  (EN or EN-Aligned)
+    let matrix = {};              // used only in normal (non-aligned) mode
+
     let jpTextCache = new Map();
     let enTextCache = new Map();
     let sortedMatchCache = new Map();
@@ -348,6 +342,8 @@
     let currentChapter = "1.txt";
     let currentEN = "";
     let selectedFiles = [];
+    let alignedTotal = 0;         // JP-Aligned file count, used for nav bounds
+
     let isResizing = false;
     let isVerticalResizing = false;
     let renderToken = 0;
@@ -359,34 +355,24 @@
       "chapter_similarity_matrix.json",
       "chapter_smilarity_matrix.json"
     ];
-    const ALIGNED_MANIFEST_FILE_NAME = "aligned_pairs_manifest.json";
 
+    // ── helpers ────────────────────────────────────────────────────────────────
     function getRootRelativePath(path) {
-      const parts = path.split("/");
-      return parts.slice(1).join("/");
+      return path.split("/").slice(1).join("/");
     }
 
     function isMatrixFile(path) {
-      const rootRelativePath = getRootRelativePath(path);
-      return MATRIX_FILE_NAMES.includes(rootRelativePath);
+      return MATRIX_FILE_NAMES.includes(getRootRelativePath(path));
     }
 
-    function isAlignedManifestFile(path) {
-      const rootRelativePath = getRootRelativePath(path);
-      return rootRelativePath === ALIGNED_MANIFEST_FILE_NAME;
+    function updateStatus(msg) {
+      document.getElementById("status").textContent = msg;
     }
 
-    function updateStatus(message) {
-      document.getElementById("status").textContent = message;
-    }
-
-    function escapeHtml(value) {
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\"/g, "&quot;")
-        .replace(/'/g, "&#39;");
+    function escapeHtml(v) {
+      return String(v)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
     }
 
     function normalizeText(text) {
@@ -398,218 +384,127 @@
     }
 
     function splitIntoParagraphs(text) {
-      const normalized = normalizeText(text);
-      if (!normalized) return [];
-      return normalized
-        .split(/\n\s*\n+/)
-        .map(paragraph => paragraph.trim())
-        .filter(Boolean);
+      return normalizeText(text).split(/\n\s*\n+/).map(p => p.trim()).filter(Boolean);
     }
 
     async function readFileText(file, cache) {
       if (!file) return "";
-      const cacheKey = file.webkitRelativePath || file.name;
-      if (cache.has(cacheKey)) return cache.get(cacheKey);
+      const key = file.webkitRelativePath || file.name;
+      if (cache.has(key)) return cache.get(key);
       const text = await file.text();
-      cache.set(cacheKey, text);
+      cache.set(key, text);
       return text;
     }
 
     async function getCurrentJpText() {
-      const text = await readFileText(jpFileRefs.get(currentChapter), jpTextCache);
-      return text || "Chapter not found";
+      return (await readFileText(jpFileRefs.get(currentChapter), jpTextCache)) || "Chapter not found";
     }
 
     async function getCurrentEnText() {
-      const text = await readFileText(enFileRefs.get(currentEN), enTextCache);
-      return text || "Missing chapter";
+      return (await readFileText(enFileRefs.get(currentEN), enTextCache)) || "Missing chapter";
     }
 
+    // ── rendering ──────────────────────────────────────────────────────────────
     function renderLineNumberedText(containerId, text) {
       const container = document.getElementById(containerId);
-      const lines = String(text ?? "").split(/\r?\n/);
-      container.innerHTML = lines
-        .map((line, index) => `
+      container.innerHTML = String(text ?? "").split(/\r?\n/)
+        .map((line, i) => `
           <div class="line-row">
-            <span class="line-no">${index + 1}</span>
+            <span class="line-no">${i + 1}</span>
             <span class="line-text">${line ? escapeHtml(line) : "&nbsp;"}</span>
-          </div>
-        `)
+          </div>`)
         .join("");
     }
 
     function renderParagraphShell(containerId, paragraphs) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = paragraphs
-        .map((_, index) => `
-          <div class="paragraph-block" data-index="${index}" aria-busy="true">
+      document.getElementById(containerId).innerHTML = paragraphs
+        .map((_, i) => `
+          <div class="paragraph-block" data-index="${i}" aria-busy="true">
             <div class="paragraph-meta">
-              <span class="paragraph-no">P${index + 1}</span>
+              <span class="paragraph-no">P${i + 1}</span>
               <span class="paragraph-state">Queued</span>
             </div>
             <div class="paragraph-text">Translating…</div>
-          </div>
-        `)
+          </div>`)
         .join("");
     }
 
     function setLoadingState(containerId, message) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = `
+      document.getElementById(containerId).innerHTML = `
         <div class="paragraph-block">
           <div class="paragraph-text">${escapeHtml(message)}</div>
-        </div>
-      `;
+        </div>`;
     }
 
     function updateParagraphBlock(block, state, text, isError = false) {
       if (!block) return;
-      const stateEl = block.querySelector(".paragraph-state");
-      const textEl = block.querySelector(".paragraph-text");
-      if (stateEl) stateEl.textContent = state;
-      if (textEl) textEl.textContent = text;
+      block.querySelector(".paragraph-state").textContent = state;
+      block.querySelector(".paragraph-text").textContent = text;
       block.classList.toggle("translation-error", isError);
-      block.setAttribute("aria-busy", isError ? "false" : "false");
     }
 
     async function renderParagraphTranslations(containerId, paragraphs, token) {
       renderParagraphShell(containerId, paragraphs);
+      const blocks = Array.from(document.getElementById(containerId).querySelectorAll(".paragraph-block"));
 
-      const container = document.getElementById(containerId);
-      const blocks = Array.from(container.querySelectorAll(".paragraph-block"));
-
-      for (let index = 0; index < paragraphs.length; index += 1) {
+      for (let i = 0; i < paragraphs.length; i++) {
         if (token !== renderToken) return;
-        //Skip if indx > 10
-        if (index > 10){ updateParagraphBlock(blocks[index], "Original", paragraphs[index], false); continue;};
-        const block = blocks[index];
-        const original = paragraphs[index];
-        if (block) {
-          block.dataset.original = original;
-        }
+        if (i > 10) { updateParagraphBlock(blocks[i], "Original", paragraphs[i]); continue; }
+        const block = blocks[i];
+        const original = paragraphs[i];
+        if (block) block.dataset.original = original;
 
         try {
-          const translated = await TranslationService.translateParagraph(original, {
-            sourceLang: "ja",
-            targetLang: "en",
-            paragraphIndex: index
-          });
-
+          const translated = await TranslationService.translateParagraph(original, { sourceLang: "ja", targetLang: "en", paragraphIndex: i });
           if (token !== renderToken) return;
-          updateParagraphBlock(block, translated ? "EN" : "Original", translated || original, false);
-        } catch (error) {
+          updateParagraphBlock(block, translated ? "EN" : "Original", translated || original);
+        } catch (err) {
           if (token !== renderToken) return;
           updateParagraphBlock(block, "Original", original, true);
-          if (block) block.title = `Translation failed: ${error.message}`;
+          if (block) block.title = `Translation failed: ${err.message}`;
         }
       }
     }
 
     async function copyToClipboard(text, label) {
       try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
+        if (navigator.clipboard?.writeText) {
           await navigator.clipboard.writeText(text);
         } else {
-          const tempInput = document.createElement("textarea");
-          tempInput.value = text;
-          tempInput.style.position = "fixed";
-          tempInput.style.left = "-9999px";
-          tempInput.style.top = "-9999px";
-          document.body.appendChild(tempInput);
-          tempInput.focus();
-          tempInput.select();
-          document.execCommand("copy");
-          tempInput.remove();
+          const t = document.createElement("textarea");
+          t.value = text; t.style.cssText = "position:fixed;left:-9999px;top:-9999px";
+          document.body.appendChild(t); t.focus(); t.select();
+          document.execCommand("copy"); t.remove();
         }
         updateStatus(`${label} copied to clipboard`);
-      } catch (error) {
-        updateStatus(`Failed to copy ${label.toLowerCase()}: ${error.message}`);
+      } catch (err) {
+        updateStatus(`Failed to copy ${label.toLowerCase()}: ${err.message}`);
       }
     }
 
-    function setLeftPanelWidth(px) {
-      const main = document.querySelector(".main");
-      const bounds = main.getBoundingClientRect();
-      const minLeft = 260;
-      const maxLeft = Math.max(minLeft, bounds.width - 320);
-      const clamped = Math.min(Math.max(px, minLeft), maxLeft);
-      document.documentElement.style.setProperty("--left-width", `${clamped}px`);
-      localStorage.setItem("chapterAlignmentLeftWidth", String(clamped));
+    // ── aligned mode card ──────────────────────────────────────────────────────
+    function renderAlignedCard() {
+      const { jpFolder, enFolder } = getActiveFolders();
+      const container = document.getElementById("candidates");
+      container.innerHTML = "";
+      currentEN = currentChapter;
+
+      document.getElementById("rightTitle").textContent =
+        `${jpFolder}/${currentChapter} → ${enFolder}/${currentEN}`;
+
+      const enExists = enFileRefs.has(currentEN);
+      const div = document.createElement("div");
+      div.className = "card aligned-card active";
+      div.innerHTML = `
+        <span class="aligned-pair-label">Direct Pair</span>
+        <div class="meta">
+          <strong>${jpFolder}/${currentChapter} → ${enFolder}/${currentEN}</strong>
+          <span style="font-size:12px;color:${enExists ? "#4ade80" : "#f87171"}">${enExists ? "✓ found" : "✗ missing"}</span>
+        </div>`;
+      container.appendChild(div);
     }
 
-    function setCandidatesHeight(px) {
-      const rightBody = document.querySelector(".right-body");
-      const bounds = rightBody.getBoundingClientRect();
-      const minHeight = 140;
-      const splitterHeight = 8;
-      const maxHeight = Math.max(minHeight, bounds.height - 220 - splitterHeight);
-      const clamped = Math.min(Math.max(px, minHeight), maxHeight);
-      document.documentElement.style.setProperty("--candidates-height", `${clamped}px`);
-      localStorage.setItem("chapterAlignmentCandidatesHeight", String(clamped));
-    }
-
-    function initializeLeftPanelWidth() {
-      const savedWidth = Number(localStorage.getItem("chapterAlignmentLeftWidth"));
-      if (Number.isFinite(savedWidth) && savedWidth > 0) {
-        setLeftPanelWidth(savedWidth);
-        return;
-      }
-
-      const main = document.querySelector(".main");
-      setLeftPanelWidth(main.getBoundingClientRect().width * 0.32);
-    }
-
-    function initializeCandidatesHeight() {
-      const savedHeight = Number(localStorage.getItem("chapterAlignmentCandidatesHeight"));
-      const rightBody = document.querySelector(".right-body");
-      const bounds = rightBody.getBoundingClientRect();
-
-      if (Number.isFinite(savedHeight) && savedHeight > 0) {
-        setCandidatesHeight(savedHeight);
-        return;
-      }
-
-      setCandidatesHeight(bounds.height * 0.3);
-    }
-
-    function getActiveFolders() {
-      const useAligned = document.getElementById("useAlignedFolders").checked;
-      return useAligned
-        ? { jpFolder: "JP-Aligned", enFolder: "EN-Aligned" }
-        : { jpFolder: "JP", enFolder: "EN" };
-    }
-
-    function buildMatrixFromAlignedManifest(alignedManifest) {
-      const generatedMatrix = {};
-
-      alignedManifest.forEach(entry => {
-        const jpChapter = entry.jp_source;
-        const enChapter = entry.en_source;
-        const similarity = entry.similarity;
-
-        if (!generatedMatrix[jpChapter]) {
-          generatedMatrix[jpChapter] = {};
-        }
-
-        generatedMatrix[jpChapter][enChapter] = similarity;
-      });
-      return generatedMatrix;
-    }
-
-    function invalidateMatchCache() {
-      sortedMatchCache.clear();
-    }
-
-    function getSortedMatches(chapter) {
-      if (sortedMatchCache.has(chapter)) {
-        return sortedMatchCache.get(chapter);
-      }
-
-      const sorted = Object.entries(matrix[chapter] || {}).sort((a, b) => b[1] - a[1]);
-      sortedMatchCache.set(chapter, sorted);
-      return sorted;
-    }
-
+    // ── normal mode cards ──────────────────────────────────────────────────────
     function renderMatchCards(matches) {
       const container = document.getElementById("candidates");
       container.innerHTML = "";
@@ -618,7 +513,7 @@
         currentEN = "";
         document.getElementById("rightTitle").textContent = "Top Matches";
         setLoadingState("enText", "Missing chapter");
-        container.innerHTML = "<div class=\"card\">No matches found</div>";
+        container.innerHTML = `<div class="card">No matches found</div>`;
         return false;
       }
 
@@ -631,15 +526,13 @@
             <strong>#${i + 1} ${file}</strong>
             <span>${(score * 100).toFixed(2)}%</span>
           </div>
-          <div class="bar"><div class="fill" style="width:${score * 100}%"></div></div>
-        `;
+          <div class="bar"><div class="fill" style="width:${score * 100}%"></div></div>`;
 
         div.onclick = async () => {
           document.querySelectorAll(".card").forEach(x => x.classList.remove("active"));
           div.classList.add("active");
           currentEN = file;
-          const enText = await getCurrentEnText();
-          renderLineNumberedText("enText", enText);
+          renderLineNumberedText("enText", await getCurrentEnText());
           document.getElementById("rightTitle").textContent = `Best Match: ${currentEN}`;
         };
 
@@ -651,46 +544,65 @@
       return true;
     }
 
+    // ── file loading ───────────────────────────────────────────────────────────
+    function invalidateMatchCache() { sortedMatchCache.clear(); }
+
+    function getSortedMatches(chapter) {
+      if (sortedMatchCache.has(chapter)) return sortedMatchCache.get(chapter);
+      const sorted = Object.entries(matrix[chapter] || {}).sort((a, b) => b[1] - a[1]);
+      sortedMatchCache.set(chapter, sorted);
+      return sorted;
+    }
+
+    function getActiveFolders() {
+      const mode = document.getElementById("folderMode").value;
+      if (mode === "aligned")  return { jpFolder: "JP-Aligned",  enFolder: "EN-Aligned",  mode };
+      if (mode === "output")   return { jpFolder: "JP-Output",   enFolder: "EN-Output",   mode };
+      return                          { jpFolder: "JP",           enFolder: "EN",          mode };
+    }
+
+    async function loadChapterFilesFromSelection(files) {
+      jpFileRefs = new Map();
+      enFileRefs = new Map();
+      jpTextCache = new Map();
+      enTextCache = new Map();
+      alignedTotal = 0;
+
+      const { jpFolder, enFolder, mode } = getActiveFolders();
+
+      for (const file of files) {
+        const path = file.webkitRelativePath;
+        if (path.includes(`/${jpFolder}/`) && file.name.endsWith(".txt")) {
+          jpFileRefs.set(file.name, file);
+        } else if (path.includes(`/${enFolder}/`) && file.name.endsWith(".txt")) {
+          enFileRefs.set(file.name, file);
+        }
+      }
+
+      if (mode === "aligned") {
+        alignedTotal = jpFileRefs.size;
+      }
+    }
+
     async function loadMatchDataFromFiles(files) {
-      const useAlignedFolders = document.getElementById("useAlignedFolders").checked;
+      const { jpFolder, enFolder, mode } = getActiveFolders();
 
-      if (useAlignedFolders) {
-        //aligned_pairs_manifest.json
-        //[{ "aligned_number": 1,"jp_source": "1.txt","en_source": "1.txt","similarity": 0.763826,  "segment_offset": 0}...]
-        //
-
-        const alignedManifestFile = files.find(file => isAlignedManifestFile(file.webkitRelativePath));
-
-        if (!alignedManifestFile) {
-          matrix = {};
-          updateStatus("aligned_pairs_manifest.json not found at the folder root");
+      if (mode === "aligned" || mode === "output") {
+        // Direct 1-to-1 folder mapping — no JSON needed
+        if (jpFileRefs.size === 0) {
+          updateStatus(`No .txt files found in ${jpFolder} folder`);
           return;
         }
-
-        try {
-          const txt = await alignedManifestFile.text();
-          const alignedManifest = JSON.parse(txt);
-          matrix = buildMatrixFromAlignedManifest(alignedManifest);
-          invalidateMatchCache();
-
-          const matrixChapters = Object.keys(matrix);
-          if (matrixChapters.length) {
-            currentChapter = matrixChapters[0];
-            document.getElementById("chapterNum").value = currentChapter.replace(/\.txt$/i, "");
-          }
-
-          updateStatus(`Loaded ${jpFileRefs.size} JP chapters, ${enFileRefs.size} EN chapters, mapping from ${alignedManifestFile.name}`);
-          await render();
-        } catch (error) {
-          matrix = {};
-          updateStatus(`Failed to parse ${alignedManifestFile.name}: ${error.message}`);
-        }
-
+        const firstChapter = [...jpFileRefs.keys()].sort((a, b) => parseInt(a) - parseInt(b))[0];
+        currentChapter = firstChapter;
+        document.getElementById("chapterNum").value = currentChapter.replace(/\.txt$/i, "");
+        updateStatus(`${mode === "aligned" ? "Aligned" : "Output"} mode — ${jpFileRefs.size} ${jpFolder}, ${enFileRefs.size} ${enFolder} chapters loaded`);
+        await render();
         return;
       }
 
-      const matrixFile = files.find(file => isMatrixFile(file.webkitRelativePath));
-
+      // Normal mode: load matrix JSON
+      const matrixFile = files.find(f => isMatrixFile(f.webkitRelativePath));
       if (!matrixFile) {
         matrix = {};
         updateStatus("Matrix JSON not found at the folder root");
@@ -701,100 +613,67 @@
         const txt = await matrixFile.text();
         matrix = JSON.parse(txt);
         invalidateMatchCache();
-
-        const matrixChapters = Object.keys(matrix);
-        if (matrixChapters.length) {
-          currentChapter = matrixChapters[0];
+        const chapters = Object.keys(matrix);
+        if (chapters.length) {
+          currentChapter = chapters[0];
           document.getElementById("chapterNum").value = currentChapter.replace(/\.txt$/i, "");
         }
-
-        updateStatus(`Loaded ${jpFileRefs.size} JP chapters, ${enFileRefs.size} EN chapters, matrix from ${matrixFile.name}`);
+        updateStatus(`Loaded ${jpFileRefs.size} JP, ${enFileRefs.size} EN chapters, matrix from ${matrixFile.name}`);
         await render();
-      } catch (error) {
+      } catch (err) {
         matrix = {};
-        updateStatus(`Failed to parse ${matrixFile.name}: ${error.message}`);
-      }
-    }
-
-    async function loadChapterFilesFromSelection(files) {
-      jpFileRefs = new Map();
-      enFileRefs = new Map();
-      jpTextCache = new Map();
-      enTextCache = new Map();
-
-      const { jpFolder, enFolder } = getActiveFolders();
-
-      for (const file of files) {
-        const path = file.webkitRelativePath;
-
-        if (path.includes(`/${jpFolder}/`) && file.name.endsWith(".txt")) {
-          jpFileRefs.set(file.name, file);
-          continue;
-        }
-
-        if (path.includes(`/${enFolder}/`) && file.name.endsWith(".txt")) {
-          enFileRefs.set(file.name, file);
-        }
+        updateStatus(`Failed to parse ${matrixFile.name}: ${err.message}`);
       }
     }
 
     async function reloadFromSelection() {
-      if (!selectedFiles.length) {
-        updateStatus("Load a folder containing JP/EN or JP-Output/EN-Output and the matching JSON (chapter_similarity_matrix.json or arrangement_state.json)");
-        return;
-      }
-
+      if (!selectedFiles.length) return;
       await loadChapterFilesFromSelection(selectedFiles);
       await loadMatchDataFromFiles(selectedFiles);
     }
 
-    document
-      .getElementById("folderPicker")
-      .addEventListener("change", async (e) => {
-        selectedFiles = Array.from(e.target.files);
-        await reloadFromSelection();
-      });
+    document.getElementById("folderPicker").addEventListener("change", async e => {
+      selectedFiles = Array.from(e.target.files);
+      await reloadFromSelection();
+    });
 
-    document
-      .getElementById("useAlignedFolders")
-      .addEventListener("change", async () => {
-        await reloadFromSelection();
-      });
+    document.getElementById("folderMode").addEventListener("change", async () => {
+      await reloadFromSelection();
+    });
 
+    // ── main render ────────────────────────────────────────────────────────────
     async function render() {
       const token = ++renderToken;
-      const chapter = document.getElementById("chapterNum").value || currentChapter.replace(".txt", "");
-      currentChapter = chapter.endsWith(".txt") ? chapter : chapter + ".txt";
+      const { jpFolder, enFolder, mode } = getActiveFolders();
+      const isDirect = mode === "aligned" || mode === "output";
       const autoTranslate = document.getElementById("autoTranslate").checked;
-      const topN = parseInt(document.getElementById("topN").value || 10, 10);
-      const matches = getSortedMatches(currentChapter).slice(0, topN);
 
-      if (!renderMatchCards(matches)) {
-        return;
+      const raw = document.getElementById("chapterNum").value || currentChapter.replace(".txt", "");
+      currentChapter = raw.endsWith(".txt") ? raw : raw + ".txt";
+
+      if (isDirect) {
+        renderAlignedCard();
+      } else {
+        const topN = parseInt(document.getElementById("topN").value || 10, 10);
+        const matches = getSortedMatches(currentChapter).slice(0, topN);
+        if (!renderMatchCards(matches)) return;
       }
 
-      setLoadingState("enText", "Loading best match…");
-      setLoadingState("jpText", "Loading chapter…");
-
+      setLoadingState("enText", "Loading…");
+      setLoadingState("jpText", "Loading…");
 
       const enText = await getCurrentEnText();
       if (token !== renderToken) return;
       renderLineNumberedText("enText", enText);
       await nextFrame();
 
-      const jpTextPromise = getCurrentJpText();
-      await nextFrame();
-
-      const jpText = await jpTextPromise;
+      const jpText = await getCurrentJpText();
       if (token !== renderToken) return;
 
       if (autoTranslate) {
         const paragraphs = splitIntoParagraphs(jpText);
-        if (!paragraphs.length) {
-          setLoadingState("jpText", "No text found");
-        } else {
-          await renderParagraphTranslations("jpText", paragraphs, token);
-        }
+        if (!paragraphs.length) setLoadingState("jpText", "No text found");
+        else await renderParagraphTranslations("jpText", paragraphs, token);
       } else {
         renderLineNumberedText("jpText", jpText);
       }
@@ -805,104 +684,17 @@
     document.getElementById("autoTranslate").addEventListener("change", render);
 
     document.getElementById("copyJpBtn").onclick = async () => {
-      const text = await getCurrentJpText();
-      copyToClipboard(text, `JP chapter ${currentChapter}`);
+      copyToClipboard(await getCurrentJpText(), `JP chapter ${currentChapter}`);
     };
 
     document.getElementById("copyEnBtn").onclick = async () => {
-        //Just copy english chapter
-      if (!currentEN) {
-        alert("No English chapter selected.");
-        return;
-      }
-
+      if (!currentEN) { alert("No English chapter selected."); return; }
       const text = await getCurrentEnText();
-      //Convert it to numbered lines
-      const numberedText = text.split('\n').map((line, index) => `${index + 1}: ${line}`).join('\n');
-      copyToClipboard(numberedText, `English chapter ${currentEN || "match"}`);
+      const numbered = text.split("\n").map((l, i) => `${i + 1}: ${l}`).join("\n");
+      copyToClipboard(numbered, `English chapter ${currentEN}`);
     };
 
-    const splitter = document.getElementById("splitter");
-    const verticalSplitter = document.getElementById("verticalSplitter");
-
-    function queueResize(type, value) {
-      pendingResize = { type, value };
-      if (resizeRafToken) return;
-
-      resizeRafToken = requestAnimationFrame(() => {
-        resizeRafToken = 0;
-        if (!pendingResize) return;
-
-        if (pendingResize.type === "width") {
-          setLeftPanelWidth(pendingResize.value);
-        } else if (pendingResize.type === "height") {
-          setCandidatesHeight(pendingResize.value);
-        }
-
-        pendingResize = null;
-      });
-    }
-
-    function startResize(event, type) {
-      event.preventDefault();
-      resizeTarget = type;
-
-      if (type === "width") {
-        isResizing = true;
-        splitter.classList.add("dragging");
-      } else {
-        isVerticalResizing = true;
-        verticalSplitter.classList.add("dragging");
-      }
-
-      event.currentTarget.setPointerCapture?.(event.pointerId);
-    }
-
-    splitter.addEventListener("pointerdown", event => startResize(event, "width"));
-    verticalSplitter.addEventListener("pointerdown", event => startResize(event, "height"));
-
-    document.addEventListener("pointermove", event => {
-      if (resizeTarget === "width" && isResizing) {
-        queueResize("width", event.clientX);
-        return;
-      }
-
-      if (resizeTarget === "height" && isVerticalResizing) {
-        const rightBody = document.querySelector(".right-body");
-        const bounds = rightBody.getBoundingClientRect();
-        queueResize("height", event.clientY - bounds.top);
-      }
-    });
-
-    function stopResize() {
-      if (resizeTarget === "width") {
-        isResizing = false;
-        splitter.classList.remove("dragging");
-      }
-
-      if (resizeTarget === "height") {
-        isVerticalResizing = false;
-        verticalSplitter.classList.remove("dragging");
-      }
-
-      resizeTarget = null;
-    }
-
-    document.addEventListener("pointerup", stopResize);
-    document.addEventListener("pointercancel", stopResize);
-
-    window.addEventListener("resize", () => {
-      const currentWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--left-width"));
-      if (Number.isFinite(currentWidth)) {
-        setLeftPanelWidth(currentWidth);
-      }
-
-      const currentHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--candidates-height"));
-      if (Number.isFinite(currentHeight)) {
-        setCandidatesHeight(currentHeight);
-      }
-    });
-
+    // ── navigation ─────────────────────────────────────────────────────────────
     document.getElementById("prevBtn").onclick = () => {
       let n = parseInt(document.getElementById("chapterNum").value || 1, 10) - 1;
       if (n < 1) n = 1;
@@ -911,8 +703,11 @@
     };
 
     document.getElementById("nextBtn").onclick = () => {
+      const { mode } = getActiveFolders();
+      const isDirect = mode === "aligned" || mode === "output";
+      const max = isDirect && alignedTotal > 0 ? alignedTotal : Infinity;
       let n = parseInt(document.getElementById("chapterNum").value || 1, 10) + 1;
-      if (n < 1) n = 1;
+      if (n > max) n = max;
       document.getElementById("chapterNum").value = n;
       render();
     };
@@ -922,11 +717,84 @@
       if (e.key === "ArrowRight") document.getElementById("nextBtn").click();
     });
 
+    // ── resize ─────────────────────────────────────────────────────────────────
+    function setLeftPanelWidth(px) {
+      const bounds = document.querySelector(".main").getBoundingClientRect();
+      const clamped = Math.min(Math.max(px, 260), Math.max(260, bounds.width - 320));
+      document.documentElement.style.setProperty("--left-width", `${clamped}px`);
+      localStorage.setItem("chapterAlignmentLeftWidth", String(clamped));
+    }
+
+    function setCandidatesHeight(px) {
+      const bounds = document.querySelector(".right-body").getBoundingClientRect();
+      const clamped = Math.min(Math.max(px, 140), Math.max(140, bounds.height - 228));
+      document.documentElement.style.setProperty("--candidates-height", `${clamped}px`);
+      localStorage.setItem("chapterAlignmentCandidatesHeight", String(clamped));
+    }
+
+    function initializeLeftPanelWidth() {
+      const saved = Number(localStorage.getItem("chapterAlignmentLeftWidth"));
+      setLeftPanelWidth(Number.isFinite(saved) && saved > 0 ? saved : document.querySelector(".main").getBoundingClientRect().width * 0.32);
+    }
+
+    function initializeCandidatesHeight() {
+      const saved = Number(localStorage.getItem("chapterAlignmentCandidatesHeight"));
+      setLeftPanelWidth(Number.isFinite(saved) && saved > 0 ? saved : document.querySelector(".right-body").getBoundingClientRect().height * 0.3);
+    }
+
+    const splitter = document.getElementById("splitter");
+    const verticalSplitter = document.getElementById("verticalSplitter");
+
+    function queueResize(type, value) {
+      pendingResize = { type, value };
+      if (resizeRafToken) return;
+      resizeRafToken = requestAnimationFrame(() => {
+        resizeRafToken = 0;
+        if (!pendingResize) return;
+        if (pendingResize.type === "width") setLeftPanelWidth(pendingResize.value);
+        else setCandidatesHeight(pendingResize.value);
+        pendingResize = null;
+      });
+    }
+
+    function startResize(event, type) {
+      event.preventDefault();
+      resizeTarget = type;
+      if (type === "width") { isResizing = true; splitter.classList.add("dragging"); }
+      else { isVerticalResizing = true; verticalSplitter.classList.add("dragging"); }
+      event.currentTarget.setPointerCapture?.(event.pointerId);
+    }
+
+    splitter.addEventListener("pointerdown", e => startResize(e, "width"));
+    verticalSplitter.addEventListener("pointerdown", e => startResize(e, "height"));
+
+    document.addEventListener("pointermove", e => {
+      if (resizeTarget === "width" && isResizing) { queueResize("width", e.clientX); return; }
+      if (resizeTarget === "height" && isVerticalResizing) {
+        queueResize("height", e.clientY - document.querySelector(".right-body").getBoundingClientRect().top);
+      }
+    });
+
+    function stopResize() {
+      if (resizeTarget === "width") { isResizing = false; splitter.classList.remove("dragging"); }
+      if (resizeTarget === "height") { isVerticalResizing = false; verticalSplitter.classList.remove("dragging"); }
+      resizeTarget = null;
+    }
+
+    document.addEventListener("pointerup", stopResize);
+    document.addEventListener("pointercancel", stopResize);
+
+    window.addEventListener("resize", () => {
+      const w = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--left-width"));
+      const h = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--candidates-height"));
+      if (Number.isFinite(w)) setLeftPanelWidth(w);
+      if (Number.isFinite(h)) setCandidatesHeight(h);
+    });
+
+    // ── translation service ────────────────────────────────────────────────────
     const TranslationService = (() => {
-      const cache = new Map();
-      const pending = new Map();
-      let providerPromise = null;
-      let provider = null;
+      const cache = new Map(), pending = new Map();
+      let providerPromise = null, provider = null;
 
       const DEFAULT_CONFIG = {
         endpoint: "http://localhost:1234/api/v1/chat",
@@ -937,62 +805,26 @@
       };
 
       function getConfig() {
-        const custom = window.translationConfig && typeof window.translationConfig === "object"
-          ? window.translationConfig
-          : {};
-        return {
-          ...DEFAULT_CONFIG,
-          ...custom,
-          headers: {
-            ...DEFAULT_CONFIG.headers,
-            ...(custom.headers || {})
-          }
-        };
+        const custom = window.translationConfig && typeof window.translationConfig === "object" ? window.translationConfig : {};
+        return { ...DEFAULT_CONFIG, ...custom, headers: { ...DEFAULT_CONFIG.headers, ...(custom.headers || {}) } };
       }
 
       function buildRequestPayload(text, options, config) {
-        if (typeof window.buildTranslationRequestPayload === "function") {
+        if (typeof window.buildTranslationRequestPayload === "function")
           return window.buildTranslationRequestPayload(text, options, config);
-        }
-
-        return {
-          model: config.model,
-          system_prompt: config.systemPrompt,
-          input: text
-        };
+        return { model: config.model, system_prompt: config.systemPrompt, input: text };
       }
 
       function extractTranslatedText(payload) {
         if (!payload) return "";
-
-        if (typeof payload === "string") {
-          return payload.trim();
+        if (typeof payload === "string") return payload.trim();
+        if (Array.isArray(payload.output)) {
+          const parts = payload.output.filter(i => i?.type === "message" && typeof i.content === "string").map(i => i.content.trim()).filter(Boolean);
+          if (parts.length) return parts.join("\n").trim();
+          const fallback = payload.output.map(i => typeof i?.content === "string" ? i.content.trim() : "").filter(Boolean);
+          if (fallback.length) return fallback.join("\n").trim();
         }
-
-        if (typeof payload.output !== "undefined" && Array.isArray(payload.output)) {
-          const messageParts = payload.output
-            .filter(item => item && item.type === "message" && typeof item.content === "string")
-            .map(item => item.content.trim())
-            .filter(Boolean);
-
-          if (messageParts.length) {
-            return messageParts.join("\n").trim();
-          }
-
-          const fallbackParts = payload.output
-            .map(item => typeof item?.content === "string" ? item.content.trim() : "")
-            .filter(Boolean);
-
-          if (fallbackParts.length) {
-            return fallbackParts.join("\n").trim();
-          }
-        }
-
-        if (typeof payload.translation === "string") return payload.translation.trim();
-        if (typeof payload.content === "string") return payload.content.trim();
-        if (typeof payload.text === "string") return payload.text.trim();
-
-        return "";
+        return (payload.translation ?? payload.content ?? payload.text ?? "").toString().trim();
       }
 
       async function createEndpointProvider() {
@@ -1001,129 +833,82 @@
           async translate(text, options = {}) {
             const config = getConfig();
             const controller = new AbortController();
-            const timeoutId = window.setTimeout(() => controller.abort(), config.timeoutMs);
-
+            const tid = window.setTimeout(() => controller.abort(), config.timeoutMs);
             try {
-              const response = await fetch(config.endpoint, {
+              const res = await fetch(config.endpoint, {
                 method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  ...config.headers
-                },
+                headers: { "Content-Type": "application/json", ...config.headers },
                 body: JSON.stringify(buildRequestPayload(text, options, config)),
                 signal: controller.signal
               });
-
-              if (!response.ok) {
-                const detail = await response.text().catch(() => "");
-                throw new Error(`Translation endpoint returned ${response.status}${detail ? `: ${detail}` : ""}`);
-              }
-
-              const payload = await response.json();
+              if (!res.ok) { const d = await res.text().catch(() => ""); throw new Error(`Endpoint returned ${res.status}${d ? `: ${d}` : ""}`); }
+              const payload = await res.json();
               const translated = extractTranslatedText(payload);
-              if (!translated) {
-                throw new Error("Translation endpoint returned no usable text");
-              }
+              if (!translated) throw new Error("Endpoint returned no usable text");
               return translated;
-            } finally {
-              window.clearTimeout(timeoutId);
-            }
+            } finally { window.clearTimeout(tid); }
           }
         };
       }
 
       async function getProvider() {
         if (provider) return provider;
-        if (!providerPromise) {
-          providerPromise = createEndpointProvider().then(next => (provider = next));
-        }
+        if (!providerPromise) providerPromise = createEndpointProvider().then(p => (provider = p));
         return providerPromise;
       }
 
       async function translateParagraph(text, options = {}) {
         const normalized = normalizeText(text);
         if (!normalized) return "";
-
         const key = `${options.sourceLang || "ja"}|${options.targetLang || "en"}|${normalized}`;
         if (cache.has(key)) return cache.get(key);
         if (pending.has(key)) return pending.get(key);
-
-        const request = (async () => {
-          const activeProvider = await getProvider();
-          const translated = await activeProvider.translate(normalized, options);
-          cache.set(key, translated);
-          return translated;
-        })();
-
-        pending.set(key, request);
-
-        try {
-          return await request;
-        } finally {
-          pending.delete(key);
-        }
-      }
-
-      async function warmup() {
-        const activeProvider = await getProvider();
-        return activeProvider?.name || "unknown";
+        const req = (async () => { const p = await getProvider(); const t = await p.translate(normalized, options); cache.set(key, t); return t; })();
+        pending.set(key, req);
+        try { return await req; } finally { pending.delete(key); }
       }
 
       return {
         translateParagraph,
-        warmup,
-        clearCache() {
-          cache.clear();
-          pending.clear();
-        },
-        setProvider(nextProvider) {
-          provider = nextProvider;
-          providerPromise = Promise.resolve(nextProvider);
-          cache.clear();
-          pending.clear();
-        },
+        async warmup() { return (await getProvider())?.name || "unknown"; },
+        clearCache() { cache.clear(); pending.clear(); },
+        setProvider(p) { provider = p; providerPromise = Promise.resolve(p); cache.clear(); pending.clear(); },
         getConfig
       };
     })();
 
+    // ── tooltip ────────────────────────────────────────────────────────────────
     const tooltip = document.getElementById("jpTooltip");
 
-    function positionTooltip(event) {
-      const offset = 16;
-      const maxLeft = window.innerWidth - tooltip.offsetWidth - 12;
-      const maxTop = window.innerHeight - tooltip.offsetHeight - 12;
-      const left = Math.min(event.clientX + offset, maxLeft);
-      const top = Math.min(event.clientY + offset, maxTop);
-      tooltip.style.left = `${Math.max(12, left)}px`;
-      tooltip.style.top = `${Math.max(12, top)}px`;
+    function positionTooltip(e) {
+      const left = Math.min(Math.max(12, e.clientX + 16), window.innerWidth - tooltip.offsetWidth - 12);
+      const top  = Math.min(Math.max(12, e.clientY + 16), window.innerHeight - tooltip.offsetHeight - 12);
+      tooltip.style.left = `${left}px`;
+      tooltip.style.top  = `${top}px`;
     }
 
-    function attachTooltipHandlers() {
-      document.addEventListener("mouseover", (event) => {
-        const block = event.target.closest?.(".paragraph-block");
-        if (!block || !block.dataset.original) return;
-        tooltip.textContent = block.dataset.original;
-        tooltip.classList.add("visible");
-        tooltip.setAttribute("aria-hidden", "false");
-        positionTooltip(event);
-      });
+    document.addEventListener("mouseover", e => {
+      const block = e.target.closest?.(".paragraph-block");
+      if (!block?.dataset.original) return;
+      tooltip.textContent = block.dataset.original;
+      tooltip.classList.add("visible");
+      tooltip.setAttribute("aria-hidden", "false");
+      positionTooltip(e);
+    });
 
-      document.addEventListener("mousemove", (event) => {
-        if (!tooltip.classList.contains("visible")) return;
-        positionTooltip(event);
-      });
+    document.addEventListener("mousemove", e => {
+      if (tooltip.classList.contains("visible")) positionTooltip(e);
+    });
 
-      document.addEventListener("mouseout", (event) => {
-        const block = event.target.closest?.(".paragraph-block");
-        if (!block) return;
-        const related = event.relatedTarget?.closest?.(".paragraph-block");
-        if (related === block) return;
-        tooltip.classList.remove("visible");
-        tooltip.setAttribute("aria-hidden", "true");
-      });
-    }
+    document.addEventListener("mouseout", e => {
+      const block = e.target.closest?.(".paragraph-block");
+      if (!block) return;
+      if (e.relatedTarget?.closest?.(".paragraph-block") === block) return;
+      tooltip.classList.remove("visible");
+      tooltip.setAttribute("aria-hidden", "true");
+    });
 
-    attachTooltipHandlers();
+    // ── init ───────────────────────────────────────────────────────────────────
     initializeLeftPanelWidth();
     initializeCandidatesHeight();
     TranslationService.warmup().catch(() => {});
