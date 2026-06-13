@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Chapter Alignment Studio</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #131a2b;
+      --panel2: #182136;
+      --accent: #60a5fa;
+      --text: #e5e7eb;
+      --left-width: 32%;
+      --candidates-height: 30%;
+    }
+
+    * { box-sizing: border-box }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden
+    }
+
+    header {
+      padding: 14px 20px;
+      background: #0f172a;
+      border-bottom: 1px solid #243047
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center
+    }
+
+    button, input, select {
+      background: #1e293b;
+      color: white;
+      border: 1px solid #334155;
+      padding: 8px 10px;
+      border-radius: 8px
+    }
+
+    select { cursor: pointer }
+
+    .main {
+      display: grid;
+      grid-template-columns: var(--left-width) 8px minmax(0, 1fr);
+      flex: 1;
+      min-height: 0
+    }
+
+    .left, .right {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0
+    }
+
+    .left { border-right: 1px solid #243047 }
+
+    .splitter {
+      cursor: col-resize;
+      background: linear-gradient(180deg, transparent, rgba(96,165,250,0.18), transparent);
+      border-left: 1px solid #243047;
+      border-right: 1px solid #243047
+    }
+
+    .splitter:hover, .splitter.dragging {
+      background: linear-gradient(180deg, transparent, rgba(96,165,250,0.32), transparent)
+    }
+
+    .panel { padding: 10px }
+
+    .panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px
+    }
+
+    .panel-actions { display: flex; gap: 8px; align-items: center }
+    .panel-actions button { padding: 6px 10px; font-size: 12px }
+
+    .viewer {
+      flex: 1;
+      overflow: auto;
+      padding: 16px;
+      background: var(--panel);
+      min-height: 0
+    }
+
+    .line-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-family: inherit;
+      line-height: 1.5;
+      white-space: normal
+    }
+
+    .line-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      min-width: 0
+    }
+
+    .line-no {
+      min-width: 2.5em;
+      text-align: right;
+      color: #94a3b8;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      user-select: none
+    }
+
+    .line-text {
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-width: 0
+    }
+
+    .candidates {
+      overflow: auto;
+      flex: 0 0 var(--candidates-height);
+      padding: 12px
+    }
+
+    .right-body {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column
+    }
+
+    .vertical-splitter {
+      height: 8px;
+      cursor: row-resize;
+      background: linear-gradient(90deg, transparent, rgba(96,165,250,0.18), transparent);
+      border-top: 1px solid #243047;
+      border-bottom: 1px solid #243047;
+      flex: 0 0 8px;
+      touch-action: none;
+      user-select: none
+    }
+
+    .vertical-splitter:hover, .vertical-splitter.dragging {
+      background: linear-gradient(90deg, transparent, rgba(96,165,250,0.32), transparent)
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid #2a3650;
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 10px;
+      cursor: pointer
+    }
+
+    .card:hover { transform: translateY(-1px) }
+    .card.active { outline: 2px solid var(--accent) }
+
+    .card.aligned-card {
+      border-color: #1e4a6e;
+      background: #0f1f35;
+      cursor: default
+    }
+
+    .card.aligned-card.active { outline: 2px solid #38bdf8 }
+
+    .bar {
+      height: 8px;
+      background: #0f172a;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 6px
+    }
+
+    .fill {
+      height: 100%;
+      background: linear-gradient(90deg, #22c55e, #eab308)
+    }
+
+    h3 { margin: 0 0 8px 0 }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px
+    }
+
+    .aligned-pair-label {
+      font-size: 11px;
+      color: #64748b;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 3px
+    }
+
+    pre { white-space: pre-wrap; line-height: 1.5 }
+
+    .panel-actions label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .paragraph-block {
+      background: var(--panel2);
+      border: 1px solid #2a3650;
+      border-radius: 12px;
+      padding: 12px 12px 10px;
+      margin-bottom: 10px;
+      position: relative;
+      white-space: pre-wrap;
+      word-break: break-word
+    }
+
+    .paragraph-block.translation-error { border-color: #7f1d1d }
+
+    .paragraph-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+      color: #93c5fd;
+      font-size: 12px;
+      user-select: none
+    }
+
+    .paragraph-no {
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      letter-spacing: .02em
+    }
+
+    .paragraph-state { color: #94a3b8 }
+
+    .paragraph-text { line-height: 1.65; white-space: pre-wrap }
+
+    .translation-tooltip {
+      position: fixed;
+      z-index: 9999;
+      display: none;
+      max-width: min(520px, calc(100vw - 24px));
+      background: rgba(15,23,42,0.98);
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      pointer-events: none
+    }
+
+    .translation-tooltip.visible { display: block }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="controls">
+      <input type="file" id="folderPicker" webkitdirectory multiple>
+      <label>Mode
+        <select id="folderMode">
+          <option value="original">Original</option>
+          <option value="aligned">Aligned</option>
+          <option value="output">Output</option>
+        </select>
+      </label>
+      <label><input id="autoTranslate" type="checkbox"> Auto-Translate</label>
+      <label>Chapter <input id="chapterNum" style="width:90px"></label>
+      <label>Top N <input id="topN" type="number" value="10" min="1" max="100" style="width:70px"></label>
+      <button id="prevBtn">◀</button>
+      <button id="nextBtn">▶</button>
+      <span id="status">Load a folder containing JP, EN, and the similarity matrix JSON</span>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="left">
+      <div class="panel">
+        <div class="panel-top">
+          <h3>JP Chapter</h3>
+          <div class="panel-actions">
+            <button id="copyJpBtn" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+      <div class="viewer">
+        <div id="jpText" class="line-list"></div>
+      </div>
+    </div>
+
+    <div id="splitter" class="splitter" aria-label="Resize chapter panels" role="separator"></div>
+
+    <div class="right">
+      <div class="panel">
+        <div class="panel-top">
+          <h3 id="rightTitle">Top Matches</h3>
+          <div class="panel-actions">
+            <button id="copyEnBtn" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+      <div class="right-body">
+        <div class="candidates" id="candidates"></div>
+        <div id="verticalSplitter" class="vertical-splitter" aria-label="Resize match and English panels" role="separator"></div>
+        <div class="viewer">
+          <div id="enText" class="line-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="jpTooltip" class="translation-tooltip" role="tooltip" aria-hidden="true"></div>
+
+  <script>
+    // ── state ──────────────────────────────────────────────────────────────────
+    let jpFileRefs = new Map();   // filename -> File  (JP or JP-Aligned)
+    let enFileRefs = new Map();   // filename -> File  (EN or EN-Aligned)
+    let matrix = {};              // used only in normal (non-aligned) mode
+
+    let jpTextCache = new Map();
+    let enTextCache = new Map();
+    let sortedMatchCache = new Map();
+
+    let currentChapter = "1.txt";
+    let currentEN = "";
+    let selectedFiles = [];
+    let alignedTotal = 0;         // JP-Aligned file count, used for nav bounds
+
+    let isResizing = false;
+    let isVerticalResizing = false;
+    let renderToken = 0;
+    let resizeRafToken = 0;
+    let pendingResize = null;
+    let resizeTarget = null;
+
+    const MATRIX_FILE_NAMES = [
+      "chapter_similarity_matrix.json",
+      "chapter_smilarity_matrix.json"
+    ];
+
+    // ── helpers ────────────────────────────────────────────────────────────────
+    function getRootRelativePath(path) {
+      return path.split("/").slice(1).join("/");
+    }
+
+    function isMatrixFile(path) {
+      return MATRIX_FILE_NAMES.includes(getRootRelativePath(path));
+    }
+
+    function updateStatus(msg) {
+      document.getElementById("status").textContent = msg;
+    }
+
+    function escapeHtml(v) {
+      return String(v)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+
+    function normalizeText(text) {
+      return String(text ?? "").replace(/\r\n/g, "\n").trim();
+    }
+
+    function nextFrame() {
+      return new Promise(resolve => requestAnimationFrame(() => resolve()));
+    }
+
+    function splitIntoParagraphs(text) {
+      return normalizeText(text).split(/\n\s*\n+/).map(p => p.trim()).filter(Boolean);
+    }
+
+    async function readFileText(file, cache) {
+      if (!file) return "";
+      const key = file.webkitRelativePath || file.name;
+      if (cache.has(key)) return cache.get(key);
+      const text = await file.text();
+      cache.set(key, text);
+      return text;
+    }
+
+    async function getCurrentJpText() {
+      return (await readFileText(jpFileRefs.get(currentChapter), jpTextCache)) || "Chapter not found";
+    }
+
+    async function getCurrentEnText() {
+      return (await readFileText(enFileRefs.get(currentEN), enTextCache)) || "Missing chapter";
+    }
+
+    // ── rendering ──────────────────────────────────────────────────────────────
+    function renderLineNumberedText(containerId, text) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = String(text ?? "").split(/\r?\n/)
+        .map((line, i) => `
+          <div class="line-row">
+            <span class="line-no">${i + 1}</span>
+            <span class="line-text">${line ? escapeHtml(line) : "&nbsp;"}</span>
+          </div>`)
+        .join("");
+    }
+
+    function renderParagraphShell(containerId, paragraphs) {
+      document.getElementById(containerId).innerHTML = paragraphs
+        .map((_, i) => `
+          <div class="paragraph-block" data-index="${i}" aria-busy="true">
+            <div class="paragraph-meta">
+              <span class="paragraph-no">P${i + 1}</span>
+              <span class="paragraph-state">Queued</span>
+            </div>
+            <div class="paragraph-text">Translating…</div>
+          </div>`)
+        .join("");
+    }
+
+    function setLoadingState(containerId, message) {
+      document.getElementById(containerId).innerHTML = `
+        <div class="paragraph-block">
+          <div class="paragraph-text">${escapeHtml(message)}</div>
+        </div>`;
+    }
+
+    function updateParagraphBlock(block, state, text, isError = false) {
+      if (!block) return;
+      block.querySelector(".paragraph-state").textContent = state;
+      block.querySelector(".paragraph-text").textContent = text;
+      block.classList.toggle("translation-error", isError);
+    }
+
+    async function renderParagraphTranslations(containerId, paragraphs, token) {
+      renderParagraphShell(containerId, paragraphs);
+      const blocks = Array.from(document.getElementById(containerId).querySelectorAll(".paragraph-block"));
+
+      for (let i = 0; i < paragraphs.length; i++) {
+        if (token !== renderToken) return;
+        if (i > 10) { updateParagraphBlock(blocks[i], "Original", paragraphs[i]); continue; }
+        const block = blocks[i];
+        const original = paragraphs[i];
+        if (block) block.dataset.original = original;
+
+        try {
+          const translated = await TranslationService.translateParagraph(original, { sourceLang: "ja", targetLang: "en", paragraphIndex: i });
+          if (token !== renderToken) return;
+          updateParagraphBlock(block, translated ? "EN" : "Original", translated || original);
+        } catch (err) {
+          if (token !== renderToken) return;
+          updateParagraphBlock(block, "Original", original, true);
+          if (block) block.title = `Translation failed: ${err.message}`;
+        }
+      }
+    }
+
+    async function copyToClipboard(text, label) {
+      try {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const t = document.createElement("textarea");
+          t.value = text; t.style.cssText = "position:fixed;left:-9999px;top:-9999px";
+          document.body.appendChild(t); t.focus(); t.select();
+          document.execCommand("copy"); t.remove();
+        }
+        updateStatus(`${label} copied to clipboard`);
+      } catch (err) {
+        updateStatus(`Failed to copy ${label.toLowerCase()}: ${err.message}`);
+      }
+    }
+
+    // ── aligned mode card ──────────────────────────────────────────────────────
+    function renderAlignedCard() {
+      const { jpFolder, enFolder } = getActiveFolders();
+      const container = document.getElementById("candidates");
+      container.innerHTML = "";
+      currentEN = currentChapter;
+
+      document.getElementById("rightTitle").textContent =
+        `${jpFolder}/${currentChapter} → ${enFolder}/${currentEN}`;
+
+      const enExists = enFileRefs.has(currentEN);
+      const div = document.createElement("div");
+      div.className = "card aligned-card active";
+      div.innerHTML = `
+        <span class="aligned-pair-label">Direct Pair</span>
+        <div class="meta">
+          <strong>${jpFolder}/${currentChapter} → ${enFolder}/${currentEN}</strong>
+          <span style="font-size:12px;color:${enExists ? "#4ade80" : "#f87171"}">${enExists ? "✓ found" : "✗ missing"}</span>
+        </div>`;
+      container.appendChild(div);
+    }
+
+    // ── normal mode cards ──────────────────────────────────────────────────────
+    function renderMatchCards(matches) {
+      const container = document.getElementById("candidates");
+      container.innerHTML = "";
+
+      if (!matches.length) {
+        currentEN = "";
+        document.getElementById("rightTitle").textContent = "Top Matches";
+        setLoadingState("enText", "Missing chapter");
+        container.innerHTML = `<div class="card">No matches found</div>`;
+        return false;
+      }
+
+      matches.forEach((m, i) => {
+        const [file, score] = m;
+        const div = document.createElement("div");
+        div.className = "card" + (i === 0 ? " active" : "");
+        div.innerHTML = `
+          <div class="meta">
+            <strong>#${i + 1} ${file}</strong>
+            <span>${(score * 100).toFixed(2)}%</span>
+          </div>
+          <div class="bar"><div class="fill" style="width:${score * 100}%"></div></div>`;
+
+        div.onclick = async () => {
+          document.querySelectorAll(".card").forEach(x => x.classList.remove("active"));
+          div.classList.add("active");
+          currentEN = file;
+          renderLineNumberedText("enText", await getCurrentEnText());
+          document.getElementById("rightTitle").textContent = `Best Match: ${currentEN}`;
+        };
+
+        container.appendChild(div);
+      });
+
+      currentEN = matches[0][0];
+      document.getElementById("rightTitle").textContent = `Best Match: ${currentEN}`;
+      return true;
+    }
+
+    // ── file loading ───────────────────────────────────────────────────────────
+    function invalidateMatchCache() { sortedMatchCache.clear(); }
+
+    function getSortedMatches(chapter) {
+      if (sortedMatchCache.has(chapter)) return sortedMatchCache.get(chapter);
+      const sorted = Object.entries(matrix[chapter] || {}).sort((a, b) => b[1] - a[1]);
+      sortedMatchCache.set(chapter, sorted);
+      return sorted;
+    }
+
+    function getActiveFolders() {
+      const mode = document.getElementById("folderMode").value;
+      if (mode === "aligned")  return { jpFolder: "JP-Aligned",  enFolder: "EN-Aligned",  mode };
+      if (mode === "output")   return { jpFolder: "JP-Output",   enFolder: "EN-Output",   mode };
+      return                          { jpFolder: "JP",           enFolder: "EN",          mode };
+    }
+
+    async function loadChapterFilesFromSelection(files) {
+      jpFileRefs = new Map();
+      enFileRefs = new Map();
+      jpTextCache = new Map();
+      enTextCache = new Map();
+      alignedTotal = 0;
+
+      const { jpFolder, enFolder, mode } = getActiveFolders();
+
+      for (const file of files) {
+        const path = file.webkitRelativePath;
+        if (path.includes(`/${jpFolder}/`) && file.name.endsWith(".txt")) {
+          jpFileRefs.set(file.name, file);
+        } else if (path.includes(`/${enFolder}/`) && file.name.endsWith(".txt")) {
+          enFileRefs.set(file.name, file);
+        }
+      }
+
+      if (mode === "aligned") {
+        alignedTotal = jpFileRefs.size;
+      }
+    }
+
+    async function loadMatchDataFromFiles(files) {
+      const { jpFolder, enFolder, mode } = getActiveFolders();
+
+      if (mode === "aligned" || mode === "output") {
+        // Direct 1-to-1 folder mapping — no JSON needed
+        if (jpFileRefs.size === 0) {
+          updateStatus(`No .txt files found in ${jpFolder} folder`);
+          return;
+        }
+        const firstChapter = [...jpFileRefs.keys()].sort((a, b) => parseInt(a) - parseInt(b))[0];
+        currentChapter = firstChapter;
+        document.getElementById("chapterNum").value = currentChapter.replace(/\.txt$/i, "");
+        updateStatus(`${mode === "aligned" ? "Aligned" : "Output"} mode — ${jpFileRefs.size} ${jpFolder}, ${enFileRefs.size} ${enFolder} chapters loaded`);
+        await render();
+        return;
+      }
+
+      // Normal mode: load matrix JSON
+      const matrixFile = files.find(f => isMatrixFile(f.webkitRelativePath));
+      if (!matrixFile) {
+        matrix = {};
+        updateStatus("Matrix JSON not found at the folder root");
+        return;
+      }
+
+      try {
+        const txt = await matrixFile.text();
+        matrix = JSON.parse(txt);
+        invalidateMatchCache();
+        const chapters = Object.keys(matrix);
+        if (chapters.length) {
+          currentChapter = chapters[0];
+          document.getElementById("chapterNum").value = currentChapter.replace(/\.txt$/i, "");
+        }
+        updateStatus(`Loaded ${jpFileRefs.size} JP, ${enFileRefs.size} EN chapters, matrix from ${matrixFile.name}`);
+        await render();
+      } catch (err) {
+        matrix = {};
+        updateStatus(`Failed to parse ${matrixFile.name}: ${err.message}`);
+      }
+    }
+
+    async function reloadFromSelection() {
+      if (!selectedFiles.length) return;
+      await loadChapterFilesFromSelection(selectedFiles);
+      await loadMatchDataFromFiles(selectedFiles);
+    }
+
+    document.getElementById("folderPicker").addEventListener("change", async e => {
+      selectedFiles = Array.from(e.target.files);
+      await reloadFromSelection();
+    });
+
+    document.getElementById("folderMode").addEventListener("change", async () => {
+      await reloadFromSelection();
+    });
+
+    // ── main render ────────────────────────────────────────────────────────────
+    async function render() {
+      const token = ++renderToken;
+      const { jpFolder, enFolder, mode } = getActiveFolders();
+      const isDirect = mode === "aligned" || mode === "output";
+      const autoTranslate = document.getElementById("autoTranslate").checked;
+
+      const raw = document.getElementById("chapterNum").value || currentChapter.replace(".txt", "");
+      currentChapter = raw.endsWith(".txt") ? raw : raw + ".txt";
+
+      if (isDirect) {
+        renderAlignedCard();
+      } else {
+        const topN = parseInt(document.getElementById("topN").value || 10, 10);
+        const matches = getSortedMatches(currentChapter).slice(0, topN);
+        if (!renderMatchCards(matches)) return;
+      }
+
+      setLoadingState("enText", "Loading…");
+      setLoadingState("jpText", "Loading…");
+
+      const enText = await getCurrentEnText();
+      if (token !== renderToken) return;
+      renderLineNumberedText("enText", enText);
+      await nextFrame();
+
+      const jpText = await getCurrentJpText();
+      if (token !== renderToken) return;
+
+      if (autoTranslate) {
+        const paragraphs = splitIntoParagraphs(jpText);
+        if (!paragraphs.length) setLoadingState("jpText", "No text found");
+        else await renderParagraphTranslations("jpText", paragraphs, token);
+      } else {
+        renderLineNumberedText("jpText", jpText);
+      }
+    }
+
+    document.getElementById("chapterNum").addEventListener("change", render);
+    document.getElementById("topN").addEventListener("change", render);
+    document.getElementById("autoTranslate").addEventListener("change", render);
+
+    document.getElementById("copyJpBtn").onclick = async () => {
+      copyToClipboard(await getCurrentJpText(), `JP chapter ${currentChapter}`);
+    };
+
+    document.getElementById("copyEnBtn").onclick = async () => {
+      if (!currentEN) { alert("No English chapter selected."); return; }
+      const text = await getCurrentEnText();
+      const numbered = text.split("\n").map((l, i) => `${i + 1}: ${l}`).join("\n");
+      copyToClipboard(numbered, `English chapter ${currentEN}`);
+    };
+
+    // ── navigation ─────────────────────────────────────────────────────────────
+    document.getElementById("prevBtn").onclick = () => {
+      let n = parseInt(document.getElementById("chapterNum").value || 1, 10) - 1;
+      if (n < 1) n = 1;
+      document.getElementById("chapterNum").value = n;
+      render();
+    };
+
+    document.getElementById("nextBtn").onclick = () => {
+      const { mode } = getActiveFolders();
+      const isDirect = mode === "aligned" || mode === "output";
+      const max = isDirect && alignedTotal > 0 ? alignedTotal : Infinity;
+      let n = parseInt(document.getElementById("chapterNum").value || 1, 10) + 1;
+      if (n > max) n = max;
+      document.getElementById("chapterNum").value = n;
+      render();
+    };
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowLeft") document.getElementById("prevBtn").click();
+      if (e.key === "ArrowRight") document.getElementById("nextBtn").click();
+    });
+
+    // ── resize ─────────────────────────────────────────────────────────────────
+    function setLeftPanelWidth(px) {
+      const bounds = document.querySelector(".main").getBoundingClientRect();
+      const clamped = Math.min(Math.max(px, 260), Math.max(260, bounds.width - 320));
+      document.documentElement.style.setProperty("--left-width", `${clamped}px`);
+      localStorage.setItem("chapterAlignmentLeftWidth", String(clamped));
+    }
+
+    function setCandidatesHeight(px) {
+      const bounds = document.querySelector(".right-body").getBoundingClientRect();
+      const clamped = Math.min(Math.max(px, 140), Math.max(140, bounds.height - 228));
+      document.documentElement.style.setProperty("--candidates-height", `${clamped}px`);
+      localStorage.setItem("chapterAlignmentCandidatesHeight", String(clamped));
+    }
+
+    function initializeLeftPanelWidth() {
+      const saved = Number(localStorage.getItem("chapterAlignmentLeftWidth"));
+      setLeftPanelWidth(Number.isFinite(saved) && saved > 0 ? saved : document.querySelector(".main").getBoundingClientRect().width * 0.32);
+    }
+
+    function initializeCandidatesHeight() {
+      const saved = Number(localStorage.getItem("chapterAlignmentCandidatesHeight"));
+      setLeftPanelWidth(Number.isFinite(saved) && saved > 0 ? saved : document.querySelector(".right-body").getBoundingClientRect().height * 0.3);
+    }
+
+    const splitter = document.getElementById("splitter");
+    const verticalSplitter = document.getElementById("verticalSplitter");
+
+    function queueResize(type, value) {
+      pendingResize = { type, value };
+      if (resizeRafToken) return;
+      resizeRafToken = requestAnimationFrame(() => {
+        resizeRafToken = 0;
+        if (!pendingResize) return;
+        if (pendingResize.type === "width") setLeftPanelWidth(pendingResize.value);
+        else setCandidatesHeight(pendingResize.value);
+        pendingResize = null;
+      });
+    }
+
+    function startResize(event, type) {
+      event.preventDefault();
+      resizeTarget = type;
+      if (type === "width") { isResizing = true; splitter.classList.add("dragging"); }
+      else { isVerticalResizing = true; verticalSplitter.classList.add("dragging"); }
+      event.currentTarget.setPointerCapture?.(event.pointerId);
+    }
+
+    splitter.addEventListener("pointerdown", e => startResize(e, "width"));
+    verticalSplitter.addEventListener("pointerdown", e => startResize(e, "height"));
+
+    document.addEventListener("pointermove", e => {
+      if (resizeTarget === "width" && isResizing) { queueResize("width", e.clientX); return; }
+      if (resizeTarget === "height" && isVerticalResizing) {
+        queueResize("height", e.clientY - document.querySelector(".right-body").getBoundingClientRect().top);
+      }
+    });
+
+    function stopResize() {
+      if (resizeTarget === "width") { isResizing = false; splitter.classList.remove("dragging"); }
+      if (resizeTarget === "height") { isVerticalResizing = false; verticalSplitter.classList.remove("dragging"); }
+      resizeTarget = null;
+    }
+
+    document.addEventListener("pointerup", stopResize);
+    document.addEventListener("pointercancel", stopResize);
+
+    window.addEventListener("resize", () => {
+      const w = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--left-width"));
+      const h = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--candidates-height"));
+      if (Number.isFinite(w)) setLeftPanelWidth(w);
+      if (Number.isFinite(h)) setCandidatesHeight(h);
+    });
+
+    // ── translation service ────────────────────────────────────────────────────
+    const TranslationService = (() => {
+      const cache = new Map(), pending = new Map();
+      let providerPromise = null, provider = null;
+
+      const DEFAULT_CONFIG = {
+        endpoint: "http://localhost:1234/api/v1/chat",
+        model: "crow-4b-opus-4.6-distill-heretic_qwen3.5",
+        systemPrompt: "Translate the given Japanese text into natural English. Return only the translation, preserving paragraph breaks and meaning.",
+        timeoutMs: 120000,
+        headers: {}
+      };
+
+      function getConfig() {
+        const custom = window.translationConfig && typeof window.translationConfig === "object" ? window.translationConfig : {};
+        return { ...DEFAULT_CONFIG, ...custom, headers: { ...DEFAULT_CONFIG.headers, ...(custom.headers || {}) } };
+      }
+
+      function buildRequestPayload(text, options, config) {
+        if (typeof window.buildTranslationRequestPayload === "function")
+          return window.buildTranslationRequestPayload(text, options, config);
+        return { model: config.model, system_prompt: config.systemPrompt, input: text };
+      }
+
+      function extractTranslatedText(payload) {
+        if (!payload) return "";
+        if (typeof payload === "string") return payload.trim();
+        if (Array.isArray(payload.output)) {
+          const parts = payload.output.filter(i => i?.type === "message" && typeof i.content === "string").map(i => i.content.trim()).filter(Boolean);
+          if (parts.length) return parts.join("\n").trim();
+          const fallback = payload.output.map(i => typeof i?.content === "string" ? i.content.trim() : "").filter(Boolean);
+          if (fallback.length) return fallback.join("\n").trim();
+        }
+        return (payload.translation ?? payload.content ?? payload.text ?? "").toString().trim();
+      }
+
+      async function createEndpointProvider() {
+        return {
+          name: "endpoint",
+          async translate(text, options = {}) {
+            const config = getConfig();
+            const controller = new AbortController();
+            const tid = window.setTimeout(() => controller.abort(), config.timeoutMs);
+            try {
+              const res = await fetch(config.endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", ...config.headers },
+                body: JSON.stringify(buildRequestPayload(text, options, config)),
+                signal: controller.signal
+              });
+              if (!res.ok) { const d = await res.text().catch(() => ""); throw new Error(`Endpoint returned ${res.status}${d ? `: ${d}` : ""}`); }
+              const payload = await res.json();
+              const translated = extractTranslatedText(payload);
+              if (!translated) throw new Error("Endpoint returned no usable text");
+              return translated;
+            } finally { window.clearTimeout(tid); }
+          }
+        };
+      }
+
+      async function getProvider() {
+        if (provider) return provider;
+        if (!providerPromise) providerPromise = createEndpointProvider().then(p => (provider = p));
+        return providerPromise;
+      }
+
+      async function translateParagraph(text, options = {}) {
+        const normalized = normalizeText(text);
+        if (!normalized) return "";
+        const key = `${options.sourceLang || "ja"}|${options.targetLang || "en"}|${normalized}`;
+        if (cache.has(key)) return cache.get(key);
+        if (pending.has(key)) return pending.get(key);
+        const req = (async () => { const p = await getProvider(); const t = await p.translate(normalized, options); cache.set(key, t); return t; })();
+        pending.set(key, req);
+        try { return await req; } finally { pending.delete(key); }
+      }
+
+      return {
+        translateParagraph,
+        async warmup() { return (await getProvider())?.name || "unknown"; },
+        clearCache() { cache.clear(); pending.clear(); },
+        setProvider(p) { provider = p; providerPromise = Promise.resolve(p); cache.clear(); pending.clear(); },
+        getConfig
+      };
+    })();
+
+    // ── tooltip ────────────────────────────────────────────────────────────────
+    const tooltip = document.getElementById("jpTooltip");
+
+    function positionTooltip(e) {
+      const left = Math.min(Math.max(12, e.clientX + 16), window.innerWidth - tooltip.offsetWidth - 12);
+      const top  = Math.min(Math.max(12, e.clientY + 16), window.innerHeight - tooltip.offsetHeight - 12);
+      tooltip.style.left = `${left}px`;
+      tooltip.style.top  = `${top}px`;
+    }
+
+    document.addEventListener("mouseover", e => {
+      const block = e.target.closest?.(".paragraph-block");
+      if (!block?.dataset.original) return;
+      tooltip.textContent = block.dataset.original;
+      tooltip.classList.add("visible");
+      tooltip.setAttribute("aria-hidden", "false");
+      positionTooltip(e);
+    });
+
+    document.addEventListener("mousemove", e => {
+      if (tooltip.classList.contains("visible")) positionTooltip(e);
+    });
+
+    document.addEventListener("mouseout", e => {
+      const block = e.target.closest?.(".paragraph-block");
+      if (!block) return;
+      if (e.relatedTarget?.closest?.(".paragraph-block") === block) return;
+      tooltip.classList.remove("visible");
+      tooltip.setAttribute("aria-hidden", "true");
+    });
+
+    // ── init ───────────────────────────────────────────────────────────────────
+    initializeLeftPanelWidth();
+    initializeCandidatesHeight();
+    TranslationService.warmup().catch(() => {});
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,2501 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Similarity Map Pro</title>
+  <style>
+    :root{
+      --bg:#071018;
+      --bg2:#0c141d;
+      --panel:rgba(15,22,32,.86);
+      --panel2:rgba(20,28,40,.92);
+      --line:rgba(148,163,184,.14);
+      --text:#e7eef8;
+      --muted:#93a4bb;
+      --green:#34d399;
+      --amber:#f59e0b;
+      --red:#fb7185;
+      --cyan:#38bdf8;
+      --shadow:0 24px 80px rgba(0,0,0,.36);
+      --r:22px;
+      --r2:16px;
+      --topbar-h:68px;
+      --row-h:44px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--text);
+      font:13px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 10% 0%, rgba(56,189,248,.16), transparent 55%),
+        radial-gradient(900px 650px at 90% 10%, rgba(167,139,250,.12), transparent 52%),
+        linear-gradient(180deg, #071018 0%, #091019 100%);
+      overflow:hidden;
+    }
+    .app{
+      height:100vh;
+      display:grid;
+      grid-template-rows: auto auto minmax(0, 1fr);
+      gap:12px;
+      padding:12px;
+      overflow:hidden;
+    }
+    .topbar{
+      height:var(--topbar-h);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 14px;
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:linear-gradient(180deg, rgba(19,27,39,.96), rgba(11,16,24,.92));
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(16px);
+      min-height:0;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .logo{
+      width:38px;height:38px;border-radius:14px;
+      background:linear-gradient(135deg, rgba(56,189,248,.9), rgba(52,211,153,.8));
+      box-shadow:0 0 0 5px rgba(56,189,248,.10);
+      flex:0 0 auto;
+    }
+    .titlewrap{min-width:0}
+    .title{
+      margin:0;
+      font-size:18px;
+      letter-spacing:-.02em;
+      line-height:1.05;
+      font-weight:800;
+    }
+    .subtitle{
+      margin:2px 0 0;
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:min(72ch, 58vw);
+    }
+    .top-actions{
+      display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;
+    }
+    .btn, .chip, .tab, .toggle{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:#d7e2ef;
+      border-radius:999px;
+      cursor:pointer;
+      user-select:none;
+      transition:.16s ease;
+    }
+    .btn:hover,.chip:hover,.tab:hover,.toggle:hover{transform:translateY(-1px);border-color:rgba(148,163,184,.24)}
+    .btn{
+      padding:10px 14px;
+      font-size:12px;
+      font-weight:700;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .btn.primary{
+      background:linear-gradient(180deg, rgba(52,211,153,.16), rgba(16,185,129,.10));
+      border-color:rgba(52,211,153,.25);
+    }
+    .btn input{display:none}
+    .kpi-row{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap:10px;
+      min-height:0;
+    }
+    .kpi{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(20,28,40,.92), rgba(12,18,27,.90));
+      border-radius:20px;
+      padding:12px 14px;
+      box-shadow:var(--shadow);
+      min-height:74px;
+    }
+    .kpi .k{font-size:11px;color:#a9b7ca;text-transform:uppercase;letter-spacing:.08em}
+    .kpi .v{
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:-.03em;
+      line-height:1.08;
+      margin-top:6px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .kpi .s{font-size:11px;color:var(--muted);margin-top:2px}
+    .main{
+      min-height:0;
+      display:grid;
+      grid-template-columns: 1.55fr .82fr;
+      gap:12px;
+      overflow:hidden;
+    }
+    .panel{
+      min-height:0;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(18,25,35,.92), rgba(11,15,21,.90));
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(16px);
+    }
+    .panel-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:14px 14px 10px;
+      border-bottom:1px solid rgba(148,163,184,.08);
+    }
+    .panel-head h2{
+      margin:0;
+      font-size:14px;
+      letter-spacing:-.01em;
+    }
+    .panel-head p{
+      margin:2px 0 0;
+      color:var(--muted);
+      font-size:11px;
+    }
+    .stack{
+      display:flex;
+      flex-direction:column;
+      min-height:0;
+      overflow:auto;
+      scrollbar-width:thin;
+    }
+    .controls{
+      display:grid;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(170px,.7fr) minmax(150px,.55fr);
+      gap:8px;
+      padding:12px 14px 8px;
+      flex:0 0 auto;
+    }
+    .control{
+      border:1px solid rgba(148,163,184,.12);
+      background:rgba(255,255,255,.025);
+      border-radius:16px;
+      padding:9px 10px 8px;
+      min-width:0;
+    }
+    .control label{
+      display:block;
+      font-size:11px;
+      color:#aab8cb;
+      margin-bottom:7px;
+    }
+    .control input[type="range"], .control input[type="number"], .control select, .control input[type="text"]{
+      width:100%;
+      background:rgba(8,12,18,.72);
+      color:var(--text);
+      border:1px solid rgba(148,163,184,.16);
+      border-radius:12px;
+      padding:9px 10px;
+      outline:none;
+      min-width:0;
+    }
+    .control input[type="range"]{padding:0;accent-color:var(--green)}
+    .chips{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      padding:0 14px 10px;
+      flex:0 0 auto;
+    }
+    .chip{
+      padding:8px 12px;
+      font-size:12px;
+    }
+    .chip.active,.tab.active{
+      background:linear-gradient(180deg, rgba(56,189,248,.16), rgba(16,185,129,.10));
+      border-color:rgba(56,189,248,.28);
+      color:#effdf7;
+    }
+    .summary{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:10px;
+      padding:0 14px 12px;
+      flex:0 0 auto;
+    }
+    .summary .mini{
+      border:1px solid rgba(148,163,184,.12);
+      background:rgba(255,255,255,.025);
+      border-radius:16px;
+      padding:10px 12px;
+      min-height:62px;
+    }
+    .mini .k{
+      font-size:11px;
+      color:#a9b7ca;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .mini .v{
+      font-size:18px;
+      font-weight:800;
+      margin-top:5px;
+    }
+    .mini .s{font-size:11px;color:var(--muted);margin-top:2px}
+    .section{
+      padding:12px 14px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex:0 0 auto;
+    }
+    .section h3{margin:0;font-size:13px}
+    .section .meta{color:var(--muted);font-size:11px}
+    .tabs{
+      display:flex;
+      gap:8px;
+      overflow:auto;
+      padding:0 14px 8px;
+      scrollbar-width:thin;
+    }
+    .tab{
+      padding:8px 12px;
+      font-size:12px;
+      white-space:nowrap;
+      flex:0 0 auto;
+    }
+
+    .vizWrap{
+      padding:0 14px 10px;
+      min-height:0;
+      flex:0 0 auto;
+    }
+    .vizCard{
+      border:1px solid rgba(148,163,184,.12);
+      border-radius:20px;
+      background:
+        radial-gradient(1000px 380px at 50% 0%, rgba(255,255,255,.02), transparent 60%),
+        rgba(255,255,255,.02);
+      overflow:hidden;
+      min-height:0;
+      position:relative;
+    }
+    canvas{display:block;width:100%;height:100%}
+    .chart-outer{height:clamp(300px, 35vh, 440px)}
+    .chart-small{height:clamp(210px, 24vh, 300px)}
+
+    .legend{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 14px;
+      padding:0 14px 12px;
+      color:#c9d4e2;
+      font-size:11px;
+      flex:0 0 auto;
+    }
+    .legend .item{display:flex;align-items:center;gap:7px}
+    .sw{width:9px;height:9px;border-radius:3px;display:inline-block}
+    .sw.g{background:var(--green)}
+    .sw.a{background:var(--amber)}
+    .sw.r{background:var(--red)}
+    .sw.c{background:#f87131}
+
+    .tableTools{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .tableTools input,.tableTools select{
+      background:rgba(8,12,18,.72);
+      color:var(--text);
+      border:1px solid rgba(148,163,184,.16);
+      border-radius:12px;
+      padding:9px 10px;
+      outline:none;
+      font-size:12px;
+    }
+    .tableTools input{min-width:180px}
+    .scrollArea{
+      height:280px;
+      min-height:220px;
+      flex:0 0 280px;
+      overflow:auto;
+      border-top:1px solid rgba(148,163,184,.08);
+      position:relative;
+    }
+    .tableHead{
+      display:grid;
+      grid-template-columns: 1.25fr 1.25fr .7fr .8fr 1fr;
+      position:sticky;
+      top:0;
+      z-index:3;
+      background:rgba(10,14,20,.97);
+      border-bottom:1px solid rgba(148,163,184,.08);
+      color:#aebdd1;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .tableHead div,.row{
+      padding:11px 14px;
+      min-width:0;
+    }
+    .rows{
+      position:relative;
+      min-height:0;
+    }
+    .row{
+      position:absolute;
+      left:0; right:0;
+      display:grid;
+      grid-template-columns: 1.25fr 1.25fr .7fr .8fr 1fr;
+      align-items:center;
+      height:var(--row-h);
+      border-bottom:1px solid rgba(148,163,184,.06);
+      background:transparent;
+      will-change:transform;
+    }
+    .row:hover{background:rgba(255,255,255,.03)}
+    .cell{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      min-width:0;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:11px;
+      font-weight:700;
+      border:1px solid rgba(148,163,184,.16);
+      background:rgba(255,255,255,.02);
+      width:max-content;
+    }
+    .good{color:#dffcf1;background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.28)}
+    .mid{color:#fff2cf;background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.28)}
+    .bad{color:#ffe0e6;background:rgba(251,113,133,.12);border-color:rgba(251,113,133,.28)}
+    .foot{
+      padding:10px 14px 12px;
+      color:var(--muted);
+      font-size:11px;
+      border-top:1px solid rgba(148,163,184,.08);
+      flex:0 0 auto;
+    }
+
+    .sideContent{
+      display:flex;
+      flex-direction:column;
+      min-height:0;
+      overflow:auto;
+      scrollbar-width:thin;
+    }
+    .fileList{
+      display:grid;
+      gap:8px;
+      padding:12px 14px;
+      flex:0 0 auto;
+      max-height:260px;
+      overflow:auto;
+      scrollbar-width:thin;
+    }
+    .fileCard{
+      border:1px solid rgba(148,163,184,.12);
+      border-radius:16px;
+      background:rgba(255,255,255,.025);
+      padding:10px 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      cursor:pointer;
+    }
+    .fileCard.active{
+      border-color:rgba(56,189,248,.28);
+      box-shadow:0 0 0 4px rgba(56,189,248,.05);
+    }
+    .fileCard strong{font-size:12px}
+    .fileCard .sub{font-size:11px;color:var(--muted);margin-top:2px;max-width:26ch}
+    .fileCard .right{font-size:11px;color:#c9d4e2;text-align:right}
+    .matrixWrap{
+      padding:0 14px 14px;
+      min-height:0;
+      overflow:auto;
+      flex:0 0 auto;
+      max-height:320px;
+    }
+    table.matrix{
+      width:max-content;
+      border-collapse:separate;
+      border-spacing:6px;
+      font-size:11px;
+    }
+    .matrix th,.matrix td{
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(148,163,184,.12);
+      background:rgba(255,255,255,.025);
+      text-align:center;
+      white-space:nowrap;
+    }
+    .matrix th{color:#aebdd1;font-weight:700}
+    .matrix td.self{background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.28)}
+    .matrix td.good{background:rgba(16,185,129,.14);border-color:rgba(16,185,129,.28)}
+    .matrix td.mid{background:rgba(245,158,11,.14);border-color:rgba(245,158,11,.28)}
+    .matrix td.bad{background:rgba(251,113,133,.14);border-color:rgba(251,113,133,.28)}
+    .summaryText{
+      padding:0 14px 12px;
+      color:var(--muted);
+      font-size:11px;
+      flex:0 0 auto;
+    }
+
+    .tooltip{
+      position:fixed;pointer-events:none;z-index:40;transform:translate(-50%,-120%);
+      opacity:0;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(148,163,184,.18);
+      background:rgba(8,12,18,.96);
+      box-shadow:0 18px 48px rgba(0,0,0,.45);
+      backdrop-filter:blur(12px);
+      min-width:180px;
+    }
+    .tooltip .t{font-size:12px;color:#c9d4e2;margin-bottom:3px}
+    .tooltip .b{font-size:13px;font-weight:800}
+    .tooltip .m{font-size:11px;color:var(--muted);margin-top:4px}
+
+    @media (max-width:1100px){
+      body{overflow:auto}
+      .app{height:auto;min-height:100vh;overflow:visible}
+      .main{grid-template-columns:1fr}
+      .kpi-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .summary{grid-template-columns:1fr}
+      .controls{grid-template-columns:1fr 1fr}
+      .topbar{height:auto;align-items:flex-start;flex-direction:column}
+      .top-actions{justify-content:flex-start}
+      .panel{min-height:0}
+    }
+    @media (max-width:700px){
+      .kpi-row,.controls{grid-template-columns:1fr}
+      .tableHead,.row{grid-template-columns:1.1fr 1.1fr .65fr .7fr .95fr}
+      .tableTools input{min-width:0;flex:1 1 160px}
+      .subtitle{max-width:100%}
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo"></div>
+      <div class="titlewrap">
+        <h1 class="title">Similarity Map Pro</h1>
+        <p class="subtitle" id="subtitle">Load one or more JSON similarity reports. Large matrices are summarized in the background before drawing.</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="btn primary">
+        Load JSON files
+        <input id="fileInput" type="file" accept=".json,application/json" multiple />
+      </label>
+      <div class="btn" id="demoBtn" title="Load sample data">Load demo</div>
+    </div>
+  </header>
+
+  <section class="kpi-row">
+    <div class="kpi"><div class="k">Active file</div><div class="v" id="kpiFile">—</div><div class="s" id="kpiFileSub">No file loaded</div></div>
+    <div class="kpi"><div class="k">Correct match range</div><div class="v" id="kpiDiag">—</div><div class="s">Diagonal score range</div></div>
+    <div class="kpi"><div class="k">Wrong match max</div><div class="v" id="kpiWrong">—</div><div class="s">Strongest competing candidate</div></div>
+    <div class="kpi"><div class="k">Overlap zone</div><div class="v" id="kpiRisk">—</div><div class="s">Wrong max minus verify margin</div></div>
+  </section>
+
+  <section class="main">
+    <section class="panel stack">
+      <div class="panel-head">
+        <div>
+          <h2>Interactive report</h2>
+          <p>Canvas rendering keeps the scatter plot fast even when chapter counts get huge.</p>
+        </div>
+        <div class="tableTools">
+          <input id="searchInput" type="text" placeholder="Search row / column" />
+          <select id="sortSelect">
+            <option value="row">Sort by row</option>
+            <option value="scoreDesc">Score high → low</option>
+            <option value="marginAsc">Margin low → high</option>
+            <option value="riskDesc">Risk high → low</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="control"><label>Auto accept margin</label><input id="acceptMargin" type="range" min="0.01" max="0.20" step="0.005" value="0.07"></div>
+        <div class="control"><label>Verify margin</label><input id="verifyMargin" type="range" min="0.00" max="0.15" step="0.005" value="0.03"></div>
+        <div class="control"><label>View mode</label><select id="viewMode"><option value="all">Diagonal + top wrong</option><option value="diagonal">Diagonal only</option><option value="offdiag">Top wrong only</option></select></div>
+        <div class="control"><label>Top-N wrong candidates</label><input id="topN" type="number" min="1" max="24" value="3"></div>
+      </div>
+
+      <div class="chips" id="quickChips">
+        <span class="chip active" data-filter="all">All</span>
+        <span class="chip" data-filter="good">Auto-accept</span>
+        <span class="chip" data-filter="mid">Verify</span>
+        <span class="chip" data-filter="bad">Critical</span>
+      </div>
+
+      <div class="summary">
+        <div class="mini"><div class="k">Dataset size</div><div class="v" id="sumSize">—</div><div class="s" id="sumSizeSub">rows × columns</div></div>
+        <div class="mini"><div class="k">Overlap zone</div><div class="v" id="sumOverlap">—</div><div class="s">Where guesses get risky</div></div>
+        <div class="mini"><div class="k">Visible pairs</div><div class="v" id="sumVisible">—</div><div class="s">Current filter and search</div></div>
+      </div>
+
+      <div class="section">
+        <div>
+          <h3>Similarity map</h3>
+          <div class="meta" id="mapMeta">—</div>
+        </div>
+        <div class="meta">Tip: hover points · drag the list scrollbar for fast browsing</div>
+      </div>
+      <div class="vizWrap">
+        <div class="vizCard chart-outer">
+          <canvas id="scatterCanvas"></canvas>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="item"><span class="sw g"></span> Correct match</div>
+        <div class="item"><span class="sw a"></span> Verify / borderline</div>
+        <div class="item"><span class="sw r"></span> Critical / overlap</div>
+        <div class="item"><span class="sw c"></span> Wrong candidate</div>
+      </div>
+
+      <div class="section">
+        <div>
+          <h3>Margin chart</h3>
+          <div class="meta">Diagonal minus strongest wrong candidate per row</div>
+        </div>
+      </div>
+      <div class="vizWrap" style="padding-top:0">
+        <div class="vizCard chart-small">
+          <canvas id="barCanvas"></canvas>
+        </div>
+      </div>
+
+      <div class="section">
+        <div>
+          <h3>Report table</h3>
+          <div class="meta" id="tableMeta">Virtualized rows for large datasets.</div>
+        </div>
+      </div>
+      <div class="scrollArea" id="tableScroll">
+        <div class="tableHead">
+          <div>Row</div><div>Column</div><div>Score</div><div>Gap</div><div>Status</div>
+        </div>
+        <div id="tableRows" class="rows"></div>
+      </div>
+      <div class="foot" id="tableFoot">Load files to populate the table.</div>
+    </section>
+
+    <aside class="panel sideContent">
+      <div class="panel-head">
+        <div>
+          <h2>Loaded files</h2>
+          <p>Switch active report instantly.</p>
+        </div>
+      </div>
+      <div class="fileList" id="fileList"></div>
+
+      <div class="panel-head" style="border-top:1px solid rgba(148,163,184,.08)">
+        <div>
+          <h2>Comparison matrix</h2>
+          <p>Quick similarity of row-margin patterns.</p>
+        </div>
+      </div>
+      <div class="matrixWrap">
+        <table class="matrix" id="comparisonMatrix"></table>
+      </div>
+      <div class="summaryText" id="compareSummary">Load multiple reports to compare them.</div>
+    </aside>
+  </section>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+(() => {
+  'use strict';
+
+  const $ = (id) => document.getElementById(id);
+  const MAX_WRONG_STORED = 24;
+  const MAX_DISPLAY_ITEMS = 220000;
+  const MAX_SCATTER_POINTS = 30000;
+  const MAX_HOVER_POINTS = 4500;
+  const MAX_SORT_ITEMS = 60000;
+  const ROW_H = 44;
+
+  const state = {
+    reports: [],
+    activeIndex: 0,
+    filter: 'all',
+    viewMode: 'all',
+    search: '',
+    sort: 'row',
+    acceptMargin: 0.07,
+    verifyMargin: 0.03,
+    topN: 3,
+    loadingMessage: '',
+    loadToken: 0,
+    similarityCache: new Map()
+  };
+
+  const tooltip = $('tooltip');
+  const scatterCanvas = $('scatterCanvas');
+  const barCanvas = $('barCanvas');
+  const tableScroll = $('tableScroll');
+  const tableRows = $('tableRows');
+  const fileInput = $('fileInput');
+  const collator = new Intl.Collator(undefined, { numeric:true, sensitivity:'base' });
+
+  let reportSeq = 1;
+  let activeWorker = null;
+  let scatterHotspots = [];
+  let updateQueued = false;
+  let updateTimer = null;
+  let tableQueued = false;
+  let pendingTable = false;
+
+  const fmt = (n) => Number.isFinite(n) ? n.toFixed(4).replace(/0+$/,'').replace(/\.$/,'') : '-';
+  const fmtInt = (n) => Number.isFinite(n) ? Math.round(n).toLocaleString() : '0';
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const dpr = () => Math.max(1, window.devicePixelRatio || 1);
+  const finiteOrNaN = (n) => Number.isFinite(Number(n)) ? Number(n) : NaN;
+
+  function showTip(html, x, y){
+    tooltip.innerHTML = html;
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+    tooltip.style.opacity = 1;
+  }
+
+  function hideTip(){ tooltip.style.opacity = 0; }
+
+  function esc(s){
+    return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
+  }
+
+  function summarizeJson(json, options = {}){
+    const hasOwn = Object.prototype.hasOwnProperty;
+    const topWrongLimit = Math.max(1, Math.min(64, Number(options.topWrongLimit) || 24));
+    const name = String(options.name || 'report.json');
+    const rows = [];
+    const statByRow = new Map();
+    const colSet = new Set();
+    let pairCount = 0;
+    let wrongCount = 0;
+    let wrongMax = -Infinity;
+    let scoreMin = Infinity;
+    let scoreMax = -Infinity;
+
+    function finiteScore(value){
+      const n = Number(value);
+      return Number.isFinite(n) ? n : NaN;
+    }
+
+    function rounded(value){
+      return Number.isFinite(value) ? Number(value.toFixed(6)) : null;
+    }
+
+    function pick(obj, names, fallback){
+      if (!obj || typeof obj !== 'object') return fallback;
+      for (let i=0;i<names.length;i++){
+        const key = names[i];
+        if (hasOwn.call(obj, key) && obj[key] !== undefined && obj[key] !== null && obj[key] !== '') return obj[key];
+      }
+      return fallback;
+    }
+
+    function pickScore(obj){
+      return pick(obj, ['score','similarity','value','cosine','semantic_score','similarity_score','confidence'], NaN);
+    }
+
+    function getStat(rowValue){
+      const row = String(rowValue ?? '');
+      if (!row) return null;
+      let stat = statByRow.get(row);
+      if (!stat){
+        stat = { row, index:rows.length, diag:NaN, topWrong:[] };
+        statByRow.set(row, stat);
+        rows.push(stat);
+      }
+      return stat;
+    }
+
+    function insertTopWrong(list, candidate){
+      let i = list.length;
+      while (i > 0 && list[i - 1].score < candidate.score) i--;
+      if (i >= topWrongLimit) return;
+      list.splice(i, 0, candidate);
+      if (list.length > topWrongLimit) list.length = topWrongLimit;
+    }
+
+    function track(rowValue, colValue, rawScore){
+      const score = finiteScore(rawScore);
+      if (!Number.isFinite(score)) return;
+      const row = String(rowValue ?? '');
+      const col = String(colValue ?? row);
+      const stat = getStat(row);
+      if (!stat || !col) return;
+
+      pairCount++;
+      colSet.add(col);
+      if (score < scoreMin) scoreMin = score;
+      if (score > scoreMax) scoreMax = score;
+
+      if (row === col){
+        stat.diag = score;
+      } else {
+        wrongCount++;
+        if (score > wrongMax) wrongMax = score;
+        insertTopWrong(stat.topWrong, { col, score });
+      }
+    }
+
+    function readCandidate(row, candidate, index){
+      if (Array.isArray(candidate)){
+        if (candidate.length >= 2) track(row, candidate[0], candidate[1]);
+        return;
+      }
+      if (!candidate || typeof candidate !== 'object') return;
+      const col = pick(
+        candidate,
+        ['col','target','b','right','en_name','en','en_chapter','candidate','chapter','chapter_name','file','name','id'],
+        'candidate_' + (index + 1)
+      );
+      track(row, col, pickScore(candidate));
+    }
+
+    function visitCandidateList(row, list){
+      for (let i=0;i<list.length;i++) readCandidate(row, list[i], i);
+    }
+
+    function visitArrayPayload(list){
+      for (let i=0;i<list.length;i++){
+        const item = list[i];
+        if (!item || typeof item !== 'object') continue;
+        const row = pick(
+          item,
+          ['row','source','a','left','jp_name','jp','jp_chapter','chapter','chapter_name','file','name','id'],
+          'row_' + (i + 1)
+        );
+        const nested = pick(item, ['candidates','matches','top','top_k','topk','results'], null);
+        if (Array.isArray(nested)) visitCandidateList(row, nested);
+
+        const col = pick(
+          item,
+          ['col','target','b','right','en_name','en','en_chapter','selected_en_chapter','matched_chapter','candidate','match'],
+          row
+        );
+        track(row, col, pickScore(item));
+      }
+    }
+
+    function visitObjectPayload(obj){
+      if (!obj || typeof obj !== 'object') return;
+
+      const matrix = pick(obj, ['matrix','similarity_matrix','similarities','scores'], null);
+      if (matrix && typeof matrix === 'object' && !Array.isArray(matrix)){
+        visitObjectPayload(matrix);
+        return;
+      }
+
+      const list = Array.isArray(obj.chapters) ? obj.chapters
+        : Array.isArray(obj.items) ? obj.items
+        : Array.isArray(obj.results) ? obj.results
+        : null;
+      if (list){
+        visitArrayPayload(list);
+        return;
+      }
+
+      for (const rowKey in obj){
+        if (!hasOwn.call(obj, rowKey)) continue;
+        const rowValue = obj[rowKey];
+        if (Array.isArray(rowValue)){
+          visitCandidateList(rowKey, rowValue);
+          continue;
+        }
+        if (rowValue && typeof rowValue === 'object'){
+          const nested = pick(rowValue, ['candidates','matches','top','top_k','topk','results'], null);
+          if (Array.isArray(nested)){
+            visitCandidateList(pick(rowValue, ['row','source','jp_name','jp_chapter','name'], rowKey), nested);
+            continue;
+          }
+
+          const directScore = finiteScore(pickScore(rowValue));
+          if (Number.isFinite(directScore)){
+            const col = pick(rowValue, ['col','target','en_name','en_chapter','selected_en_chapter','match','candidate'], rowKey);
+            track(rowKey, col, directScore);
+            continue;
+          }
+
+          for (const colKey in rowValue){
+            if (!hasOwn.call(rowValue, colKey)) continue;
+            track(rowKey, colKey, rowValue[colKey]);
+          }
+          continue;
+        }
+
+        track(rowKey, rowKey, rowValue);
+      }
+    }
+
+    if (Array.isArray(json)) visitArrayPayload(json);
+    else visitObjectPayload(json);
+
+    const outputRows = [];
+    let diagMin = Infinity;
+    let diagMax = -Infinity;
+    let diagTotal = 0;
+    let diagCount = 0;
+    let maxAbsMargin = 0;
+
+    for (let i=0;i<rows.length;i++){
+      const stat = rows[i];
+      const diag = Number.isFinite(stat.diag) ? stat.diag : NaN;
+      const best = stat.topWrong[0] || null;
+      const bestWrongScore = best ? best.score : NaN;
+      const margin = Number.isFinite(diag) && Number.isFinite(bestWrongScore) ? diag - bestWrongScore : NaN;
+
+      if (Number.isFinite(diag)){
+        diagCount++;
+        diagTotal += diag;
+        if (diag < diagMin) diagMin = diag;
+        if (diag > diagMax) diagMax = diag;
+      }
+      if (Number.isFinite(margin) && Math.abs(margin) > maxAbsMargin) maxAbsMargin = Math.abs(margin);
+
+      outputRows.push({
+        row: stat.row,
+        index: stat.index,
+        diag: rounded(diag),
+        bestWrongScore: rounded(bestWrongScore),
+        bestWrongCol: best ? best.col : '',
+        margin: rounded(margin),
+        topWrong: stat.topWrong.map((candidate, idx) => ({
+          col: candidate.col,
+          score: rounded(candidate.score),
+          rank: idx + 1
+        }))
+      });
+    }
+
+    return {
+      name,
+      byteSize: Number(options.byteSize) || 0,
+      pairCount,
+      rows: outputRows,
+      rowsCount: outputRows.length,
+      colsCount: colSet.size,
+      diagCount,
+      wrongCount,
+      diagMin: rounded(diagMin),
+      diagMax: rounded(diagMax),
+      avgDiag: diagCount ? rounded(diagTotal / diagCount) : null,
+      wrongMax: rounded(wrongMax),
+      scoreMin: rounded(scoreMin),
+      scoreMax: rounded(scoreMax),
+      maxAbsMargin: rounded(maxAbsMargin)
+    };
+  }
+
+  function createSummaryWorker(){
+    const workerScript = `
+      const summarizeJson = (${summarizeJson.toString()});
+      self.onmessage = async (event) => {
+        const data = event.data || {};
+        if (data.type !== 'loadBatch') return;
+        const jobs = data.jobs || [];
+        for (const job of jobs) {
+          const started = Date.now();
+          try {
+            self.postMessage({ type:'progress', id:job.id, name:job.name, phase:'Reading' });
+            const text = job.text != null ? String(job.text) : await job.file.text();
+            self.postMessage({ type:'progress', id:job.id, name:job.name, phase:'Parsing and summarizing' });
+            const json = JSON.parse(text);
+            const byteSize = Number(job.byteSize) || (job.file && job.file.size) || text.length;
+            const report = summarizeJson(json, { name:job.name, byteSize, topWrongLimit:job.topWrongLimit });
+            report.loadMs = Date.now() - started;
+            self.postMessage({ type:'result', id:job.id, ok:true, report });
+          } catch (error) {
+            self.postMessage({
+              type:'result',
+              id:job.id,
+              ok:false,
+              name:job.name,
+              error: error && error.message ? error.message : String(error)
+            });
+          }
+        }
+        self.postMessage({ type:'done' });
+      };
+    `;
+    const blob = new Blob([workerScript], { type:'text/javascript' });
+    return new Worker(URL.createObjectURL(blob));
+  }
+
+  function hydrateReport(raw){
+    const rows = (raw.rows || []).map((row, index) => ({
+      row: String(row.row),
+      index,
+      diag: finiteOrNaN(row.diag),
+      bestWrongScore: finiteOrNaN(row.bestWrongScore),
+      bestWrongCol: row.bestWrongCol ? String(row.bestWrongCol) : '',
+      margin: finiteOrNaN(row.margin),
+      topWrong: Array.isArray(row.topWrong)
+        ? row.topWrong.map((candidate, idx) => ({
+          col: String(candidate.col),
+          score: finiteOrNaN(candidate.score),
+          rank: Number(candidate.rank) || idx + 1
+        })).filter(candidate => Number.isFinite(candidate.score))
+        : []
+    }));
+
+    const rowIndex = new Map();
+    const metricByRow = new Map();
+    for (let i=0;i<rows.length;i++){
+      rowIndex.set(rows[i].row, i);
+      metricByRow.set(rows[i].row, rows[i]);
+    }
+
+    const byRow = rows.slice().sort((a,b) => collator.compare(a.row, b.row));
+    const byMargin = rows.slice().sort((a,b) => {
+      const am = Number.isFinite(a.margin) ? a.margin : 99;
+      const bm = Number.isFinite(b.margin) ? b.margin : 99;
+      return am - bm || collator.compare(a.row, b.row);
+    });
+    const byScore = rows.slice().sort((a,b) => {
+      const as = Number.isFinite(a.diag) ? a.diag : -Infinity;
+      const bs = Number.isFinite(b.diag) ? b.diag : -Infinity;
+      return bs - as || collator.compare(a.row, b.row);
+    });
+
+    return {
+      id: reportSeq++,
+      name: raw.name || 'report.json',
+      byteSize: Number(raw.byteSize) || 0,
+      pairCount: Number(raw.pairCount) || 0,
+      loadMs: Number(raw.loadMs) || 0,
+      displayCache: null,
+      metrics: {
+        rows,
+        rowNames: rows.map(row => row.row),
+        rowIndex,
+        metricByRow,
+        sorted: { row:byRow, marginAsc:byMargin, riskDesc:byMargin, scoreDesc:byScore },
+        colsCount: Number(raw.colsCount) || 0,
+        diagCount: Number(raw.diagCount) || 0,
+        wrongCount: Number(raw.wrongCount) || 0,
+        diagMin: finiteOrNaN(raw.diagMin),
+        diagMax: finiteOrNaN(raw.diagMax),
+        avgDiag: finiteOrNaN(raw.avgDiag),
+        wrongMax: finiteOrNaN(raw.wrongMax),
+        scoreMin: finiteOrNaN(raw.scoreMin),
+        scoreMax: finiteOrNaN(raw.scoreMax),
+        maxAbsMargin: finiteOrNaN(raw.maxAbsMargin)
+      }
+    };
+  }
+
+  function setLoadingMessage(message){
+    state.loadingMessage = message || '';
+    if (message){
+      $('subtitle').textContent = message;
+      $('tableFoot').textContent = message;
+      $('mapMeta').textContent = 'Working in a background worker...';
+    }
+  }
+
+  function activeReport(){
+    return state.reports[state.activeIndex] || null;
+  }
+
+  function classifyMargin(m){
+    if (!Number.isFinite(m)) return { label:'Missing', cls:'mid' };
+    if (m >= state.acceptMargin) return { label:'Auto-accept', cls:'good' };
+    if (m >= state.verifyMargin) return { label:'Verify', cls:'mid' };
+    return { label:'Critical', cls:'bad' };
+  }
+
+  function sortedRowsFor(report){
+    return report.metrics.sorted[state.sort] || report.metrics.sorted.row;
+  }
+
+  function getDisplayItems(report){
+    const q = state.search.trim().toLowerCase();
+    const topN = clamp(parseInt(state.topN || '3', 10) || 3, 1, MAX_WRONG_STORED);
+    const key = [
+      state.viewMode,
+      state.filter,
+      q,
+      state.sort,
+      topN,
+      state.acceptMargin.toFixed(3),
+      state.verifyMargin.toFixed(3)
+    ].join('|');
+
+    if (report.displayCache && report.displayCache.key === key) return report.displayCache.data;
+
+    const items = [];
+    let truncated = false;
+
+    function addItem(item){
+      if (q && (item.row + ' ' + item.col).toLowerCase().indexOf(q) === -1) return true;
+      if (state.filter !== 'all'){
+        if (item.kind !== 'diag') return true;
+        if (classifyMargin(item.margin).cls !== state.filter) return true;
+      }
+      items.push(item);
+      return items.length < MAX_DISPLAY_ITEMS;
+    }
+
+    const rows = sortedRowsFor(report);
+    outer:
+    for (let i=0;i<rows.length;i++){
+      const row = rows[i];
+
+      if (state.viewMode !== 'offdiag' && Number.isFinite(row.diag)){
+        const keepGoing = addItem({
+          kind:'diag',
+          row:row.row,
+          col:row.row,
+          score:row.diag,
+          rowIndex:row.index,
+          margin:row.margin,
+          rank:0
+        });
+        if (!keepGoing){ truncated = true; break; }
+      }
+
+      if (state.viewMode !== 'diagonal'){
+        const limit = Math.min(topN, row.topWrong.length);
+        for (let j=0;j<limit;j++){
+          const wrong = row.topWrong[j];
+          const keepGoing = addItem({
+            kind:'wrong',
+            row:row.row,
+            col:wrong.col,
+            score:wrong.score,
+            rowIndex:row.index,
+            margin:row.margin,
+            rank:wrong.rank
+          });
+          if (!keepGoing){ truncated = true; break outer; }
+        }
+      }
+    }
+
+    if (state.sort === 'scoreDesc' && items.length <= MAX_SORT_ITEMS){
+      items.sort((a,b) => b.score - a.score || collator.compare(a.row, b.row) || collator.compare(a.col, b.col));
+    }
+
+    const data = { items, truncated, topN };
+    report.displayCache = { key, data };
+    return data;
+  }
+
+  function fitCanvas(canvas){
+    const rect = canvas.getBoundingClientRect();
+    const scale = dpr();
+    const width = Math.max(1, Math.floor(rect.width * scale));
+    const height = Math.max(1, Math.floor(rect.height * scale));
+    if (canvas.width !== width || canvas.height !== height){
+      canvas.width = width;
+      canvas.height = height;
+      return true;
+    }
+    return false;
+  }
+
+  function clearCanvas(canvas){
+    const ctx = canvas.getContext('2d');
+    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function drawScatter(report, filtered){
+    const canvas = scatterCanvas;
+    fitCanvas(canvas);
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width;
+    const H = canvas.height;
+    const scale = dpr();
+    const m = { l:66 * scale, r:22 * scale, t:18 * scale, b:38 * scale };
+    const pw = Math.max(1, W - m.l - m.r);
+    const ph = Math.max(1, H - m.t - m.b);
+    const xMin = 0.60;
+    const xMax = 0.85;
+    const rowNames = report.metrics.rowNames;
+    const n = Math.max(rowNames.length, 1);
+    const yForIndex = (i) => m.t + ph - (i / Math.max(n - 1, 1)) * ph;
+    const x = (v) => m.l + ((v - xMin) / (xMax - xMin)) * pw;
+
+    scatterHotspots = [];
+    ctx.clearRect(0, 0, W, H);
+
+    const acceptX = x(Math.min(0.85, state.acceptMargin + 0.70));
+    const verifyX = x(Math.min(0.85, state.verifyMargin + 0.66));
+    const overlapX = x(0.66);
+    ctx.fillStyle = 'rgba(251,113,133,.06)';
+    ctx.fillRect(m.l, m.t, Math.max(0, overlapX - m.l), ph);
+    ctx.fillStyle = 'rgba(245,158,11,.07)';
+    ctx.fillRect(overlapX, m.t, Math.max(0, verifyX - overlapX), ph);
+    ctx.fillStyle = 'rgba(245,158,11,.035)';
+    ctx.fillRect(verifyX, m.t, Math.max(0, acceptX - verifyX), ph);
+    ctx.fillStyle = 'rgba(16,185,129,.08)';
+    ctx.fillRect(acceptX, m.t, Math.max(0, W - m.r - acceptX), ph);
+
+    ctx.strokeStyle = 'rgba(148,163,184,.10)';
+    ctx.lineWidth = 1;
+    [0.60,0.65,0.70,0.75,0.80,0.85].forEach(value => {
+      const xx = x(value);
+      ctx.beginPath();
+      ctx.moveTo(xx, m.t);
+      ctx.lineTo(xx, m.t + ph);
+      ctx.stroke();
+      ctx.fillStyle = '#7f90a7';
+      ctx.font = `${11 * scale}px Inter, system-ui, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(value.toFixed(2), xx, H - 12 * scale);
+    });
+
+    const yTicks = Math.min(rowNames.length, 6);
+    for (let i=0;i<yTicks;i++){
+      const idx = Math.round((rowNames.length - 1) * i / Math.max(yTicks - 1, 1));
+      const yy = yForIndex(idx);
+      ctx.beginPath();
+      ctx.moveTo(m.l, yy);
+      ctx.lineTo(W - m.r, yy);
+      ctx.stroke();
+      ctx.fillStyle = '#7f90a7';
+      ctx.textAlign = 'right';
+      ctx.fillText(rowNames[idx] || '', m.l - 8 * scale, yy + 4 * scale);
+    }
+
+    [
+      { x:x(0.70), color:'rgba(251,113,133,.65)' },
+      { x:x(0.73), color:'rgba(245,158,11,.65)' },
+      { x:x(0.75), color:'rgba(52,211,153,.65)' }
+    ].forEach(threshold => {
+      ctx.strokeStyle = threshold.color;
+      ctx.setLineDash([6 * scale, 6 * scale]);
+      ctx.beginPath();
+      ctx.moveTo(threshold.x, m.t);
+      ctx.lineTo(threshold.x, m.t + ph);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = `700 ${14 * scale}px Inter, system-ui, sans-serif`;
+    ctx.textAlign = 'left';
+    ctx.fillText(report.name + ' · cosine similarity score', m.l, 14 * scale);
+    ctx.fillStyle = '#7f90a7';
+    ctx.font = `${11 * scale}px Inter, system-ui, sans-serif`;
+    ctx.fillText('score ->', W - 48 * scale, H - 8 * scale);
+
+    const items = filtered.items;
+    if (!items.length) return;
+    const step = Math.max(1, Math.ceil(items.length / MAX_SCATTER_POINTS));
+    const hoverStep = Math.max(1, Math.ceil(Math.min(items.length, MAX_SCATTER_POINTS) / MAX_HOVER_POINTS));
+    let drawn = 0;
+
+    function drawItem(item){
+      const xx = x(clamp(item.score, xMin, xMax));
+      const yy = yForIndex(item.rowIndex);
+      if (item.kind === 'diag'){
+        const cls = classifyMargin(item.margin).cls;
+        ctx.fillStyle = cls === 'good' ? 'rgba(52,211,153,.98)' : cls === 'mid' ? 'rgba(245,158,11,.98)' : 'rgba(251,113,133,.98)';
+        ctx.beginPath();
+        ctx.arc(xx, yy, 4.8 * scale, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.fillStyle = 'rgba(248,113,49,.90)';
+        ctx.beginPath();
+        ctx.moveTo(xx, yy - 4.6 * scale);
+        ctx.lineTo(xx + 4.6 * scale, yy + 4.6 * scale);
+        ctx.lineTo(xx - 4.6 * scale, yy + 4.6 * scale);
+        ctx.closePath();
+        ctx.fill();
+      }
+      return { xx, yy };
+    }
+
+    for (let i=0;i<items.length;i+=step){
+      const point = drawItem(items[i]);
+      drawn++;
+      if (scatterHotspots.length < MAX_HOVER_POINTS && drawn % hoverStep === 0){
+        scatterHotspots.push({ d:items[i], xx:point.xx, yy:point.yy });
+      }
+    }
+  }
+
+  function drawBars(report){
+    const canvas = barCanvas;
+    fitCanvas(canvas);
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width;
+    const H = canvas.height;
+    const scale = dpr();
+    const m = { l:48 * scale, r:14 * scale, t:18 * scale, b:42 * scale };
+    const pw = Math.max(1, W - m.l - m.r);
+    const ph = Math.max(1, H - m.t - m.b);
+    const rows = sortedRowsFor(report);
+    const maxAbs = Math.max(state.acceptMargin * 1.4, report.metrics.maxAbsMargin || 0, 0.12);
+    const zeroY = m.t + ph * 0.5;
+    const yScale = ph / (maxAbs * 2);
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(255,255,255,.02)';
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.strokeStyle = 'rgba(148,163,184,.10)';
+    ctx.lineWidth = 1;
+    for (let i=0;i<=4;i++){
+      const value = maxAbs - (2 * maxAbs * i / 4);
+      const y = zeroY - value * yScale;
+      ctx.beginPath();
+      ctx.moveTo(m.l, y);
+      ctx.lineTo(W - m.r, y);
+      ctx.stroke();
+      ctx.fillStyle = '#7f90a7';
+      ctx.font = `${11 * scale}px Inter, system-ui, sans-serif`;
+      ctx.textAlign = 'right';
+      ctx.fillText(fmt(value), m.l - 8 * scale, y + 4 * scale);
+    }
+
+    ctx.strokeStyle = 'rgba(148,163,184,.18)';
+    ctx.beginPath();
+    ctx.moveTo(m.l, zeroY);
+    ctx.lineTo(W - m.r, zeroY);
+    ctx.stroke();
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = `700 ${14 * scale}px Inter, system-ui, sans-serif`;
+    ctx.textAlign = 'left';
+    ctx.fillText('margin = diagonal score - best wrong score', m.l, 14 * scale);
+
+    const yAccept = zeroY - state.acceptMargin * yScale;
+    const yVerify = zeroY - state.verifyMargin * yScale;
+    ctx.strokeStyle = 'rgba(52,211,153,.45)';
+    ctx.setLineDash([6 * scale, 6 * scale]);
+    ctx.beginPath();
+    ctx.moveTo(m.l, yAccept);
+    ctx.lineTo(W - m.r, yAccept);
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(245,158,11,.45)';
+    ctx.beginPath();
+    ctx.moveTo(m.l, yVerify);
+    ctx.lineTo(W - m.r, yVerify);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    const count = rows.length;
+    if (!count) return;
+    const drawMax = Math.min(count, Math.max(80, Math.floor(pw / (3 * scale))));
+    const step = Math.max(1, Math.ceil(count / drawMax));
+    const drawnCount = Math.ceil(count / step);
+    const gap = drawnCount > 90 ? 1 * scale : 4 * scale;
+    const bw = Math.max(1 * scale, (pw - gap * Math.max(0, drawnCount - 1)) / Math.max(1, drawnCount));
+    let drawn = 0;
+
+    for (let i=0;i<count;i+=step){
+      const row = rows[i];
+      const margin = Number.isFinite(row.margin) ? row.margin : 0;
+      const h = Math.max(1, Math.abs(margin * yScale));
+      const x = m.l + drawn * (bw + gap);
+      const y = margin >= 0 ? zeroY - h : zeroY;
+      const cls = classifyMargin(row.margin).cls;
+      ctx.fillStyle = cls === 'good' ? 'rgba(52,211,153,.95)' : cls === 'mid' ? 'rgba(245,158,11,.95)' : 'rgba(251,113,133,.95)';
+      ctx.fillRect(x, y, bw, h);
+      drawn++;
+    }
+
+    ctx.fillStyle = '#7f90a7';
+    ctx.font = `${11 * scale}px Inter, system-ui, sans-serif`;
+    ctx.textAlign = 'right';
+    ctx.fillText('rows ->', W - 10 * scale, H - 8 * scale);
+  }
+
+  function countRisk(report){
+    let risky = 0;
+    const rows = report.metrics.rows;
+    for (let i=0;i<rows.length;i++){
+      if (Number.isFinite(rows[i].margin) && rows[i].margin < state.verifyMargin) risky++;
+    }
+    return risky;
+  }
+
+  function overlapLabel(report){
+    const wrongMax = report.metrics.wrongMax;
+    if (!Number.isFinite(wrongMax)) return '-';
+    return fmt(Math.max(0, wrongMax - state.verifyMargin)) + ' - ' + fmt(wrongMax);
+  }
+
+  function renderFileList(){
+    const list = $('fileList');
+    if (!state.reports.length){
+      list.innerHTML = `<div class="fileCard"><div><strong>No files loaded</strong><div class="sub">Use the button above.</div></div><div class="right">-</div></div>`;
+      return;
+    }
+    list.innerHTML = state.reports.map((report, i) => {
+      const risky = countRisk(report);
+      return `
+        <div class="fileCard ${i === state.activeIndex ? 'active' : ''}" data-index="${i}">
+          <div>
+            <strong>${esc(report.name)}</strong>
+            <div class="sub">${fmtInt(report.pairCount)} pairs · ${fmtInt(report.metrics.rows.length)} rows · ${fmtInt(report.metrics.colsCount)} cols</div>
+          </div>
+          <div class="right">${fmtInt(risky)} risky</div>
+        </div>`;
+    }).join('');
+
+    list.querySelectorAll('.fileCard').forEach(card => {
+      card.onclick = () => {
+        state.activeIndex = Number(card.dataset.index);
+        tableScroll.scrollTop = 0;
+        scheduleUpdate();
+      };
+    });
+  }
+
+  function similarityBetweenReports(a, b){
+    if (a.id === b.id) return 1;
+    const key = a.id < b.id ? a.id + ':' + b.id : b.id + ':' + a.id;
+    if (state.similarityCache.has(key)) return state.similarityCache.get(key);
+
+    const small = a.metrics.rows.length <= b.metrics.rows.length ? a : b;
+    const large = small === a ? b : a;
+    let total = 0;
+    let count = 0;
+
+    for (let i=0;i<small.metrics.rows.length;i++){
+      const left = small.metrics.rows[i];
+      const right = large.metrics.metricByRow.get(left.row);
+      if (!right) continue;
+      if (Number.isFinite(left.margin) && Number.isFinite(right.margin)){
+        total += 1 - Math.min(1, Math.abs(left.margin - right.margin) / 0.20);
+        count++;
+      }
+    }
+
+    const score = count ? total / count : NaN;
+    state.similarityCache.set(key, score);
+    return score;
+  }
+
+  function renderMatrix(){
+    const tbl = $('comparisonMatrix');
+    if (!state.reports.length){
+      tbl.innerHTML = `<tr><td style="padding:12px;color:#93a4bb">Load multiple reports to compare them.</td></tr>`;
+      $('compareSummary').textContent = 'Load multiple reports to compare them.';
+      return;
+    }
+
+    const maxFiles = 12;
+    const reports = state.reports.slice(0, maxFiles);
+    const head = ['<tr><th></th>'];
+    for (const report of reports) head.push(`<th>${esc(report.name)}</th>`);
+    head.push('</tr>');
+
+    const body = [];
+    for (let i=0;i<reports.length;i++){
+      body.push(`<tr><th>${esc(reports[i].name)}</th>`);
+      for (let j=0;j<reports.length;j++){
+        if (i === j){
+          body.push('<td class="self">self</td>');
+          continue;
+        }
+        const score = similarityBetweenReports(reports[i], reports[j]);
+        const cls = !Number.isFinite(score) ? 'mid' : score >= 0.75 ? 'good' : score >= 0.5 ? 'mid' : 'bad';
+        body.push(`<td class="${cls}">${Number.isFinite(score) ? score.toFixed(2) : 'n/a'}</td>`);
+      }
+      body.push('</tr>');
+    }
+
+    tbl.innerHTML = head.join('') + body.join('');
+    const best = reports.map(report => ({
+      report,
+      risky: countRisk(report),
+      avgDiag: Number.isFinite(report.metrics.avgDiag) ? report.metrics.avgDiag : 0
+    })).sort((a,b) => (a.risky - b.risky) || (b.avgDiag - a.avgDiag));
+
+    $('compareSummary').textContent = reports.length > 1
+      ? `Best-looking file right now: ${best[0].report.name} · ${fmtInt(best[0].risky)} risky row${best[0].risky === 1 ? '' : 's'} under current thresholds.`
+      : 'Single-file mode. Load more JSON reports to activate comparison.';
+  }
+
+  function renderTabs(){
+    const subtitle = $('subtitle');
+    if (state.loadingMessage){
+      subtitle.textContent = state.loadingMessage;
+      return;
+    }
+    if (!state.reports.length){
+      subtitle.textContent = 'Load one or more JSON similarity reports. Large matrices are summarized in the background before drawing.';
+      return;
+    }
+    subtitle.textContent = `${state.reports.length} file${state.reports.length === 1 ? '' : 's'} loaded. The active report draws from compact per-row summaries instead of the full matrix.`;
+  }
+
+  function updateKPIs(report, filtered){
+    if (!report){
+      $('kpiFile').textContent = '-';
+      $('kpiFileSub').textContent = 'No file loaded';
+      $('kpiDiag').textContent = '-';
+      $('kpiWrong').textContent = '-';
+      $('kpiRisk').textContent = '-';
+      $('sumSize').textContent = '-';
+      $('sumOverlap').textContent = '-';
+      $('sumVisible').textContent = '-';
+      $('mapMeta').textContent = '-';
+      return;
+    }
+
+    const metrics = report.metrics;
+    const diagRange = Number.isFinite(metrics.diagMin) && Number.isFinite(metrics.diagMax)
+      ? fmt(metrics.diagMin) + ' - ' + fmt(metrics.diagMax)
+      : '-';
+    const visibleLabel = filtered.truncated
+      ? `${fmtInt(filtered.items.length)} shown (capped)`
+      : `${fmtInt(filtered.items.length)} visible`;
+
+    $('kpiFile').textContent = report.name;
+    $('kpiFileSub').textContent = `${fmtInt(report.pairCount)} pairs · ${fmtInt(metrics.rows.length)} rows`;
+    $('kpiDiag').textContent = diagRange;
+    $('kpiWrong').textContent = fmt(metrics.wrongMax);
+    $('kpiRisk').textContent = overlapLabel(report);
+    $('sumSize').textContent = `${fmtInt(metrics.rows.length)} × ${fmtInt(metrics.colsCount)}`;
+    $('sumOverlap').textContent = `${fmtInt(countRisk(report))} risk rows`;
+    $('sumVisible').textContent = visibleLabel;
+    $('mapMeta').textContent = `${fmtInt(metrics.diagCount)} correct points · ${fmtInt(metrics.wrongCount)} wrong matrix cells summarized to top ${filtered.topN} per row`;
+  }
+
+  function buildVisibleRows(filtered){
+    const total = filtered.items.length;
+    const overscan = 12;
+    const start = Math.max(0, Math.floor(tableScroll.scrollTop / ROW_H) - overscan);
+    const end = Math.min(total, Math.ceil((tableScroll.scrollTop + tableScroll.clientHeight) / ROW_H) + overscan);
+
+    tableRows.style.height = (total * ROW_H) + 'px';
+    const nodes = [];
+    for (let i=start;i<end;i++){
+      const item = filtered.items[i];
+      const status = item.kind === 'diag'
+        ? classifyMargin(item.margin)
+        : { label:'Wrong #' + item.rank, cls:'mid' };
+      const gap = item.kind === 'diag' ? fmt(item.margin) : '-';
+      nodes.push(`
+        <div class="row" style="transform:translateY(${i * ROW_H}px)">
+          <div class="cell" title="${esc(item.row)}">${esc(item.row)}</div>
+          <div class="cell" title="${esc(item.col)}">${esc(item.col)}</div>
+          <div class="cell">${fmt(item.score)}</div>
+          <div class="cell">${gap}</div>
+          <div class="cell"><span class="badge ${status.cls}">${status.label}</span></div>
+        </div>
+      `);
+    }
+    tableRows.innerHTML = nodes.join('');
+
+    const showing = total ? `${fmtInt(start)}-${fmtInt(Math.max(start, end - 1))}` : '0';
+    const capped = filtered.truncated ? ' · capped for browser responsiveness' : '';
+    $('tableFoot').textContent = `${fmtInt(total)} visible summary pair${total === 1 ? '' : 's'} · showing ${showing}${capped}`;
+  }
+
+  function renderTable(report, filtered){
+    $('tableMeta').textContent = 'Rows are virtualized; full matrices are reduced to diagonal + top wrong candidates.';
+    if (!report){
+      tableRows.innerHTML = '';
+      tableRows.style.height = '0px';
+      return;
+    }
+    if (!pendingTable){
+      pendingTable = true;
+      requestAnimationFrame(() => {
+        pendingTable = false;
+        buildVisibleRows(filtered);
+      });
+    }
+  }
+
+  function update(){
+    const report = activeReport();
+    renderTabs();
+    renderFileList();
+    renderMatrix();
+
+    if (!report){
+      updateKPIs(null, { items:[], truncated:false, topN:state.topN });
+      tableRows.innerHTML = '';
+      tableRows.style.height = '0px';
+      $('tableFoot').textContent = state.loadingMessage || 'Load files to populate the table.';
+      clearCanvas(scatterCanvas);
+      clearCanvas(barCanvas);
+      return;
+    }
+
+    const filtered = getDisplayItems(report);
+    updateKPIs(report, filtered);
+    drawScatter(report, filtered);
+    drawBars(report);
+    renderTable(report, filtered);
+  }
+
+  function finishLoad(results, token){
+    if (token !== state.loadToken) return;
+    if (activeWorker){
+      activeWorker.terminate();
+      activeWorker = null;
+    }
+
+    const good = results.filter(result => result.ok && result.report && result.report.rows && result.report.rows.length);
+    const failed = results.filter(result => !result.ok);
+    if (!good.length){
+      setLoadingMessage('');
+      alert('No valid JSON similarity reports were found.');
+      scheduleUpdate();
+      return;
+    }
+
+    state.reports = good.map(result => hydrateReport(result.report));
+    state.activeIndex = 0;
+    state.similarityCache.clear();
+    tableScroll.scrollTop = 0;
+    setLoadingMessage('');
+    scheduleUpdate();
+
+    if (failed.length){
+      $('compareSummary').textContent = `${failed.length} file${failed.length === 1 ? '' : 's'} failed to parse. First error: ${failed[0].error || 'unknown error'}`;
+    }
+  }
+
+  async function summarizeJobsFallback(jobs, token){
+    const results = [];
+    for (let i=0;i<jobs.length;i++){
+      const job = jobs[i];
+      try {
+        setLoadingMessage(`Loading ${job.name} (${i + 1}/${jobs.length}) without worker fallback...`);
+        const text = job.text != null ? String(job.text) : await job.file.text();
+        const json = JSON.parse(text);
+        const report = summarizeJson(json, {
+          name:job.name,
+          byteSize:Number(job.byteSize) || (job.file && job.file.size) || text.length,
+          topWrongLimit:MAX_WRONG_STORED
+        });
+        results.push({ ok:true, report });
+      } catch (error) {
+        results.push({ ok:false, name:job.name, error:error && error.message ? error.message : String(error) });
+      }
+      await new Promise(resolve => setTimeout(resolve, 0));
+    }
+    finishLoad(results, token);
+  }
+
+  function loadJobs(jobs){
+    if (!jobs.length) return;
+    const token = ++state.loadToken;
+    if (activeWorker){
+      activeWorker.terminate();
+      activeWorker = null;
+    }
+
+    setLoadingMessage(`Preparing ${jobs.length} JSON file${jobs.length === 1 ? '' : 's'}...`);
+    update();
+
+    if (!window.Worker || !window.Blob){
+      summarizeJobsFallback(jobs, token);
+      return;
+    }
+
+    const results = [];
+    try {
+      activeWorker = createSummaryWorker();
+    } catch (error) {
+      summarizeJobsFallback(jobs, token);
+      return;
+    }
+
+    activeWorker.onmessage = (event) => {
+      if (token !== state.loadToken) return;
+      const data = event.data || {};
+      if (data.type === 'progress'){
+        setLoadingMessage(`${data.phase} ${data.name || 'report'}...`);
+      } else if (data.type === 'result'){
+        results.push(data);
+      } else if (data.type === 'done'){
+        finishLoad(results, token);
+      }
+    };
+
+    activeWorker.onerror = (event) => {
+      if (token !== state.loadToken) return;
+      console.warn('Worker failed; falling back to main-thread parsing.', event.message || event);
+      if (activeWorker){
+        activeWorker.terminate();
+        activeWorker = null;
+      }
+      summarizeJobsFallback(jobs, token);
+    };
+
+    activeWorker.postMessage({
+      type:'loadBatch',
+      jobs:jobs.map((job, id) => ({
+        id,
+        name:job.name,
+        file:job.file || null,
+        text:job.text,
+        byteSize:job.byteSize || (job.file && job.file.size) || 0,
+        topWrongLimit:MAX_WRONG_STORED
+      }))
+    });
+  }
+
+  function loadFiles(files){
+    const jobs = Array.from(files || []).map(file => ({ name:file.name, file, byteSize:file.size }));
+    loadJobs(jobs);
+  }
+
+  function scheduleUpdate(){
+    clearTimeout(updateTimer);
+    updateTimer = setTimeout(() => {
+      if (updateQueued) return;
+      updateQueued = true;
+      requestAnimationFrame(() => {
+        updateQueued = false;
+        update();
+      });
+    }, 35);
+  }
+
+  function scheduleTableRerender(){
+    if (tableQueued) return;
+    tableQueued = true;
+    requestAnimationFrame(() => {
+      tableQueued = false;
+      const report = activeReport();
+      if (!report) return;
+      renderTable(report, getDisplayItems(report));
+    });
+  }
+
+  function resetTableAndUpdate(){
+    tableScroll.scrollTop = 0;
+    scheduleUpdate();
+  }
+
+  scatterCanvas.addEventListener('mousemove', (event) => {
+    if (!scatterHotspots.length){
+      hideTip();
+      return;
+    }
+    const rect = scatterCanvas.getBoundingClientRect();
+    const scale = dpr();
+    const mx = (event.clientX - rect.left) * scale;
+    const my = (event.clientY - rect.top) * scale;
+    let best = null;
+    let bestDist = (18 * scale) * (18 * scale);
+
+    for (let i=0;i<scatterHotspots.length;i++){
+      const hotspot = scatterHotspots[i];
+      const dx = hotspot.xx - mx;
+      const dy = hotspot.yy - my;
+      const dist = dx * dx + dy * dy;
+      if (dist < bestDist){
+        bestDist = dist;
+        best = hotspot;
+      }
+    }
+
+    if (!best){
+      hideTip();
+      return;
+    }
+
+    const item = best.d;
+    showTip(
+      `<div class="t">${esc(item.row)} -> ${esc(item.col)}</div>
+       <div class="b">score ${fmt(item.score)}</div>
+       <div class="m">${item.kind === 'diag' ? `gap ${fmt(item.margin)}` : `wrong candidate #${item.rank}`}</div>`,
+      event.clientX,
+      event.clientY
+    );
+  });
+  scatterCanvas.addEventListener('mouseleave', hideTip);
+
+  fileInput.addEventListener('change', event => loadFiles(event.target.files));
+  $('demoBtn').addEventListener('click', () => {
+    const demoA = {
+      "1.txt":{"1.txt":0.794264,"10.txt":0.550001,"11.txt":0.519428,"12.txt":0.60282,"13.txt":0.602937,"14.txt":0.577086,"15.txt":0.586671},
+      "2.txt":{"2.txt":0.801771,"5.txt":0.671904,"8.txt":0.606211},
+      "3.txt":{"3.txt":0.762114,"4.txt":0.695002,"9.txt":0.653254},
+      "4.txt":{"4.txt":0.736512,"1.txt":0.680918,"7.txt":0.714221}
+    };
+    const demoB = {
+      "1.txt":{"1.txt":0.8131,"10.txt":0.515,"11.txt":0.534,"12.txt":0.611},
+      "2.txt":{"2.txt":0.783,"5.txt":0.651,"8.txt":0.593},
+      "3.txt":{"3.txt":0.741,"4.txt":0.702,"9.txt":0.642},
+      "5.txt":{"5.txt":0.802,"6.txt":0.661,"7.txt":0.623}
+    };
+    loadJobs([
+      { name:'demo-report-A.json', text:JSON.stringify(demoA), byteSize:JSON.stringify(demoA).length },
+      { name:'demo-report-B.json', text:JSON.stringify(demoB), byteSize:JSON.stringify(demoB).length }
+    ]);
+  });
+
+  ['dragenter','dragover'].forEach(evt => {
+    document.body.addEventListener(evt, event => event.preventDefault(), { passive:false });
+  });
+  document.body.addEventListener('drop', event => {
+    event.preventDefault();
+    if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files.length) loadFiles(event.dataTransfer.files);
+  });
+
+  $('acceptMargin').addEventListener('input', () => {
+    state.acceptMargin = parseFloat($('acceptMargin').value);
+    resetTableAndUpdate();
+  });
+  $('verifyMargin').addEventListener('input', () => {
+    state.verifyMargin = parseFloat($('verifyMargin').value);
+    resetTableAndUpdate();
+  });
+  $('topN').addEventListener('input', () => {
+    state.topN = clamp(parseInt($('topN').value || '3', 10) || 3, 1, MAX_WRONG_STORED);
+    $('topN').value = String(state.topN);
+    resetTableAndUpdate();
+  });
+  $('viewMode').addEventListener('change', event => {
+    state.viewMode = event.target.value;
+    resetTableAndUpdate();
+  });
+  $('sortSelect').addEventListener('change', event => {
+    state.sort = event.target.value;
+    resetTableAndUpdate();
+  });
+  $('searchInput').addEventListener('input', event => {
+    state.search = event.target.value;
+    resetTableAndUpdate();
+  });
+  tableScroll.addEventListener('scroll', scheduleTableRerender);
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(item => item.classList.remove('active'));
+      chip.classList.add('active');
+      state.filter = chip.dataset.filter;
+      resetTableAndUpdate();
+    });
+  });
+
+  window.addEventListener('resize', scheduleUpdate, { passive:true });
+  window.addEventListener('paste', event => {
+    const text = event.clipboardData && event.clipboardData.getData('text/plain') ? event.clipboardData.getData('text/plain').trim() : '';
+    if (!text) return;
+    if ((text.startsWith('{') && text.endsWith('}')) || (text.startsWith('[') && text.endsWith(']'))){
+      loadJobs([{ name:'pasted-report.json', text, byteSize:text.length }]);
+    }
+  });
+
+  update();
+})();
+</script>
+
+<script type="text/plain" id="legacy-similarity-map-script">
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const state = {
+    reports: [],
+    activeIndex: 0,
+    filter: 'all',
+    viewMode: 'all',
+    search: '',
+    sort: 'row',
+    acceptMargin: 0.07,
+    verifyMargin: 0.03,
+    topN: 3,
+    tableScrollTop: 0,
+    tableScrollHeight: 0
+  };
+
+  const tooltip = $('tooltip');
+  const scatterCanvas = $('scatterCanvas');
+  const barCanvas = $('barCanvas');
+  const tableScroll = $('tableScroll');
+  const tableRows = $('tableRows');
+  const fileInput = $('fileInput');
+
+  const fmt = (n) => Number.isFinite(n) ? n.toFixed(4).replace(/0+$/,'').replace(/\.$/,'') : '—';
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const dpr = () => Math.max(1, window.devicePixelRatio || 1);
+
+  function showTip(html, x, y){
+    tooltip.innerHTML = html;
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+    tooltip.style.opacity = 1;
+  }
+  function hideTip(){ tooltip.style.opacity = 0; }
+
+  function esc(s){
+    return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
+  }
+
+  function parseItems(json){
+    const items = [];
+    if (Array.isArray(json)){
+      for (let i=0;i<json.length;i++){
+        const d = json[i];
+        if (d && typeof d === 'object'){
+          const row = d.row ?? d.source ?? d.a ?? d.left ?? `row_${i+1}`;
+          const col = d.col ?? d.target ?? d.b ?? d.right ?? row;
+          const score = Number(d.score ?? d.similarity ?? d.value ?? d.cosine ?? NaN);
+          if (Number.isFinite(score)) items.push({ row:String(row), col:String(col), score });
+        }
+      }
+      return items;
+    }
+    if (!json || typeof json !== 'object') return items;
+    for (const rowKey of Object.keys(json)){
+      const rowVal = json[rowKey];
+      if (rowVal && typeof rowVal === 'object' && !Array.isArray(rowVal)){
+        for (const colKey of Object.keys(rowVal)){
+          const score = Number(rowVal[colKey]);
+          if (Number.isFinite(score)) items.push({ row:String(rowKey), col:String(colKey), score });
+        }
+      }
+    }
+    return items;
+  }
+
+  function computeMetrics(items){
+    const rows = [];
+    const rowSet = new Set();
+    const colSet = new Set();
+    const rowIndex = new Map();
+    for (const it of items){
+      if (!rowSet.has(it.row)){
+        rowSet.add(it.row);
+        rowIndex.set(it.row, rows.length);
+        rows.push(it.row);
+      }
+      colSet.add(it.col);
+    }
+    const diagonal = [];
+    const offdiag = [];
+    for (const it of items) (it.row === it.col ? diagonal : offdiag).push(it);
+
+    const diagonalScores = new Map();
+    for (const d of diagonal) diagonalScores.set(d.row, d.score);
+
+    const bestWrongByRow = new Map();
+    const wrongByRow = new Map();
+    for (const d of offdiag){
+      let arr = wrongByRow.get(d.row);
+      if (!arr){ arr = []; wrongByRow.set(d.row, arr); }
+      arr.push(d);
+    }
+    for (const [row, arr] of wrongByRow){
+      arr.sort((a,b)=>b.score-a.score);
+      bestWrongByRow.set(row, arr[0]);
+    }
+
+    const margins = new Array(rows.length);
+    const marginByRow = new Map();
+    let diagMin = Infinity, diagMax = -Infinity, wrongMax = -Infinity;
+    for (let i=0;i<rows.length;i++){
+      const row = rows[i];
+      const diag = diagonalScores.get(row);
+      const bestWrong = bestWrongByRow.get(row);
+      const bw = bestWrong ? bestWrong.score : NaN;
+      const margin = Number.isFinite(diag) && Number.isFinite(bw) ? diag - bw : NaN;
+      if (Number.isFinite(diag)){
+        if (diag < diagMin) diagMin = diag;
+        if (diag > diagMax) diagMax = diag;
+      }
+      if (Number.isFinite(bw) && bw > wrongMax) wrongMax = bw;
+      const metric = { row, diag: Number.isFinite(diag) ? diag : NaN, bestWrongScore: bw, bestWrongCol: bestWrong?.col ?? '', margin };
+      margins[i] = metric;
+      marginByRow.set(row, metric.margin);
+    }
+    if (!Number.isFinite(diagMin)) diagMin = NaN;
+    if (!Number.isFinite(diagMax)) diagMax = NaN;
+    if (!Number.isFinite(wrongMax)) wrongMax = NaN;
+    return { rows, rowIndex, cols:[...colSet], diagonal, offdiag, diagonalScores, bestWrongByRow, marginByRow, margins, diagMin, diagMax, wrongMax };
+  }
+
+  function activeReport(){
+    return state.reports[state.activeIndex] || null;
+  }
+
+  function classifyMargin(m){
+    if (!Number.isFinite(m)) return { label:'Missing', cls:'mid' };
+    if (m >= state.acceptMargin) return { label:'Auto-accept', cls:'good' };
+    if (m >= state.verifyMargin) return { label:'Verify', cls:'mid' };
+    return { label:'Critical', cls:'bad' };
+  }
+
+  function applyFilters(report){
+    const marginByRow = report.metrics.marginByRow;
+    let items = report.items;
+
+    if (state.viewMode === 'diagonal') items = items.filter(d => d.row === d.col);
+    if (state.viewMode === 'offdiag') items = items.filter(d => d.row !== d.col);
+
+    if (state.filter !== 'all'){
+      items = items.filter(d => {
+        if (d.row !== d.col) return false;
+        return classifyMargin(marginByRow.get(d.row)).cls === state.filter;
+      });
+    }
+
+    const q = state.search.trim().toLowerCase();
+    if (q) items = items.filter(d => `${d.row} ${d.col}`.toLowerCase().includes(q));
+
+    const sort = state.sort;
+    if (sort === 'scoreDesc') items = items.slice().sort((a,b)=>b.score-a.score);
+    else if (sort === 'marginAsc' || sort === 'riskDesc') {
+      items = items.slice().sort((a,b)=>(marginByRow.get(a.row) ?? 99) - (marginByRow.get(b.row) ?? 99));
+    } else {
+      items = items.slice().sort((a,b)=>
+        a.row.localeCompare(b.row, undefined, {numeric:true, sensitivity:'base'}) ||
+        a.col.localeCompare(b.col, undefined, {numeric:true, sensitivity:'base'})
+      );
+    }
+    return { items, marginByRow };
+  }
+
+  function fitCanvas(canvas){
+    const rect = canvas.getBoundingClientRect();
+    const scale = dpr();
+    const width = Math.max(1, Math.floor(rect.width * scale));
+    const height = Math.max(1, Math.floor(rect.height * scale));
+    if (canvas.width !== width || canvas.height !== height){
+      canvas.width = width;
+      canvas.height = height;
+      return true;
+    }
+    return false;
+  }
+
+  function drawScatter(report, filtered){
+    const canvas = scatterCanvas;
+    fitCanvas(canvas);
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const m = { l: 66 * dpr(), r: 22 * dpr(), t: 18 * dpr(), b: 38 * dpr() };
+    const pw = W - m.l - m.r, ph = H - m.t - m.b;
+    const xMin = 0.60, xMax = 0.85;
+    const rows = report.metrics.rows;
+    const rowIndex = report.metrics.rowIndex;
+    const n = Math.max(rows.length, 1);
+    const yForIndex = (i) => m.t + ph - (i / Math.max(n - 1, 1)) * ph;
+    const x = (v) => m.l + ((v - xMin) / (xMax - xMin)) * pw;
+
+    ctx.clearRect(0,0,W,H);
+
+    // background zones
+    const acceptX = x(Math.min(0.85, state.acceptMargin + 0.70));
+    const verifyX = x(Math.min(0.85, state.verifyMargin + 0.66));
+    const overlapX = x(0.66);
+    ctx.fillStyle = 'rgba(251,113,133,.06)'; ctx.fillRect(m.l, m.t, overlapX - m.l, ph);
+    ctx.fillStyle = 'rgba(245,158,11,.07)'; ctx.fillRect(overlapX, m.t, verifyX - overlapX, ph);
+    ctx.fillStyle = 'rgba(245,158,11,.035)'; ctx.fillRect(verifyX, m.t, acceptX - verifyX, ph);
+    ctx.fillStyle = 'rgba(16,185,129,.08)'; ctx.fillRect(acceptX, m.t, W - m.r - acceptX, ph);
+
+    // grid
+    ctx.strokeStyle = 'rgba(148,163,184,.10)';
+    ctx.lineWidth = 1;
+    [0.60,0.65,0.70,0.75,0.80,0.85].forEach(v=>{
+      const xx = x(v);
+      ctx.beginPath(); ctx.moveTo(xx,m.t); ctx.lineTo(xx,m.t+ph); ctx.stroke();
+      ctx.fillStyle = '#7f90a7';
+      ctx.font = `${11 * dpr()}px Inter, system-ui, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(v.toFixed(2), xx, H - 12 * dpr());
+    });
+
+    const yTicks = Math.min(rows.length, 6);
+    for (let i=0;i<yTicks;i++){
+      const idx = Math.round((rows.length - 1) * i / Math.max(yTicks - 1,1));
+      const yy = yForIndex(idx);
+      ctx.beginPath(); ctx.moveTo(m.l, yy); ctx.lineTo(W - m.r, yy); ctx.stroke();
+      ctx.fillStyle = '#7f90a7';
+      ctx.textAlign = 'right';
+      ctx.fillText(rows[idx] ?? '', m.l - 8 * dpr(), yy + 4 * dpr());
+    }
+
+    // thresholds
+    const th = [
+      { x: x(0.70), color:'rgba(251,113,133,.65)' },
+      { x: x(0.73), color:'rgba(245,158,11,.65)' },
+      { x: x(0.75), color:'rgba(52,211,153,.65)' },
+    ];
+    th.forEach(t => {
+      ctx.strokeStyle = t.color;
+      ctx.setLineDash([6*dpr(), 6*dpr()]);
+      ctx.beginPath(); ctx.moveTo(t.x,m.t); ctx.lineTo(t.x,m.t+ph); ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    // labels
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = `700 ${14 * dpr()}px Inter, system-ui, sans-serif`;
+    ctx.textAlign = 'left';
+    ctx.fillText(`${report.name} · cosine similarity score`, m.l, 14 * dpr());
+    ctx.fillStyle = '#7f90a7';
+    ctx.font = `${11 * dpr()}px Inter, system-ui, sans-serif`;
+    ctx.fillText('score →', W - 40 * dpr(), H - 8 * dpr());
+
+    // points
+    const marginByRow = report.metrics.marginByRow;
+    const drawItem = (d) => {
+      const xx = x(clamp(d.score, xMin, xMax));
+      const ridx = rowIndex.get(d.row);
+      const yy = yForIndex(ridx >= 0 ? ridx : 0);
+      const diag = d.row === d.col;
+      let fill = 'rgba(56,189,248,.88)';
+      if (diag){
+        const c = classifyMargin(marginByRow.get(d.row)).cls;
+        fill = c === 'good' ? 'rgba(52,211,153,.98)' : c === 'mid' ? 'rgba(245,158,11,.98)' : 'rgba(251,113,133,.98)';
+      }
+      ctx.fillStyle = fill;
+      if (diag){
+        ctx.beginPath(); ctx.arc(xx, yy, 4.8 * dpr(), 0, Math.PI * 2); ctx.fill();
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(xx, yy - 4.7*dpr());
+        ctx.lineTo(xx + 4.7*dpr(), yy + 4.7*dpr());
+        ctx.lineTo(xx - 4.7*dpr(), yy + 4.7*dpr());
+        ctx.closePath();
+        ctx.fill();
+      }
+      return { xx, yy, diag };
+    };
+
+    // Keep hotspots for hover
+    const hotspots = [];
+    for (const d of filtered.items){
+      hotspots.push({ d, ...drawItem(d) });
+    }
+
+    canvas.onmousemove = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = (e.clientX - rect.left) * dpr();
+      const my = (e.clientY - rect.top) * dpr();
+      let best = null, bestDist = 18 * dpr();
+      for (const h of hotspots){
+        const dx = h.xx - mx, dy = h.yy - my;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < bestDist){ bestDist = dist; best = h; }
+      }
+      if (best){
+        const rowMetric = report.metrics.marginByRow.get(best.d.row);
+        showTip(
+          `<div class="t">${esc(best.d.row)} → ${esc(best.d.col)}</div>
+           <div class="b">score ${fmt(best.d.score)}</div>
+           <div class="m">${best.d.row === best.d.col ? `gap ${fmt(rowMetric)}` : 'wrong candidate'}</div>`,
+          e.clientX, e.clientY
+        );
+      } else hideTip();
+    };
+    canvas.onmouseleave = hideTip;
+  }
+
+  function drawBars(report){
+    const canvas = barCanvas;
+    fitCanvas(canvas);
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const m = { l: 48 * dpr(), r: 14 * dpr(), t: 18 * dpr(), b: 42 * dpr() };
+    const pw = W - m.l - m.r, ph = H - m.t - m.b;
+    const rows = [...report.metrics.margins].sort((a,b)=>{
+      if (state.sort === 'scoreDesc') return (b.diag ?? -1) - (a.diag ?? -1);
+      if (state.sort === 'marginAsc') return (a.margin ?? 99) - (b.margin ?? 99);
+      if (state.sort === 'riskDesc') return (a.margin ?? 99) - (b.margin ?? 99);
+      return a.row.localeCompare(b.row, undefined, {numeric:true,sensitivity:'base'});
+    });
+    const maxAbs = Math.max(state.acceptMargin * 1.4, ...rows.map(r => Math.abs(r.margin || 0)), 0.12);
+    const zeroY = m.t + ph * 0.5;
+    const scale = ph / (maxAbs * 2);
+
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle = 'rgba(255,255,255,.02)';
+    ctx.fillRect(0,0,W,H);
+
+    ctx.strokeStyle = 'rgba(148,163,184,.10)';
+    ctx.lineWidth = 1;
+    for (let i=0;i<=4;i++){
+      const v = maxAbs - (2 * maxAbs * i / 4);
+      const y = zeroY - v * scale;
+      ctx.beginPath(); ctx.moveTo(m.l,y); ctx.lineTo(W - m.r,y); ctx.stroke();
+      ctx.fillStyle = '#7f90a7';
+      ctx.font = `${11*dpr()}px Inter, system-ui, sans-serif`;
+      ctx.textAlign = 'right';
+      ctx.fillText(fmt(v), m.l - 8*dpr(), y + 4*dpr());
+    }
+    ctx.strokeStyle = 'rgba(148,163,184,.18)';
+    ctx.beginPath(); ctx.moveTo(m.l, zeroY); ctx.lineTo(W - m.r, zeroY); ctx.stroke();
+
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = `700 ${14*dpr()}px Inter, system-ui, sans-serif`;
+    ctx.textAlign = 'left';
+    ctx.fillText('margin = diagonal score - best wrong score', m.l, 14*dpr());
+
+    const yAccept = zeroY - state.acceptMargin * scale;
+    const yVerify = zeroY - state.verifyMargin * scale;
+    ctx.strokeStyle = 'rgba(52,211,153,.45)'; ctx.setLineDash([6*dpr(),6*dpr()]);
+    ctx.beginPath(); ctx.moveTo(m.l,yAccept); ctx.lineTo(W-m.r,yAccept); ctx.stroke();
+    ctx.strokeStyle = 'rgba(245,158,11,.45)';
+    ctx.beginPath(); ctx.moveTo(m.l,yVerify); ctx.lineTo(W-m.r,yVerify); ctx.stroke();
+    ctx.setLineDash([]);
+
+    const count = rows.length;
+    if (!count) return;
+    const gap = 4 * dpr();
+    const bw = Math.max(2 * dpr(), (pw - gap * (count - 1)) / count);
+    const drawMax = Math.min(count, Math.max(60, Math.floor(pw / (bw + gap))));
+    const step = Math.max(1, Math.ceil(count / drawMax));
+    for (let i=0;i<count;i+=step){
+      const r = rows[i];
+      const x = m.l + (i / Math.max(count-1,1)) * (pw - bw);
+      const h = Math.abs((r.margin || 0) * scale);
+      const y = r.margin >= 0 ? zeroY - h : zeroY;
+      const st = classifyMargin(r.margin);
+      ctx.fillStyle = st.cls === 'good' ? 'rgba(52,211,153,.95)' : st.cls === 'mid' ? 'rgba(245,158,11,.95)' : 'rgba(251,113,133,.95)';
+      ctx.fillRect(x, y, bw, h);
+    }
+    ctx.fillStyle = '#7f90a7';
+    ctx.font = `${11*dpr()}px Inter, system-ui, sans-serif`;
+    ctx.textAlign = 'right';
+    ctx.fillText('rows →', W - 10*dpr(), H - 8*dpr());
+  }
+
+  function renderFileList(){
+    const list = $('fileList');
+    if (!state.reports.length){
+      list.innerHTML = `<div class="fileCard"><div><strong>No files loaded</strong><div class="sub">Use the button above.</div></div><div class="right">—</div></div>`;
+      return;
+    }
+    list.innerHTML = state.reports.map((r, i) => {
+      const risky = r.metrics.margins.filter(x => Number.isFinite(x.margin) && x.margin < state.verifyMargin).length;
+      return `
+        <div class="fileCard ${i===state.activeIndex ? 'active' : ''}" data-index="${i}">
+          <div>
+            <strong>${esc(r.name)}</strong>
+            <div class="sub">${r.items.length} pairs · ${r.metrics.rows.length} rows · ${r.metrics.cols.length} cols</div>
+          </div>
+          <div class="right">${risky} risky</div>
+        </div>`;
+    }).join('');
+    list.querySelectorAll('.fileCard').forEach(card => {
+      card.onclick = () => {
+        state.activeIndex = Number(card.dataset.index);
+        update();
+      };
+    });
+  }
+
+  function similarityBetweenReports(a, b){
+    const ma = new Map(a.metrics.margins.map(m => [m.row, m.margin]));
+    const mb = new Map(b.metrics.margins.map(m => [m.row, m.margin]));
+    const common = [];
+    for (const k of ma.keys()) if (mb.has(k)) common.push(k);
+    if (!common.length) return NaN;
+    let total = 0, count = 0;
+    for (const k of common){
+      const va = ma.get(k), vb = mb.get(k);
+      if (Number.isFinite(va) && Number.isFinite(vb)){
+        total += 1 - Math.min(1, Math.abs(va - vb) / 0.20);
+        count++;
+      }
+    }
+    return count ? total / count : NaN;
+  }
+
+  function renderMatrix(){
+    const tbl = $('comparisonMatrix');
+    if (!state.reports.length){
+      tbl.innerHTML = `<tr><td style="padding:12px;color:#93a4bb">Load multiple reports to compare them.</td></tr>`;
+      $('compareSummary').textContent = 'Load multiple reports to compare them.';
+      return;
+    }
+    const maxFiles = 12;
+    const reports = state.reports.slice(0, maxFiles);
+    const head = ['<tr><th></th>'];
+    for (const r of reports) head.push(`<th>${esc(r.name)}</th>`);
+    head.push('</tr>');
+    const body = [];
+    for (let i=0;i<reports.length;i++){
+      body.push(`<tr><th>${esc(reports[i].name)}</th>`);
+      for (let j=0;j<reports.length;j++){
+        if (i===j){ body.push('<td class="self">self</td>'); continue; }
+        const s = similarityBetweenReports(reports[i], reports[j]);
+        const cls = !Number.isFinite(s) ? 'mid' : s >= 0.75 ? 'good' : s >= 0.5 ? 'mid' : 'bad';
+        body.push(`<td class="${cls}">${Number.isFinite(s) ? s.toFixed(2) : 'n/a'}</td>`);
+      }
+      body.push('</tr>');
+    }
+    tbl.innerHTML = head.join('') + body.join('');
+    const best = reports.map((r, i) => ({
+      r,
+      risky: r.metrics.margins.filter(x => Number.isFinite(x.margin) && x.margin < state.verifyMargin).length,
+      avgDiag: r.metrics.margins.reduce((a,b)=>a + (Number.isFinite(b.diag) ? b.diag : 0), 0) / Math.max(1, r.metrics.margins.filter(x=>Number.isFinite(x.diag)).length),
+      i
+    })).sort((a,b)=> (a.risky - b.risky) || (b.avgDiag - a.avgDiag));
+    $('compareSummary').textContent = reports.length > 1
+      ? `Best-looking file right now: ${best[0].r.name} · ${best[0].risky} risky row${best[0].risky===1?'':'s'} under current thresholds.`
+      : `Single-file mode. Load more JSON reports to activate comparison.`;
+  }
+
+  function renderTabs(){
+    const subtitle = $('subtitle');
+    if (!state.reports.length){
+      subtitle.textContent = 'Load one or more JSON similarity reports. Designed to stay fast with 10,000+ chapters using canvas rendering and virtualized rows.';
+      return;
+    }
+    subtitle.textContent = `${state.reports.length} file${state.reports.length===1?'':'s'} loaded. The active report stays snappy even at large chapter counts.`;
+  }
+
+  function updateKPIs(report, filtered){
+    if (!report){
+      $('kpiFile').textContent = '—';
+      $('kpiFileSub').textContent = 'No file loaded';
+      $('kpiDiag').textContent = '—';
+      $('kpiWrong').textContent = '—';
+      $('kpiRisk').textContent = '—';
+      $('sumSize').textContent = '—';
+      $('sumOverlap').textContent = '—';
+      $('sumVisible').textContent = '—';
+      $('mapMeta').textContent = '—';
+      return;
+    }
+    const m = report.metrics;
+    const diagCount = m.diagonal.length;
+    const wrongMax = m.offdiag.length ? Math.max(...m.offdiag.map(d => d.score)) : NaN;
+    const riskCount = m.margins.filter(r => Number.isFinite(r.margin) && r.margin < state.verifyMargin).length;
+    $('kpiFile').textContent = report.name;
+    $('kpiFileSub').textContent = `${report.items.length} pairs · ${m.rows.length} rows`;
+    $('kpiDiag').textContent = String(diagCount);
+    $('kpiWrong').textContent = fmt(wrongMax);
+    $('kpiRisk').textContent = String(riskCount);
+    $('sumSize').textContent = `${m.rows.length} × ${m.cols.length}`;
+    $('sumOverlap').textContent = `${fmt(Math.max(0, (wrongMax || 0) - state.verifyMargin))}–${fmt(wrongMax)}`;
+    $('sumVisible').textContent = `${filtered.items.length.toLocaleString()} visible`;
+    $('mapMeta').textContent = `${diagCount} diagonal points · ${m.offdiag.length} wrong candidates · hover for details`;
+  }
+
+  function buildVisibleRows(filtered){
+    const total = filtered.items.length;
+    const rowH = 44;
+    const overscan = 12;
+    const start = Math.max(0, Math.floor(tableScroll.scrollTop / rowH) - overscan);
+    const end = Math.min(total, Math.ceil((tableScroll.scrollTop + tableScroll.clientHeight) / rowH) + overscan);
+
+    tableRows.style.height = (total * rowH) + 'px';
+    const marginByRow = filtered.report.metrics.marginByRow;
+
+    const nodes = [];
+    for (let i=start;i<end;i++){
+      const d = filtered.items[i];
+      const gap = d.row === d.col ? fmt(marginByRow.get(d.row)) : '—';
+      const st = d.row === d.col ? classifyMargin(marginByRow.get(d.row)) : { label:'Wrong candidate', cls:'mid' };
+      nodes.push(`
+        <div class="row" style="transform:translateY(${i * rowH}px)">
+          <div class="cell" title="${esc(d.row)}">${esc(d.row)}</div>
+          <div class="cell" title="${esc(d.col)}">${esc(d.col)}</div>
+          <div class="cell">${fmt(d.score)}</div>
+          <div class="cell">${gap}</div>
+          <div class="cell"><span class="badge ${st.cls}">${st.label}</span></div>
+        </div>
+      `);
+    }
+    tableRows.innerHTML = nodes.join('');
+    $('tableFoot').textContent = `${total.toLocaleString()} visible pair${total===1?'':'s'} · showing ${start.toLocaleString()}–${Math.max(start, end-1).toLocaleString()} · current filters are applied live.`;
+  }
+
+  let pendingTable = false;
+  function renderTable(report, filtered){
+    $('tableMeta').textContent = 'Virtualized rows keep the table smooth on very large reports.';
+    if (!report){ tableRows.innerHTML = ''; return; }
+    if (!pendingTable){
+      pendingTable = true;
+      requestAnimationFrame(() => {
+        pendingTable = false;
+        buildVisibleRows(filtered);
+      });
+    }
+  }
+
+  function update(){
+    const report = activeReport();
+    renderTabs();
+    renderFileList();
+    renderMatrix();
+
+    if (!report){
+      updateKPIs(null, { items: [] });
+      $('tableRows').innerHTML = '';
+      $('tableFoot').textContent = 'Load files to populate the table.';
+      const sc = scatterCanvas.getContext('2d'); sc && sc.clearRect(0,0,scatterCanvas.width,scatterCanvas.height);
+      const bc = barCanvas.getContext('2d'); bc && bc.clearRect(0,0,barCanvas.width,barCanvas.height);
+      return;
+    }
+
+    const filtered = applyFilters(report);
+    filtered.report = report;
+    updateKPIs(report, filtered);
+
+    drawScatter(report, filtered);
+    drawBars(report);
+    renderTable(report, filtered);
+  }
+
+  function loadFiles(files){
+    const arr = [...files];
+    if (!arr.length) return;
+    Promise.all(arr.map(file => new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try{
+          const json = JSON.parse(String(reader.result || ''));
+          const items = parseItems(json);
+          resolve({ name:file.name, json, items, ok:true });
+        }catch(err){
+          resolve({ name:file.name, ok:false, items:[], error:err });
+        }
+      };
+      reader.readAsText(file);
+    }))).then(results => {
+      const good = results.filter(r => r.ok && r.items.length);
+      if (!good.length){
+        alert('No valid JSON similarity reports were found.');
+        return;
+      }
+      state.reports = good.map(r => ({ name:r.name, json:r.json, items:r.items, metrics:computeMetrics(r.items) }));
+      state.activeIndex = 0;
+      $('tableScroll').scrollTop = 0;
+      scheduleUpdate();
+    });
+  }
+
+  // events
+  fileInput.addEventListener('change', e => loadFiles(e.target.files));
+  $('demoBtn').addEventListener('click', () => {
+    const demoA = {
+      "1.txt":{"1.txt":0.794264,"10.txt":0.550001,"11.txt":0.519428,"12.txt":0.60282,"13.txt":0.602937,"14.txt":0.577086,"15.txt":0.586671},
+      "2.txt":{"2.txt":0.801771,"5.txt":0.671904,"8.txt":0.606211},
+      "3.txt":{"3.txt":0.762114,"4.txt":0.695002,"9.txt":0.653254},
+      "4.txt":{"4.txt":0.736512,"1.txt":0.680918,"7.txt":0.714221}
+    };
+    const demoB = {
+      "1.txt":{"1.txt":0.8131,"10.txt":0.515,"11.txt":0.534,"12.txt":0.611},
+      "2.txt":{"2.txt":0.783,"5.txt":0.651,"8.txt":0.593},
+      "3.txt":{"3.txt":0.741,"4.txt":0.702,"9.txt":0.642},
+      "5.txt":{"5.txt":0.802,"6.txt":0.661,"7.txt":0.623}
+    };
+    state.reports = [
+      { name:'demo-report-A.json', json:demoA, items:parseItems(demoA), metrics:computeMetrics(parseItems(demoA)) },
+      { name:'demo-report-B.json', json:demoB, items:parseItems(demoB), metrics:computeMetrics(parseItems(demoB)) }
+    ];
+    state.activeIndex = 0;
+    $('tableScroll').scrollTop = 0;
+    scheduleUpdate();
+  });
+
+  ['dragenter','dragover'].forEach(evt => {
+    document.body.addEventListener(evt, e => e.preventDefault(), { passive:false });
+  });
+  document.body.addEventListener('drop', e => {
+    e.preventDefault();
+    if (e.dataTransfer?.files?.length) loadFiles(e.dataTransfer.files);
+  });
+
+  $('acceptMargin').addEventListener('input', () => { state.acceptMargin = parseFloat($('acceptMargin').value); scheduleUpdate(); });
+  $('verifyMargin').addEventListener('input', () => { state.verifyMargin = parseFloat($('verifyMargin').value); scheduleUpdate(); });
+  $('topN').addEventListener('input', () => { state.topN = parseInt($('topN').value || '3', 10); scheduleUpdate(); });
+  $('viewMode').addEventListener('change', e => { state.viewMode = e.target.value; scheduleUpdate(); });
+  $('sortSelect').addEventListener('change', e => { state.sort = e.target.value; scheduleUpdate(); });
+  $('searchInput').addEventListener('input', e => { state.search = e.target.value; scheduleUpdate(); });
+  $('tableScroll').addEventListener('scroll', () => scheduleTableRerender());
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      state.filter = chip.dataset.filter;
+        scheduleUpdate();
+    });
+  });
+
+  // Debounce + virtual rows
+    let updateQueued = false;
+  let updateTimer = null;
+  function scheduleUpdate(){
+    clearTimeout(updateTimer);
+      updateTimer = setTimeout(() => {
+        if (updateQueued) return;
+        updateQueued = true;
+        requestAnimationFrame(() => {
+          updateQueued = false;
+          update();
+        });
+      }, 50);
+  }
+    let tableQueued = false;
+  function scheduleTableRerender(){
+      if (tableQueued) return;
+      tableQueued = true;
+      requestAnimationFrame(() => {
+        tableQueued = false;
+      const report = activeReport();
+      if (!report) return;
+      const filtered = applyFilters(report);
+        filtered.report = report;
+      renderTable(report, filtered);
+    });
+  }
+
+  // Resize handling
+    window.addEventListener('resize', scheduleUpdate, { passive:true });
+
+  // initial
+  update();
+
+  window.addEventListener('paste', e => {
+    const text = e.clipboardData?.getData('text/plain')?.trim();
+    if (!text) return;
+    if ((text.startsWith('{') && text.endsWith('}')) || (text.startsWith('[') && text.endsWith(']'))){
+      try{
+        const json = JSON.parse(text);
+        const items = parseItems(json);
+        if (!items.length) return;
+        state.reports = [{ name:'pasted-report.json', json, items, metrics:computeMetrics(items) }];
+        state.activeIndex = 0;
+        $('tableScroll').scrollTop = 0;
+        scheduleUpdate();
+      }catch{}
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter Alignment Studio · Benchmark Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+JP:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#0a0d12;--bg1:#0f1319;--bg2:#151b24;--bg3:#1c2333;
+  --bg4:#242e40;--bg5:#2d3a52;
+  --border:#252e3e;--border2:#2e3c55;--border3:#3a4d6a;
+  --text0:#e2eaf5;--text1:#aab8cc;--text2:#6e8099;--text3:#445266;
+  --accent:#4d9eff;--accent2:#1a5cbf;--accent-glow:rgba(77,158,255,.2);
+  --green:#2ea84a;--yellow:#d4a017;--orange:#d4630a;--red:#d42b2b;
+  --glass:rgba(15,19,25,.88);--glass2:rgba(21,27,36,.92);
+  --shadow:0 8px 32px rgba(0,0,0,.6);--shadow2:0 2px 12px rgba(0,0,0,.4);
+  --radius:6px;--radius2:10px;--radius3:14px;
+  --toolbar-h:52px;--inspector-h:148px;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg0);color:var(--text0);
+  font-family:'Inter',sans-serif;font-size:13px;line-height:1.5}
+button{cursor:pointer;border:none;background:none;color:inherit;font:inherit}
+select,input,textarea{font:inherit}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg1)}
+::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border3)}
+
+/* TOOLBAR */
+#toolbar{
+  height:var(--toolbar-h);
+  background:var(--glass2);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border2);
+  display:flex;align-items:center;gap:6px;padding:0 10px;
+  position:relative;z-index:200;
+  box-shadow:0 1px 0 rgba(255,255,255,.03),var(--shadow2);
+}
+.brand{
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
+  color:var(--accent);letter-spacing:.4px;white-space:nowrap;margin-right:6px;
+  display:flex;align-items:center;gap:6px;
+}
+.brand-badge{
+  background:var(--accent2);color:#fff;font-size:9px;padding:1px 5px;
+  border-radius:3px;letter-spacing:.5px;text-transform:uppercase;
+}
+.sep{width:1px;height:22px;background:var(--border2);flex-shrink:0;margin:0 2px}
+.tb-btn{
+  height:28px;padding:0 9px;border-radius:var(--radius);
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text1);font-size:11.5px;white-space:nowrap;
+  transition:all .15s;display:flex;align-items:center;gap:4px;flex-shrink:0;
+}
+.tb-btn:hover{background:var(--bg4);border-color:var(--border3);color:var(--text0)}
+.tb-btn.active{background:var(--accent2);border-color:var(--accent);color:#fff}
+.tb-btn.primary{background:linear-gradient(135deg,#1a5cbf,#0f3a80);border-color:var(--accent);color:#fff}
+.tb-btn.primary:hover{background:linear-gradient(135deg,#2166d4,#1a4da0)}
+.tb-select{
+  height:28px;padding:0 7px;border-radius:var(--radius);
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text1);font-size:11.5px;outline:none;max-width:150px;
+}
+.tb-select:focus{border-color:var(--accent)}
+.tb-select:disabled{opacity:.35}
+.search-wrap{position:relative}
+#searchBox{
+  height:28px;padding:0 9px 0 28px;border-radius:var(--radius);
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text0);font-size:11.5px;outline:none;width:170px;
+  transition:border-color .15s,width .2s;
+}
+#searchBox:focus{border-color:var(--accent);width:210px}
+#searchBox::placeholder{color:var(--text3)}
+.search-icon{position:absolute;left:8px;top:50%;transform:translateY(-50%);
+  color:var(--text3);font-size:12px;pointer-events:none}
+.tb-spacer{flex:1}
+.tb-toggle{
+  display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2);
+  padding:0 4px;cursor:pointer;user-select:none;white-space:nowrap;
+}
+.tb-toggle input{accent-color:var(--accent);cursor:pointer}
+.tb-toggle:hover{color:var(--text1)}
+.tb-status{font-size:10.5px;color:var(--text3);white-space:nowrap;max-width:180px;overflow:hidden;text-overflow:ellipsis}
+#loadBar{position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),#79c0ff);
+  transform-origin:left;transform:scaleX(0);transition:transform .3s}
+
+/* MAIN LAYOUT */
+#app{
+  display:flex;
+  height:calc(100vh - var(--toolbar-h) - var(--inspector-h));
+  overflow:hidden;
+}
+#jpPanel,#enPanel{
+  flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;
+  border-right:1px solid var(--border);
+}
+#centerPanel{
+  width:196px;flex-shrink:0;display:flex;flex-direction:column;
+  background:var(--bg1);border-right:1px solid var(--border);
+}
+#legendPanel{
+  width:210px;flex-shrink:0;display:flex;flex-direction:column;
+  background:var(--bg1);border-left:1px solid var(--border);
+}
+.panel-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 10px;border-bottom:1px solid var(--border);
+  background:var(--bg2);flex-shrink:0;min-height:32px;
+}
+.panel-title{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  color:var(--text2);letter-spacing:.8px;text-transform:uppercase;
+}
+.panel-meta{font-size:10px;color:var(--text3)}
+.panel-scroll{flex:1;overflow-y:auto;overflow-x:hidden;position:relative}
+
+/* CHUNK PARAGRAPHS — core rendering concept */
+.text-wrap{min-height:100%;padding:0}
+
+/* A chunk block spans multiple paragraph rows with a tinted background */
+.chunk-block{
+  position:relative;
+  border-left:3px solid transparent;
+  cursor:pointer;
+  transition:filter .12s;
+}
+.chunk-block:hover{filter:brightness(1.12)}
+.chunk-block.active-chunk{filter:brightness(1.25)}
+
+/* Each line row inside a chunk */
+.line-row{
+  display:flex;align-items:stretch;min-height:22px;
+  border-bottom:1px solid rgba(255,255,255,.018);
+}
+.line-num{
+  width:38px;flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;
+  padding-right:8px;font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--text3);user-select:none;background:var(--bg1);border-right:1px solid var(--border);
+}
+.line-text{
+  flex:1;padding:3px 10px 3px 8px;line-height:1.65;
+  font-size:12.5px;color:var(--text0);word-break:break-word;
+}
+.line-row.jp .line-text{font-family:'Noto Serif JP',serif;font-size:13px}
+
+/* boundary marker between chunks */
+.chunk-separator{
+  height:2px;position:relative;margin:0;
+}
+.chunk-separator::after{
+  content:'';position:absolute;left:38px;right:0;top:0;height:2px;
+  opacity:.6;
+}
+
+/* auto-translate preview badge on first 2 lines */
+.at-preview{
+  font-size:14px;color:white;font-style:italic;
+  padding:1px 4px;border-radius:3px;
+  display:inline-block;margin-left:4px;
+}
+
+/* SEGMENT MAP (center) */
+#segMap{flex:1;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:2px}
+.seg-block{
+  border-radius:4px;padding:5px 7px;cursor:pointer;
+  border-left:3px solid transparent;
+  font-size:10.5px;transition:filter .12s,transform .1s;
+  border:1px solid transparent;
+}
+.seg-block:hover,.seg-block.active{filter:brightness(1.2);transform:translateX(1px)}
+.seg-block-header{
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+}
+.seg-block-ranges{color:rgba(255,255,255,.45);font-size:9.5px;margin-top:2px;font-family:'JetBrains Mono',monospace}
+.seg-block-type{font-size:9px;padding:1px 4px;border-radius:3px;background:rgba(0,0,0,.35);margin-top:3px;display:inline-block}
+.seg-heat{height:3px;border-radius:1px;margin-top:4px}
+
+/* LEGEND */
+#legendList{flex:1;overflow-y:auto;padding:6px}
+.legend-item{
+  display:flex;align-items:flex-start;gap:7px;
+  padding:6px 8px;border-radius:var(--radius);cursor:pointer;
+  border:1px solid transparent;transition:all .15s;margin-bottom:2px;
+}
+.legend-item:hover{background:var(--bg3);border-color:var(--border2)}
+.legend-item.selected{border-color:var(--border3);background:var(--bg4)}
+.legend-item.dimmed{opacity:.3}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:2px}
+.legend-name{font-weight:500;font-size:12px;color:var(--text0);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.legend-segs{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text2)}
+.legend-remove{
+  font-size:10px;padding:2px 6px;border-radius:4px;
+  background:var(--bg4);border:1px solid rgba(212,43,43,.3);
+  color:#f56b6b;transition:all .12s;flex-shrink:0;
+}
+.legend-remove:hover{background:rgba(212,43,43,.15)}
+#addProviderBtn{
+  margin:8px 6px 6px;height:28px;border-radius:var(--radius);
+  background:linear-gradient(135deg,#1a5cbf,#0f3a80);border:1px solid var(--accent);
+  color:#fff;font-size:11.5px;width:calc(100% - 12px);transition:all .15s;
+}
+#addProviderBtn:hover{background:linear-gradient(135deg,#2166d4,#1a4da0)}
+.legend-divider{height:1px;background:var(--border);margin:4px 6px}
+
+/* INSPECTOR */
+#inspector{
+  height:var(--inspector-h);
+  border-top:1px solid var(--border2);
+  background:var(--bg1);
+  display:flex;overflow:hidden;
+}
+#inspectorLeft{flex:1;padding:8px 12px;overflow-y:auto;border-right:1px solid var(--border)}
+#inspectorRight{width:310px;flex-shrink:0;padding:8px 12px;overflow-y:auto}
+.insp-title{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--text3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px;
+}
+.insp-row{display:flex;gap:8px;flex-wrap:wrap}
+.insp-card{
+  background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);
+  padding:5px 8px;min-width:110px;flex:1;
+}
+.insp-card-title{font-size:10px;color:var(--text2);margin-bottom:3px}
+.insp-card-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text0)}
+.insp-card-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.insp-empty{color:var(--text3);font-size:11px;padding:4px 0}
+.diff-badge{
+  display:inline-flex;align-items:center;gap:3px;
+  padding:2px 6px;border-radius:4px;font-size:10px;
+  font-family:'JetBrains Mono',monospace;font-weight:500;
+}
+.diff-exact{background:rgba(46,168,74,.15);color:#3ddd6a;border:1px solid rgba(46,168,74,.3)}
+.diff-near{background:rgba(212,160,23,.12);color:#e8bb38;border:1px solid rgba(212,160,23,.3)}
+.diff-partial{background:rgba(212,99,10,.12);color:#f07e38;border:1px solid rgba(212,99,10,.3)}
+.diff-mismatch{background:rgba(212,43,43,.12);color:#f56b6b;border:1px solid rgba(212,43,43,.3)}
+
+/* MODALS */
+.modal-bg{
+  position:fixed;inset:0;z-index:800;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal-box{
+  background:var(--bg2);border:1px solid var(--border3);
+  border-radius:var(--radius3);padding:24px;
+  box-shadow:var(--shadow);width:580px;max-width:95vw;max-height:86vh;
+  overflow-y:auto;transform:translateY(8px);transition:transform .2s;
+}
+.modal-bg.open .modal-box{transform:translateY(0)}
+.modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.modal-title{font-size:15px;font-weight:600;color:var(--text0)}
+.modal-close{font-size:18px;color:var(--text3);transition:color .15s;line-height:1;padding:2px 6px}
+.modal-close:hover{color:var(--text0)}
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:11px;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.form-input{
+  width:100%;height:32px;padding:0 10px;border-radius:var(--radius);
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text0);font-size:12.5px;outline:none;transition:border-color .15s;
+}
+.form-input:focus{border-color:var(--accent)}
+.form-textarea{
+  width:100%;height:180px;padding:8px 10px;border-radius:var(--radius);
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text0);font-size:11.5px;outline:none;resize:vertical;
+  font-family:'JetBrains Mono',monospace;line-height:1.5;transition:border-color .15s;
+}
+.form-textarea:focus{border-color:var(--accent)}
+.form-hint{font-size:10.5px;color:var(--text3);margin-top:4px;line-height:1.5}
+.form-error{
+  background:rgba(212,43,43,.12);border:1px solid rgba(212,43,43,.3);
+  border-radius:var(--radius);padding:8px 10px;font-size:11px;color:#f56b6b;
+  margin-top:8px;display:none;
+}
+.form-error.show{display:block}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.btn-primary{
+  height:32px;padding:0 16px;border-radius:var(--radius);
+  background:linear-gradient(135deg,#1a5cbf,#0f3a80);border:1px solid var(--accent);
+  color:#fff;font-size:12px;font-weight:500;transition:all .15s;
+}
+.btn-primary:hover{background:linear-gradient(135deg,#2166d4,#1a4da0)}
+.btn-cancel{
+  height:32px;padding:0 14px;border-radius:var(--radius);
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text1);font-size:12px;transition:all .15s;
+}
+.btn-cancel:hover{background:var(--bg4);color:var(--text0)}
+
+/* STATS / COMPARE */
+#statsBox{width:900px}
+.stats-tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.stats-tab{padding:7px 14px;font-size:12px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.stats-tab:hover{color:var(--text1)}
+.stats-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:16px}
+.stat-card{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius2);padding:12px;text-align:center}
+.stat-v{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:500;color:var(--accent)}
+.stat-l{font-size:10px;color:var(--text2);margin-top:2px}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chart-box{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius2);padding:12px}
+.chart-box h3{font-size:11px;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.chart-box canvas{max-height:200px}
+.heatmap-table{width:100%;border-collapse:collapse;font-size:11px;font-family:'JetBrains Mono',monospace}
+.heatmap-table th{padding:6px 10px;color:var(--text2);font-weight:500;text-align:center;border-bottom:1px solid var(--border)}
+.heatmap-table td{padding:6px 10px;text-align:center;border:1px solid var(--border)}
+.heatmap-cell{border-radius:4px;padding:4px 8px;display:inline-block;width:60px}
+.bench-table{width:100%;border-collapse:collapse;font-size:11.5px}
+.bench-table th{padding:7px 10px;text-align:left;color:var(--text2);font-weight:500;border-bottom:1px solid var(--border);font-size:10px;text-transform:uppercase;letter-spacing:.4px}
+.bench-table td{padding:6px 10px;border-bottom:1px solid var(--border2);color:var(--text0)}
+.bench-table tr:hover td{background:var(--bg3)}
+.metric-bar{height:4px;border-radius:2px;background:var(--bg5);overflow:hidden;margin-top:3px}
+.metric-fill{height:100%;border-radius:2px;background:var(--accent)}
+.export-row{display:flex;gap:8px;margin-top:12px}
+
+/* TOOLTIP */
+#tooltip{
+  position:fixed;z-index:999;
+  background:var(--bg2);border:1px solid var(--border3);
+  border-radius:var(--radius2);padding:10px 12px;
+  font-size:11px;line-height:1.8;pointer-events:none;
+  opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;
+  box-shadow:var(--shadow);min-width:180px;max-width:240px;
+}
+#tooltip.show{opacity:1;transform:translateY(0)}
+.tt-prov-row{border-left:3px solid;padding-left:6px;margin-bottom:5px}
+.tt-prov-name{font-weight:600;margin-bottom:2px}
+.tt-row{display:flex;justify-content:space-between;gap:10px}
+.tt-label{color:var(--text2)}
+.tt-val{font-family:'JetBrains Mono',monospace;color:var(--text0)}
+
+/* SVG OVERLAY */
+#svgOverlay{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:50;overflow:visible;
+}
+.conn-line{fill:none;stroke-width:2;opacity:0;transition:opacity .2s}
+.conn-line.vis{opacity:.55}
+.conn-line.bright{opacity:.9;stroke-width:3}
+
+/* PROGRESS */
+#progressOverlay{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(10,13,18,.92);backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+#progressOverlay.open{opacity:1;pointer-events:all}
+#progressOverlay h3{color:var(--text0);font-size:15px}
+#pBar{width:280px;height:3px;background:var(--bg4);border-radius:2px;overflow:hidden}
+#pFill{height:100%;background:var(--accent);width:0;transition:width .2s;border-radius:2px}
+#pMsg{font-size:11.5px;color:var(--text2)}
+
+/* SEARCH DROPDOWN */
+#searchDD{
+  position:absolute;top:calc(100% + 4px);left:0;right:0;
+  background:var(--bg2);border:1px solid var(--border3);
+  border-radius:var(--radius2);max-height:280px;overflow-y:auto;
+  z-index:300;box-shadow:var(--shadow);display:none;
+}
+#searchDD.open{display:block}
+.sr-item{padding:8px 10px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .1s}
+.sr-item:hover{background:var(--bg3)}
+.sr-item:last-child{border-bottom:none}
+.sr-top{font-size:10px;color:var(--text3)}
+.sr-text{font-size:11.5px;color:var(--text0);margin-top:1px}
+.sr-text mark{background:rgba(77,158,255,.2);color:var(--accent);border-radius:2px;padding:0 2px}
+
+/* EMPTY STATE */
+#emptyState{
+  position:fixed;inset:0;z-index:5;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;color:var(--text2);text-align:center;padding:20px;
+  background:var(--bg0);
+}
+.es-icon{font-size:48px;opacity:.2}
+.es-title{font-size:18px;font-weight:600;color:var(--text1)}
+.es-sub{font-size:12.5px;max-width:360px;line-height:1.7;color:var(--text3)}
+.kb{display:inline-block;background:var(--bg3);border:1px solid var(--border3);
+  border-radius:4px;padding:1px 6px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text1)}
+
+/* MINIMAP */
+.minimap{
+  position:absolute;right:0;top:0;bottom:0;width:14px;
+  background:var(--bg1);border-left:1px solid var(--border);cursor:pointer;overflow:hidden;
+}
+.mm-chunk{position:absolute;left:1px;right:1px;min-height:2px;border-radius:1px;opacity:.65}
+.mm-thumb{position:absolute;left:0;right:0;background:rgba(77,158,255,.2);
+  border:1px solid rgba(77,158,255,.35);border-radius:2px;pointer-events:none}
+
+/* DIFF MODE */
+.diff-exact-bg{background:rgba(46,168,74,.07)!important}
+.diff-near-bg{background:rgba(212,160,23,.07)!important}
+.diff-partial-bg{background:rgba(212,99,10,.07)!important}
+.diff-mismatch-bg{background:rgba(212,43,43,.07)!important}
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+  <div class="brand">⊞ Alignment Studio<span class="brand-badge">Benchmark</span></div>
+  <div class="sep"></div>
+  <label class="tb-btn primary" for="folderInput">📁 Load Folder
+    <input type="file" id="folderInput" webkitdirectory multiple style="display:none">
+  </label>
+  <div class="sep"></div>
+  <select id="novelSel" class="tb-select" disabled><option value="">— Novel —</option></select>
+  <select id="chapterSel" class="tb-select" disabled><option value="">— Chapter —</option></select>
+  <div class="sep"></div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchBox" placeholder="Search JP / EN / chapter…">
+    <div id="searchDD"></div>
+  </div>
+  <div class="sep"></div>
+  <label class="tb-toggle"><input type="checkbox" id="togColors" checked> Colors</label>
+  <label class="tb-toggle"><input type="checkbox" id="togLines" checked> Lines</label>
+  <label class="tb-toggle"><input type="checkbox" id="togBounds"> Bounds</label>
+  <label class="tb-toggle"><input type="checkbox" id="togDiff"> Diff</label>
+  <label class="tb-toggle"><input type="checkbox" id="togAutoScroll" checked> Sync</label>
+  <div class="sep"></div>
+  <button class="tb-btn" id="togAutoTranslateBtn">🤖 AT Preview</button>
+  <span class="tb-status" id="translateStatus"></span>
+  <div class="sep"></div>
+  <button class="tb-btn" id="compareBtn" disabled>🔬 Compare</button>
+  <button class="tb-btn" id="statsBtn" disabled>📊 Stats</button>
+  <div class="tb-spacer"></div>
+  <div id="loadBar"></div>
+</div>
+
+<div id="app" style="display:none">
+  <div id="jpPanel">
+    <div class="panel-hdr">
+      <span class="panel-title">🇯🇵 Japanese</span>
+      <span class="panel-meta" id="jpMeta">—</span>
+    </div>
+    <div class="panel-scroll" id="jpScroll">
+      <div class="text-wrap" id="jpWrap"></div>
+      <div class="minimap" id="jpMM"><div class="mm-thumb" id="jpMMThumb"></div></div>
+    </div>
+  </div>
+
+  <div id="centerPanel">
+    <div class="panel-hdr">
+      <span class="panel-title">⊞ Segments</span>
+      <span class="panel-meta" id="centerMeta">—</span>
+    </div>
+    <div id="segMap"></div>
+  </div>
+
+  <div id="enPanel">
+    <div class="panel-hdr">
+      <span class="panel-title">🇺🇸 English</span>
+      <span class="panel-meta" id="enMeta">—</span>
+    </div>
+    <div class="panel-scroll" id="enScroll">
+      <div class="text-wrap" id="enWrap"></div>
+      <div class="minimap" id="enMM"><div class="mm-thumb" id="enMMThumb"></div></div>
+    </div>
+  </div>
+
+  <div id="legendPanel">
+    <div class="panel-hdr">
+      <span class="panel-title">Providers</span>
+      <span class="panel-meta" id="legendMeta">—</span>
+    </div>
+    <div id="legendList"></div>
+    <div class="legend-divider"></div>
+    <button id="addProviderBtn">＋ Add Test Mapping</button>
+    <div style="height:8px"></div>
+  </div>
+</div>
+
+<div id="inspector" style="display:none">
+  <div id="inspectorLeft">
+    <div class="insp-title" id="inspTitle">Click or hover a chunk to inspect</div>
+    <div class="insp-row" id="inspCards"></div>
+  </div>
+  <div id="inspectorRight">
+    <div class="insp-title">All Providers at Cursor</div>
+    <div id="inspOverlap"><span class="insp-empty">—</span></div>
+  </div>
+</div>
+
+<svg id="svgOverlay">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+</svg>
+
+<div id="emptyState">
+  <div class="es-icon">⊞</div>
+  <div class="es-title">Chapter Alignment Studio</div>
+  <div class="es-sub">Load a folder containing <span class="kb">training_data.jsonl</span> and optional novel sub-folders. Each chunk from the JSONL becomes a coloured paragraph block. Add test mappings from any LLM to compare against Ground Truth.</div>
+</div>
+
+<div id="tooltip"></div>
+
+<!-- ADD MAPPING MODAL -->
+<div class="modal-bg" id="addMappingModal">
+  <div class="modal-box">
+    <div class="modal-h">
+      <span class="modal-title">Add Test Mapping</span>
+      <button class="modal-close" data-close="addMappingModal">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Provider Name</label>
+      <input type="text" class="form-input" id="providerNameInput" placeholder="GPT-5, Claude Opus, Gemini 2, …">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Alignment JSON</label>
+      <textarea class="form-textarea" id="mappingJson" placeholder='{
+  "segments": [
+    {
+      "jp_begin": 5,
+      "jp_end": 10,
+      "en_begin": 3,
+      "en_end": 9,
+      "semantic_unit": "narration"
+    }
+  ]
+}'></textarea>
+      <div class="form-hint">Paste a JSON object with a <span class="kb">segments</span> array. Each segment needs <span class="kb">jp_begin</span>, <span class="kb">jp_end</span>, <span class="kb">en_begin</span>, <span class="kb">en_end</span>.</div>
+      <div class="form-error" id="mappingError"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" data-close="addMappingModal">Cancel</button>
+      <button class="btn-primary" id="addMappingConfirm">Load Mapping</button>
+    </div>
+  </div>
+</div>
+
+<!-- STATS MODAL -->
+<div class="modal-bg" id="statsModal">
+  <div class="modal-box" id="statsBox">
+    <div class="modal-h">
+      <span class="modal-title">📊 Statistics</span>
+      <button class="modal-close" data-close="statsModal">✕</button>
+    </div>
+    <div class="stats-tabs">
+      <div class="stats-tab active" data-tab="overview">Overview</div>
+      <div class="stats-tab" data-tab="semantic">Semantic</div>
+      <div class="stats-tab" data-tab="novels">By Novel</div>
+    </div>
+    <div id="tab-overview" class="tab-pane active"></div>
+    <div id="tab-semantic" class="tab-pane"></div>
+    <div id="tab-novels" class="tab-pane"></div>
+  </div>
+</div>
+
+<!-- COMPARE MODAL -->
+<div class="modal-bg" id="compareModal">
+  <div class="modal-box" style="width:800px">
+    <div class="modal-h">
+      <span class="modal-title">🔬 Provider Comparison</span>
+      <button class="modal-close" data-close="compareModal">✕</button>
+    </div>
+    <div id="compareContent"></div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div id="progressOverlay">
+  <h3>Loading Dataset</h3>
+  <div id="pBar"><div id="pFill"></div></div>
+  <div id="pMsg">Parsing JSONL…</div>
+</div>
+
+<script>
+// ─── PALETTE ───────────────────────────────────────────────────
+const PROV_COLORS = [
+  '#4d9eff','#f5a623','#2dd4a0','#c47af5',
+  '#f56b6b','#f5d44f','#4df5b8','#f57c4d',
+  '#7cb9f5','#d9f54d',
+];
+// Distinct chunk tint colors (used for GT paragraph blocks)
+const CHUNK_COLORS = [
+  '#56B4E9','#009E73','#E69F00','#CC79A7',
+  '#0072B2','#D55E00','#F0E442','#9467bd',
+  '#17becf','#bcbd22','#e377c2','#7f7f7f',
+];
+
+const provColor = i => PROV_COLORS[i % PROV_COLORS.length];
+const chunkColor = i => CHUNK_COLORS[i % CHUNK_COLORS.length];
+const ratioColor = r => r<1.8?'#2ea84a':r<2.8?'#3fb950':r<3.5?'#d4a017':r<4.5?'#d4630a':'#d42b2b';
+
+// ─── STATE ─────────────────────────────────────────────────────
+const S = {
+  rawChunks: [],
+  chunksByKey: new Map(),
+  novels: new Set(),
+  chaptersByNovel: new Map(),
+  novelFiles: new Map(),
+  currentNovel: '',
+  currentChapter: '',
+  providers: [],        // [{id,name,color,isGroundTruth,segments:[…]}]
+  groundTruth: null,
+  jpLines: [],
+  enLines: [],
+  currentChunks: [],
+  searchIndex: [],
+  hoveredChunkIdx: null, // index into groundTruth.segments
+  isolatedProviders: new Set(),
+  autoScroll: true,
+  autoTranslate: false,
+  atJobId: 0,
+  atPreviewLines: {},   // map: jpLineIndex -> translated string (first 2 lines of each chunk)
+  atStatus: '',
+};
+
+// ─── FILE LOADING ──────────────────────────────────────────────
+document.getElementById('folderInput').addEventListener('change', async e => {
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+  S.novelFiles.clear();
+  for (const f of files) S.novelFiles.set(f.webkitRelativePath, f);
+  const jf = files.find(f => f.name === 'training_data.jsonl');
+  if (!jf) { alert('No training_data.jsonl found.'); return; }
+  await loadJsonl(jf);
+});
+
+async function loadJsonl(file) {
+  const ov = document.getElementById('progressOverlay');
+  const pf = document.getElementById('pFill');
+  const pm = document.getElementById('pMsg');
+  ov.classList.add('open');
+  document.getElementById('emptyState').style.display = 'none';
+
+  S.rawChunks = []; S.chunksByKey.clear(); S.novels.clear(); S.chaptersByNovel.clear(); S.searchIndex = [];
+
+  const CHUNK = 512 * 1024;
+  let offset = 0, leftover = '', count = 0, lastYield = Date.now();
+  const total = file.size;
+
+  const parseLine = line => {
+    if (!line.trim()) return;
+    try {
+      const obj = JSON.parse(line);
+      const m = obj.metadata || {};
+      const novel = m.novel || 'Unknown', chapter = String(m.chapter || '?');
+      const userMsg = obj.messages?.find(x => x.role === 'user');
+      const asstMsg = obj.messages?.find(x => x.role === 'assistant');
+      const jp = userMsg ? userMsg.content.replace(/^Translate the following Japanese text to English:\s*/s, '').trim() : '';
+      const en = asstMsg ? asstMsg.content : '';
+      const row = {
+        novel, chapter,
+        chunk_index: m.chunk_index ?? S.rawChunks.length,
+        jp, en,
+        jp_lines: m.jp_lines || [0, 0],
+        en_lines: m.en_lines || [0, 0],
+        jp_chars: m.jp_chars || jp.length,
+        en_chars: m.en_chars || en.length,
+        semantic_unit: m.semantic_unit || 'other',
+        _idx: S.rawChunks.length,
+      };
+      S.rawChunks.push(row);
+      S.novels.add(novel);
+      if (!S.chaptersByNovel.has(novel)) S.chaptersByNovel.set(novel, new Set());
+      S.chaptersByNovel.get(novel).add(chapter);
+      const key = `${novel}|${chapter}`;
+      if (!S.chunksByKey.has(key)) S.chunksByKey.set(key, []);
+      S.chunksByKey.get(key).push(row);
+      count++;
+    } catch (_) {}
+  };
+
+  while (offset < total) {
+    const text = await file.slice(offset, offset + CHUNK).text();
+    const lines = (leftover + text).split('\n');
+    leftover = lines.pop();
+    for (const l of lines) parseLine(l);
+    offset += CHUNK;
+    const pct = Math.min((offset / total) * 100, 99);
+    pf.style.width = pct + '%';
+    pm.textContent = `Parsed ${count.toLocaleString()} chunks… (${Math.round(pct)}%)`;
+    if (Date.now() - lastYield > 80) { await new Promise(r => setTimeout(r, 0)); lastYield = Date.now(); }
+  }
+  if (leftover.trim()) parseLine(leftover);
+
+  for (const [n, cs] of S.chaptersByNovel) S.chaptersByNovel.set(n, new Set([...cs].sort(natSort)));
+
+  pf.style.width = '100%'; pm.textContent = `Loaded ${count.toLocaleString()} chunks.`;
+  await new Promise(r => setTimeout(r, 400));
+  ov.classList.remove('open');
+
+  buildSearchIndex();
+  populateNovels();
+  document.getElementById('statsBtn').disabled = false;
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('inspector').style.display = 'flex';
+}
+
+const natSort = (a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+
+// ─── DROPDOWNS ─────────────────────────────────────────────────
+function populateNovels() {
+  const sel = document.getElementById('novelSel');
+  sel.innerHTML = '<option value="">— Novel —</option>';
+  [...S.novels].sort().forEach(n => sel.innerHTML += `<option value="${n}">${n}</option>`);
+  sel.disabled = false;
+}
+
+document.getElementById('novelSel').addEventListener('change', e => {
+  S.currentNovel = e.target.value; S.currentChapter = '';
+  const sel = document.getElementById('chapterSel');
+  sel.innerHTML = '<option value="">— Chapter —</option>';
+  if (!S.currentNovel) { sel.disabled = true; clearChapter(); return; }
+  const cs = S.chaptersByNovel.get(S.currentNovel) || new Set();
+  for (const c of cs) sel.innerHTML += `<option value="${c}">Ch. ${c}</option>`;
+  sel.disabled = false;
+  clearChapter();
+});
+
+document.getElementById('chapterSel').addEventListener('change', e => {
+  S.currentChapter = e.target.value;
+  if (S.currentNovel && S.currentChapter) loadChapter();
+});
+
+// ─── CHAPTER ───────────────────────────────────────────────────
+async function loadChapter() {
+  S.providers = S.providers.filter(p => p.isGroundTruth);
+  S.isolatedProviders.clear();
+  S.hoveredChunkIdx = null;
+  S.atPreviewLines = {};
+  setAtStatus('');
+
+  const key = `${S.currentNovel}|${S.currentChapter}`;
+  const chunks = (S.chunksByKey.get(key) || []).slice().sort((a, b) => a.chunk_index - b.chunk_index);
+  S.currentChunks = chunks;
+
+  const gtSegs = chunks.map(c => ({
+    jp_begin: c.jp_lines[0], jp_end: c.jp_lines[1],
+    en_begin: c.en_lines[0], en_end: c.en_lines[1],
+    jp_chars: c.jp_chars, en_chars: c.en_chars,
+    semantic_unit: c.semantic_unit,
+    chunk_index: c.chunk_index,
+    jp: c.jp, en: c.en,
+  }));
+
+  S.groundTruth = { id: 'gt', name: 'Ground Truth', color: PROV_COLORS[0], isGroundTruth: true, segments: gtSegs };
+  S.providers = [S.groundTruth];
+
+  S.jpLines = (await tryLoadTxt(S.currentNovel, 'JP', S.currentChapter))?.split('\n') || buildLinesFromChunks(chunks, 'jp');
+  S.enLines = (await tryLoadTxt(S.currentNovel, 'EN', S.currentChapter))?.split('\n') || buildLinesFromChunks(chunks, 'en');
+
+  document.getElementById('compareBtn').disabled = false;
+  renderAll();
+  if (S.autoTranslate) runAutoTranslate();
+}
+
+function buildLinesFromChunks(chunks, lang) {
+  const lines = [];
+  for (const c of chunks) {
+    const paras = (lang === 'jp' ? c.jp : c.en).split('\n');
+    for (const p of paras) lines.push(p);
+    lines.push('');
+  }
+  return lines;
+}
+
+async function tryLoadTxt(novel, lang, chapter) {
+  const pats = [
+    `${novel}/${lang}/${chapter}.txt`,
+    `${novel}/${lang}/chapter_${chapter}.txt`,
+    `${novel}/${lang}/ch_${chapter}.txt`,
+    `${novel}/${lang}/${String(chapter).padStart(3, '0')}.txt`,
+  ];
+  for (const [path, file] of S.novelFiles) {
+    const lp = path.toLowerCase();
+    for (const pat of pats) if (lp.endsWith(pat.toLowerCase())) { try { return await file.text(); } catch (_) {} }
+  }
+  return null;
+}
+
+function clearChapter() {
+  S.providers = []; S.groundTruth = null; S.jpLines = []; S.enLines = [];
+  S.currentChunks = []; S.atPreviewLines = {}; setAtStatus('');
+  S.hoveredChunkIdx = null; S.isolatedProviders.clear();
+  document.getElementById('jpWrap').innerHTML = '';
+  document.getElementById('enWrap').innerHTML = '';
+  document.getElementById('segMap').innerHTML = '';
+  document.getElementById('legendList').innerHTML = '';
+  document.getElementById('compareBtn').disabled = true;
+}
+
+// ─── RENDER ALL ────────────────────────────────────────────────
+function renderAll() {
+  renderTextPanel('jp');
+  renderTextPanel('en');
+  renderSegMap();
+  renderLegend();
+  updateMetas();
+  updateMinimaps();
+}
+
+// ─── TEXT PANEL — paragraph chunk blocks ───────────────────────
+// Each GT segment occupies consecutive lines. We render them as
+// visually distinct coloured blocks. Additional providers' segment
+// boundaries are shown only when togBounds is on (a thin top-border
+// tint at the first line of each provider's segment that differs
+// from GT). No banding/layering — one block per line range.
+
+function renderTextPanel(lang) {
+  const wrap = document.getElementById(lang === 'jp' ? 'jpWrap' : 'enWrap');
+  wrap.innerHTML = '';
+  const lines = lang === 'jp' ? S.jpLines : S.enLines;
+  if (!lines || !lines.length) return;
+
+  const gt = S.groundTruth;
+  if (!gt) return;
+
+  const showColors  = document.getElementById('togColors').checked;
+  const showBounds  = document.getElementById('togBounds').checked;
+  const showDiff    = document.getElementById('togDiff').checked;
+
+  // Build line → chunk index map from GT
+  const lineToChunk = buildLineChunkMap(gt, lang);
+
+  // Build sets of boundary lines per non-GT provider
+  const provBoundaries = {}; // provId -> Set<lineIdx>
+  if (showBounds) {
+    for (const p of S.providers) {
+      if (p.isGroundTruth) continue;
+      const bk = lang === 'jp' ? 'jp_begin' : 'en_begin';
+      provBoundaries[p.id] = new Set(p.segments.map(s => Math.max(0, (s[bk] || 1) - 1)));
+    }
+  }
+
+  // Group lines into chunk blocks
+  // A chunk block is a contiguous range of lines belonging to the same GT chunk.
+  // Lines not covered by any GT chunk are rendered ungrouped.
+  const blocks = []; // [{chunkIdx, startLine, endLine}]
+  let i = 0;
+  while (i < lines.length) {
+    const ci = lineToChunk[i];
+    if (ci === undefined) {
+      blocks.push({ chunkIdx: -1, startLine: i, endLine: i });
+      i++;
+    } else {
+      let j = i + 1;
+      while (j < lines.length && lineToChunk[j] === ci) j++;
+      blocks.push({ chunkIdx: ci, startLine: i, endLine: j - 1 });
+      i = j;
+    }
+  }
+
+  for (const block of blocks) {
+    const ci = block.chunkIdx;
+    const seg = ci >= 0 ? gt.segments[ci] : null;
+    const color = ci >= 0 ? chunkColor(ci) : 'transparent';
+
+    const blockEl = document.createElement('div');
+    blockEl.className = 'chunk-block';
+    blockEl.dataset.chunkIdx = ci;
+    blockEl.dataset.lang = lang;
+
+    if (showColors && ci >= 0) {
+      blockEl.style.background = color + '14';
+      blockEl.style.borderLeftColor = color;
+    }
+
+    // Diff mode: color the block background based on diff quality vs GT
+    if (showDiff && S.providers.length > 1 && ci >= 0) {
+      const quality = computeChunkDiff(ci, lang);
+      if (quality) blockEl.classList.add('diff-' + quality + '-bg');
+    }
+
+    if (ci === S.hoveredChunkIdx) blockEl.classList.add('active-chunk');
+
+    blockEl.addEventListener('mouseenter', ev => onChunkHover(ev, ci, lang));
+    blockEl.addEventListener('mouseleave', onChunkLeave);
+    blockEl.addEventListener('click', () => {
+      if (ci >= 0) { scrollToChunk(lang === 'jp' ? 'en' : 'jp', ci); scrollToSegMap(ci); }
+    });
+
+    for (let li = block.startLine; li <= block.endLine; li++) {
+      const row = document.createElement('div');
+      row.className = 'line-row' + (lang === 'jp' ? ' jp' : '');
+      row.dataset.li = li;
+
+      const num = document.createElement('div');
+      num.className = 'line-num';
+      num.textContent = li + 1;
+
+      const txt = document.createElement('div');
+      txt.className = 'line-text';
+
+      // Auto-translate preview: show translated text for first 2 lines of each JP chunk
+      if (lang === 'jp' && S.autoTranslate && S.atPreviewLines[li] !== undefined) {
+        txt.textContent = lines[li] || '';
+        const badge = document.createElement('span');
+        badge.className = 'at-preview';
+        badge.textContent = '→ ' + S.atPreviewLines[li];
+        txt.appendChild(badge);
+      } else {
+        txt.textContent = lines[li] || '';
+      }
+
+      row.appendChild(num);
+      row.appendChild(txt);
+
+      // Provider boundary markers (thin colored top rule)
+      if (showBounds) {
+        for (const [pid, boundSet] of Object.entries(provBoundaries)) {
+          if (boundSet.has(li)) {
+            const prov = S.providers.find(p => p.id === pid);
+            if (prov) {
+              const br = document.createElement('div');
+              br.style.cssText = `position:absolute;left:38px;right:0;top:0;height:2px;background:${prov.color};opacity:.55;pointer-events:none`;
+              row.style.position = 'relative';
+              row.appendChild(br);
+            }
+          }
+        }
+      }
+
+      blockEl.appendChild(row);
+    }
+
+    wrap.appendChild(blockEl);
+
+    // Separator between GT chunks
+    if (ci >= 0 && showColors) {
+      const sep = document.createElement('div');
+      sep.className = 'chunk-separator';
+      sep.style.background = color + '30';
+      wrap.appendChild(sep);
+    }
+  }
+}
+
+function buildLineChunkMap(gt, lang) {
+  const map = {};
+  const bk = lang === 'jp' ? 'jp_begin' : 'en_begin';
+  const ek = lang === 'jp' ? 'jp_end' : 'en_end';
+  gt.segments.forEach((seg, ci) => {
+    const start = Math.max(0, (seg[bk] || 1) - 1);
+    const end   = seg[ek] || 0;
+    for (let l = start; l < end; l++) map[l] = ci;
+  });
+  return map;
+}
+
+// ─── CHUNK HOVER ───────────────────────────────────────────────
+function onChunkHover(ev, ci, lang) {
+  if (ci < 0) return;
+  S.hoveredChunkIdx = ci;
+
+  // highlight matching block in opposite panel
+  const oppLang = lang === 'jp' ? 'en' : 'jp';
+  document.querySelectorAll(`.chunk-block[data-chunk-idx="${ci}"]`).forEach(el => el.classList.add('active-chunk'));
+
+  if (S.autoScroll) scrollToChunk(oppLang, ci);
+  if (document.getElementById('togLines').checked) drawConnLine(ci);
+
+  showTooltip(ev, ci);
+  updateInspector(ci, lang);
+  updateOverlapPanel(ci, lang);
+}
+
+function onChunkLeave() {
+  S.hoveredChunkIdx = null;
+  document.querySelectorAll('.chunk-block').forEach(el => el.classList.remove('active-chunk'));
+  clearConnLines();
+  hideTooltip();
+  document.getElementById('inspCards').innerHTML = '';
+  document.getElementById('inspTitle').textContent = 'Click or hover a chunk to inspect';
+  document.getElementById('inspOverlap').innerHTML = '<span class="insp-empty">—</span>';
+}
+
+function scrollToChunk(lang, ci) {
+  const gt = S.groundTruth;
+  if (!gt || ci >= gt.segments.length) return;
+  const seg = gt.segments[ci];
+  const bk = lang === 'jp' ? 'jp_begin' : 'en_begin';
+  const firstLine = Math.max(0, (seg[bk] || 1) - 1);
+  const wrap = document.getElementById(lang === 'jp' ? 'jpWrap' : 'enWrap');
+  const row = wrap.querySelector(`.line-row[data-li="${firstLine}"]`);
+  if (row) row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function scrollToSegMap(ci) {
+  const el = document.querySelector(`#segMap .seg-block[data-seg="${ci}"]`);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ─── TOOLTIP ───────────────────────────────────────────────────
+function showTooltip(ev, ci) {
+  if (!S.groundTruth || ci < 0) return;
+  const tt = document.getElementById('tooltip');
+  const seg = S.groundTruth.segments[ci];
+  const ratio = seg.jp_chars && seg.en_chars ? (seg.en_chars / seg.jp_chars).toFixed(2) : '—';
+
+  let html = '';
+  for (const prov of S.providers) {
+    if (S.isolatedProviders.size > 0 && !S.isolatedProviders.has(prov.id)) continue;
+    // Find prov's segment that overlaps this GT chunk
+    const ps = findProvSegForGtChunk(prov, ci);
+    if (!ps) continue;
+    html += `<div class="tt-prov-row" style="border-left-color:${prov.color}">
+      <div class="tt-prov-name" style="color:${prov.color}">${prov.name}</div>
+      <div class="tt-row"><span class="tt-label">JP</span><span class="tt-val">${ps.jp_begin||0}–${ps.jp_end||0}</span></div>
+      <div class="tt-row"><span class="tt-label">EN</span><span class="tt-val">${ps.en_begin||0}–${ps.en_end||0}</span></div>
+      <div class="tt-row"><span class="tt-label">Chars</span><span class="tt-val">${(ps.jp_chars||0).toLocaleString()} jp</span></div>
+    </div>`;
+  }
+  if (!html) return;
+  tt.innerHTML = html;
+  tt.classList.add('show');
+  moveTooltip(ev);
+}
+
+function findProvSegForGtChunk(prov, ci) {
+  if (!S.groundTruth || ci >= S.groundTruth.segments.length) return null;
+  const gt = S.groundTruth.segments[ci];
+  // Return prov segment with max overlap against gt
+  let best = null, bestOv = -1;
+  for (const ps of prov.segments) {
+    const ov = Math.min(ps.jp_end || 0, gt.jp_end || 0) - Math.max(ps.jp_begin || 0, gt.jp_begin || 0);
+    if (ov > bestOv) { bestOv = ov; best = ps; }
+  }
+  return bestOv > 0 ? best : null;
+}
+
+document.addEventListener('mousemove', ev => { if (S.hoveredChunkIdx !== null) moveTooltip(ev); });
+function moveTooltip(ev) {
+  const tt = document.getElementById('tooltip');
+  tt.style.left = Math.min(ev.clientX + 14, window.innerWidth - 260) + 'px';
+  tt.style.top  = Math.min(ev.clientY - 10, window.innerHeight - 200) + 'px';
+}
+function hideTooltip() { document.getElementById('tooltip').classList.remove('show'); }
+
+// ─── INSPECTOR ─────────────────────────────────────────────────
+function updateInspector(ci, lang) {
+  const gt = S.groundTruth;
+  if (!gt || ci < 0 || ci >= gt.segments.length) return;
+  const seg = gt.segments[ci];
+  document.getElementById('inspTitle').textContent = `Chunk #${seg.chunk_index ?? ci} · ${seg.semantic_unit || '—'}`;
+
+  const ratio = seg.jp_chars && seg.en_chars ? (seg.en_chars / seg.jp_chars).toFixed(2) : '—';
+  const hc = ratioColor(parseFloat(ratio) || 0);
+  const items = [
+    ['JP Range', `${seg.jp_begin || 0} – ${seg.jp_end || 0}`, 'lines'],
+    ['EN Range', `${seg.en_begin || 0} – ${seg.en_end || 0}`, 'lines'],
+    ['JP Chars', (seg.jp_chars || 0).toLocaleString(), 'chars'],
+    ['EN Chars', (seg.en_chars || 0).toLocaleString(), 'chars'],
+    ['Ratio', `<span style="color:${hc}">${ratio}</span>`, 'en/jp'],
+    ['Type', seg.semantic_unit || '—', ''],
+  ];
+  const cards = document.getElementById('inspCards');
+  cards.innerHTML = items.map(([t, v, sub]) =>
+    `<div class="insp-card">
+      <div class="insp-card-title">${t}</div>
+      <div class="insp-card-val">${v}</div>
+      ${sub ? `<div class="insp-card-sub">${sub}</div>` : ''}
+    </div>`
+  ).join('');
+
+  // Diff badges for non-GT providers
+  for (const prov of S.providers) {
+    if (prov.isGroundTruth) continue;
+    const ps = findProvSegForGtChunk(prov, ci);
+    if (!ps) continue;
+    const dt = computeSegDiff(ps, seg);
+    cards.innerHTML += `<div class="insp-card">
+      <div class="insp-card-title" style="color:${prov.color}">${prov.name}</div>
+      <div class="insp-card-val"><span class="diff-badge diff-${dt}">${dt}</span></div>
+    </div>`;
+  }
+}
+
+function updateOverlapPanel(ci, lang) {
+  const el = document.getElementById('inspOverlap');
+  el.innerHTML = '';
+  if (ci < 0 || !S.groundTruth) { el.innerHTML = '<span class="insp-empty">—</span>'; return; }
+  const gtSeg = S.groundTruth.segments[ci];
+  let found = 0;
+  for (const prov of S.providers) {
+    const ps = findProvSegForGtChunk(prov, ci);
+    if (!ps) continue;
+    found++;
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;gap:8px;align-items:center;padding:3px 0;border-bottom:1px solid var(--border);margin-bottom:3px;font-size:11px';
+    div.innerHTML = `
+      <span style="width:8px;height:8px;border-radius:50%;background:${prov.color};flex-shrink:0"></span>
+      <span style="color:var(--text1);font-weight:500;min-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${prov.name}</span>
+      <span style="font-family:JetBrains Mono,monospace;color:var(--text2);font-size:10px">JP ${ps.jp_begin||0}–${ps.jp_end||0} / EN ${ps.en_begin||0}–${ps.en_end||0}</span>
+    `;
+    el.appendChild(div);
+  }
+  if (!found) el.innerHTML = '<span class="insp-empty">No segments at this chunk.</span>';
+}
+
+function computeChunkDiff(ci, lang) {
+  if (S.providers.length < 2) return null;
+  const seg = S.groundTruth.segments[ci];
+  let allMatch = true, someMatch = false;
+  for (const p of S.providers) {
+    if (p.isGroundTruth) continue;
+    const ps = findProvSegForGtChunk(p, ci);
+    if (!ps) { allMatch = false; continue; }
+    const dt = computeSegDiff(ps, seg);
+    if (dt === 'exact' || dt === 'near') someMatch = true; else allMatch = false;
+  }
+  if (allMatch && someMatch) return 'exact';
+  if (someMatch) return 'near';
+  return 'partial';
+}
+
+function computeSegDiff(seg, gtSeg) {
+  const jOv = Math.min(seg.jp_end||0, gtSeg.jp_end||0) - Math.max(seg.jp_begin||0, gtSeg.jp_begin||0);
+  const eOv = Math.min(seg.en_end||0, gtSeg.en_end||0) - Math.max(seg.en_begin||0, gtSeg.en_begin||0);
+  const jUn = Math.max(seg.jp_end||0, gtSeg.jp_end||0) - Math.min(seg.jp_begin||0, gtSeg.jp_begin||0) || 1;
+  const eUn = Math.max(seg.en_end||0, gtSeg.en_end||0) - Math.min(seg.en_begin||0, gtSeg.en_begin||0) || 1;
+  const iou = (Math.max(0, jOv) / jUn + Math.max(0, eOv) / eUn) / 2;
+  if (iou > .9) return 'exact';
+  if (iou > .65) return 'near';
+  if (iou > .3) return 'partial';
+  return 'mismatch';
+}
+
+// ─── SEGMENT MAP ───────────────────────────────────────────────
+function renderSegMap() {
+  const map = document.getElementById('segMap');
+  map.innerHTML = '';
+  const gt = S.groundTruth;
+  if (!gt) return;
+  document.getElementById('centerMeta').textContent = gt.segments.length + ' segs';
+
+  gt.segments.forEach((seg, i) => {
+    const color = chunkColor(i);
+    const ratio = seg.jp_chars && seg.en_chars ? seg.en_chars / seg.jp_chars : 0;
+    const hc = ratioColor(ratio);
+    const el = document.createElement('div');
+    el.className = 'seg-block';
+    el.dataset.seg = i;
+    el.style.background = color + '1a';
+    el.style.borderLeftColor = color;
+    if (i === S.hoveredChunkIdx) el.classList.add('active');
+    el.innerHTML = `
+      <div class="seg-block-header">
+        <span style="color:${color}">#${seg.chunk_index ?? i}</span>
+        <span style="color:var(--text3)">${(seg.jp_chars||0).toLocaleString()}jp</span>
+      </div>
+      <div class="seg-block-ranges">JP ${seg.jp_begin||0}–${seg.jp_end||0} / EN ${seg.en_begin||0}–${seg.en_end||0}</div>
+      <div class="seg-heat"><div style="width:${Math.min(100, ratio/5*100)}%;height:100%;background:${hc};border-radius:1px"></div></div>
+      <span class="seg-block-type">${seg.semantic_unit||'—'}</span>
+    `;
+    el.addEventListener('mouseenter', ev => onChunkHover(ev, i, 'jp'));
+    el.addEventListener('mouseleave', onChunkLeave);
+    el.addEventListener('click', () => { scrollToChunk('jp', i); scrollToChunk('en', i); });
+    map.appendChild(el);
+  });
+}
+
+// ─── LEGEND ────────────────────────────────────────────────────
+function renderLegend() {
+  const list = document.getElementById('legendList');
+  list.innerHTML = '';
+  document.getElementById('legendMeta').textContent = S.providers.length + ' providers';
+
+  S.providers.forEach(prov => {
+    const isIso = S.isolatedProviders.size > 0;
+    const isVis = !isIso || S.isolatedProviders.has(prov.id);
+    const item = document.createElement('div');
+    item.className = 'legend-item' + (isIso && isVis ? ' selected' : isIso ? ' dimmed' : '');
+    const avgLen = prov.segments.length ? Math.round(prov.segments.reduce((s, g) => s + (g.jp_chars || 0), 0) / prov.segments.length) : 0;
+    item.innerHTML = `
+      <div class="legend-dot" style="background:${prov.color}"></div>
+      <div style="flex:1;min-width:0">
+        <div class="legend-name">${prov.name}</div>
+        <div class="legend-segs">${prov.segments.length} segs · avg ${avgLen.toLocaleString()} jp</div>
+      </div>
+    `;
+    item.addEventListener('click', ev => {
+      if (ev.ctrlKey || ev.metaKey) {
+        if (S.isolatedProviders.has(prov.id)) S.isolatedProviders.delete(prov.id);
+        else S.isolatedProviders.add(prov.id);
+      } else if (S.isolatedProviders.size === 1 && S.isolatedProviders.has(prov.id)) {
+        S.isolatedProviders.clear();
+      } else {
+        S.isolatedProviders.clear();
+        S.isolatedProviders.add(prov.id);
+      }
+      renderAll();
+    });
+    if (!prov.isGroundTruth) {
+      const rmBtn = document.createElement('button');
+      rmBtn.className = 'legend-remove';
+      rmBtn.textContent = '✕';
+      rmBtn.title = 'Remove provider';
+      rmBtn.addEventListener('click', ev => {
+        ev.stopPropagation();
+        S.providers = S.providers.filter(p => p.id !== prov.id);
+        S.isolatedProviders.delete(prov.id);
+        renderAll();
+      });
+      item.appendChild(rmBtn);
+    }
+    list.appendChild(item);
+  });
+}
+
+// ─── CONNECTION LINE ───────────────────────────────────────────
+function drawConnLine(ci) {
+  clearConnLines();
+  if (!document.getElementById('togLines').checked) return;
+  const gt = S.groundTruth;
+  if (!gt || ci >= gt.segments.length) return;
+  const seg = gt.segments[ci];
+  const jpWrap = document.getElementById('jpWrap');
+  const enWrap = document.getElementById('enWrap');
+  const jpLine = Math.max(0, (seg.jp_begin || 1) - 1);
+  const enLine = Math.max(0, (seg.en_begin || 1) - 1);
+  const r1 = jpWrap.querySelector(`.line-row[data-li="${jpLine}"]`)?.getBoundingClientRect();
+  const r2 = enWrap.querySelector(`.line-row[data-li="${enLine}"]`)?.getBoundingClientRect();
+  if (!r1 || !r2) return;
+  const svg = document.getElementById('svgOverlay');
+  const x1 = r1.right - 6, y1 = (r1.top + r1.bottom) / 2;
+  const x2 = r2.left + 6, y2 = (r2.top + r2.bottom) / 2;
+  const cx = (x1 + x2) / 2;
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', `M${x1} ${y1} C${cx} ${y1},${cx} ${y2},${x2} ${y2}`);
+  path.setAttribute('stroke', chunkColor(ci));
+  path.setAttribute('filter', 'url(#glow)');
+  path.classList.add('conn-line', 'vis', 'bright');
+  svg.appendChild(path);
+}
+function clearConnLines() { document.getElementById('svgOverlay').querySelectorAll('.conn-line').forEach(l => l.remove()); }
+
+// ─── ADD PROVIDER MODAL ────────────────────────────────────────
+document.getElementById('addProviderBtn').addEventListener('click', () => openModal('addMappingModal'));
+document.getElementById('addMappingConfirm').addEventListener('click', addProviderFromModal);
+
+function addProviderFromModal() {
+  const nameInput = document.getElementById('providerNameInput');
+  const jsonInput = document.getElementById('mappingJson');
+  const errDiv = document.getElementById('mappingError');
+  errDiv.classList.remove('show');
+
+  const name = (nameInput.value || '').trim();
+  if (!name) { errDiv.textContent = 'Provider name is required.'; errDiv.classList.add('show'); return; }
+  if (S.providers.find(p => p.name === name)) { errDiv.textContent = `"${name}" already exists.`; errDiv.classList.add('show'); return; }
+
+  let parsed;
+  try { parsed = JSON.parse(jsonInput.value); } catch (e) { errDiv.textContent = 'Invalid JSON: ' + e.message; errDiv.classList.add('show'); return; }
+  if (!parsed.segments || !Array.isArray(parsed.segments)) { errDiv.textContent = 'JSON must have a "segments" array.'; errDiv.classList.add('show'); return; }
+  const bad = parsed.segments.find(s => s.jp_begin === undefined || s.jp_end === undefined || s.en_begin === undefined || s.en_end === undefined);
+  if (bad) { errDiv.textContent = 'Each segment needs jp_begin, jp_end, en_begin, en_end.'; errDiv.classList.add('show'); return; }
+
+  const prov = {
+    id: 'p_' + Date.now(),
+    name,
+    color: PROV_COLORS[S.providers.length % PROV_COLORS.length],
+    isGroundTruth: false,
+    segments: parsed.segments.map(s => ({
+      ...s,
+      jp_chars: s.jp_chars || (s.jp_end - s.jp_begin) * 20,
+      en_chars: s.en_chars || (s.en_end - s.en_begin) * 40,
+      semantic_unit: s.semantic_unit || 'other',
+    })),
+  };
+  S.providers.push(prov);
+  closeModal('addMappingModal');
+  nameInput.value = ''; jsonInput.value = '';
+  renderAll();
+}
+
+// ─── COMPARE MODAL ─────────────────────────────────────────────
+document.getElementById('compareBtn').addEventListener('click', openCompare);
+
+function openCompare() {
+  if (!S.groundTruth || S.providers.length < 2) { alert('Add at least one test provider to compare.'); return; }
+  const content = document.getElementById('compareContent');
+  content.innerHTML = '';
+
+  const names = S.providers.map(p => p.name);
+  const matrix = buildAgreementMatrix();
+
+  content.innerHTML += `<h3 style="font-size:12px;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Agreement Matrix (%)</h3>`;
+  let thtml = `<div style="overflow-x:auto"><table class="heatmap-table"><thead><tr><th></th>`;
+  names.forEach(n => thtml += `<th>${n}</th>`);
+  thtml += `</tr></thead><tbody>`;
+  names.forEach((rn, ri) => {
+    thtml += `<tr><td style="color:var(--text1);font-weight:500">${rn}</td>`;
+    names.forEach((cn, ci) => {
+      const v = matrix[ri][ci];
+      const bg = v > 90 ? 'rgba(46,168,74,.35)' : v > 75 ? 'rgba(212,160,23,.25)' : v > 50 ? 'rgba(212,99,10,.2)' : 'rgba(212,43,43,.2)';
+      const tc = v > 90 ? '#3ddd6a' : v > 75 ? '#e8bb38' : v > 50 ? '#f07e38' : '#f56b6b';
+      thtml += `<td><div class="heatmap-cell" style="background:${bg};color:${tc}">${v.toFixed(1)}</div></td>`;
+    });
+    thtml += `</tr>`;
+  });
+  thtml += `</tbody></table></div>`;
+  content.innerHTML += thtml;
+
+  const testProvs = S.providers.filter(p => !p.isGroundTruth);
+  if (testProvs.length > 0) {
+    content.innerHTML += `<h3 style="font-size:12px;color:var(--text2);margin:16px 0 10px;text-transform:uppercase;letter-spacing:.5px">Benchmark vs Ground Truth</h3>`;
+    let bhtml = `<table class="bench-table"><thead><tr>
+      <th>Provider</th><th>Segments</th><th>Overlap %</th><th>Boundary %</th><th>Coverage %</th><th>Split</th><th>Merge</th>
+    </tr></thead><tbody>`;
+    testProvs.forEach(tp => {
+      const m = computeProviderMetrics(tp, S.groundTruth);
+      bhtml += `<tr>
+        <td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${tp.color};margin-right:6px"></span>${tp.name}</td>
+        <td>${tp.segments.length}</td>
+        <td>${m.overlap.toFixed(1)}<div class="metric-bar"><div class="metric-fill" style="width:${m.overlap}%"></div></div></td>
+        <td>${m.boundaryMatch.toFixed(1)}<div class="metric-bar"><div class="metric-fill" style="width:${m.boundaryMatch}%"></div></div></td>
+        <td>${m.coverage.toFixed(1)}<div class="metric-bar"><div class="metric-fill" style="width:${m.coverage}%"></div></div></td>
+        <td style="color:${m.splitErr>0?'#f07e38':'var(--text2)'}">${m.splitErr}</td>
+        <td style="color:${m.mergeErr>0?'#f07e38':'var(--text2)'}">${m.mergeErr}</td>
+      </tr>`;
+    });
+    bhtml += `</tbody></table>`;
+    content.innerHTML += bhtml;
+  }
+
+  content.innerHTML += `<div class="export-row">
+    <button class="btn-primary" id="exportJson">⬇ Export JSON</button>
+    <button class="btn-cancel" id="exportCsv">⬇ Export CSV</button>
+  </div>`;
+  document.getElementById('exportJson').addEventListener('click', () => exportResults('json'));
+  document.getElementById('exportCsv').addEventListener('click', () => exportResults('csv'));
+  openModal('compareModal');
+}
+
+function buildAgreementMatrix() {
+  const n = S.providers.length;
+  const mat = Array.from({ length: n }, () => new Array(n).fill(0));
+  for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+    mat[i][j] = i === j ? 100 : computeAgreement(S.providers[i], S.providers[j]);
+  }
+  return mat;
+}
+
+function computeAgreement(pA, pB) {
+  const maxLine = Math.max(...pA.segments.map(s => s.jp_end || 0), ...pB.segments.map(s => s.jp_end || 0));
+  if (maxLine <= 0) return 0;
+  let total = 0, match = 0;
+  for (let l = 0; l < maxLine; l++) {
+    const ai = pA.segments.findIndex(s => (s.jp_begin || 1) - 1 <= l && (s.jp_end || 0) > l);
+    const bi = pB.segments.findIndex(s => (s.jp_begin || 1) - 1 <= l && (s.jp_end || 0) > l);
+    total++;
+    if (ai >= 0 && bi >= 0) {
+      const sa = pA.segments[ai], sb = pB.segments[bi];
+      const ov = Math.min(sa.jp_end, sb.jp_end) - Math.max(sa.jp_begin, sb.jp_begin);
+      const un = Math.max(sa.jp_end, sb.jp_end) - Math.min(sa.jp_begin, sb.jp_begin) || 1;
+      if (ov / un > .5) match++;
+    }
+  }
+  return total ? match / total * 100 : 0;
+}
+
+function computeProviderMetrics(tp, gt) {
+  let overlap = 0, coverage = 0, splitErr = 0, mergeErr = 0, bm = 0;
+  const total = gt.segments.length || 1;
+
+  gt.segments.forEach(gs => {
+    const matching = tp.segments.filter(ts => Math.min(ts.jp_end||0, gs.jp_end||0) > Math.max(ts.jp_begin||0, gs.jp_begin||0));
+    if (!matching.length) return;
+    const ov = matching.reduce((s, ts) => s + Math.min(ts.jp_end, gs.jp_end) - Math.max(ts.jp_begin, gs.jp_begin), 0);
+    overlap += ov / ((gs.jp_end - gs.jp_begin) || 1);
+    coverage++;
+    if (matching.length > 1) splitErr++;
+  });
+
+  tp.segments.forEach(ts => {
+    const matching = gt.segments.filter(gs => Math.min(ts.jp_end||0, gs.jp_end||0) > Math.max(ts.jp_begin||0, gs.jp_begin||0));
+    if (matching.length > 1) mergeErr++;
+  });
+
+  const gtBounds = new Set(gt.segments.map(s => s.jp_begin));
+  const tpBounds = new Set(tp.segments.map(s => s.jp_begin));
+  for (const b of gtBounds) if (tpBounds.has(b) || tpBounds.has(b - 1) || tpBounds.has(b + 1)) bm++;
+
+  return {
+    overlap: overlap / total * 100,
+    coverage: coverage / total * 100,
+    splitErr, mergeErr,
+    boundaryMatch: gtBounds.size ? bm / gtBounds.size * 100 : 0,
+  };
+}
+
+function exportResults(fmt) {
+  if (!S.groundTruth) return;
+  const rows = S.providers.filter(p => !p.isGroundTruth).map(tp => ({
+    provider: tp.name, segments: tp.segments.length,
+    ...computeProviderMetrics(tp, S.groundTruth),
+  }));
+  if (fmt === 'json') {
+    download(JSON.stringify({ novel: S.currentNovel, chapter: S.currentChapter, benchmark: rows }, null, 2), 'alignment_benchmark.json', 'application/json');
+  } else {
+    const hdr = ['provider', 'segments', 'overlap', 'coverage', 'splitErr', 'mergeErr', 'boundaryMatch'];
+    const csv = [hdr.join(','), ...rows.map(r => hdr.map(h => r[h] ?? '').join(','))].join('\n');
+    download(csv, 'alignment_benchmark.csv', 'text/csv');
+  }
+}
+
+function download(data, name, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([data], { type }));
+  a.download = name; a.click();
+}
+
+// ─── STATS ─────────────────────────────────────────────────────
+document.getElementById('statsBtn').addEventListener('click', openStats);
+
+document.querySelectorAll('.stats-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.stats-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+function openStats() {
+  renderStatsOverview(); renderStatsSemantic(); renderStatsNovels();
+  openModal('statsModal');
+}
+
+function renderStatsOverview() {
+  const cs = S.rawChunks;
+  let tc = 0; for (const [, v] of S.chaptersByNovel) tc += v.size;
+  const avgJp = cs.length ? Math.round(cs.reduce((s, c) => s + (c.jp_chars || 0), 0) / cs.length) : 0;
+  const avgEn = cs.length ? Math.round(cs.reduce((s, c) => s + (c.en_chars || 0), 0) / cs.length) : 0;
+  const el = document.getElementById('tab-overview');
+  el.innerHTML = `<div class="stat-grid">
+    ${[['Novels', S.novels.size], ['Chapters', tc.toLocaleString()], ['Chunks', cs.length.toLocaleString()],
+       ['Avg JP Chars', avgJp.toLocaleString()], ['Avg EN Chars', avgEn.toLocaleString()], ['Providers', S.providers.length]]
+      .map(([l, v]) => `<div class="stat-card"><div class="stat-v">${v}</div><div class="stat-l">${l}</div></div>`).join('')}
+  </div>
+  <div class="charts-grid">
+    <div class="chart-box"><h3>EN/JP Ratio Distribution</h3><canvas id="cRatio"></canvas></div>
+    <div class="chart-box"><h3>Chunk Size Distribution</h3><canvas id="cSize"></canvas></div>
+  </div>`;
+  const co = { responsive: true, plugins: { legend: { labels: { color: '#6e8099', font: { size: 10 } } } },
+    scales: { x: { ticks: { color: '#445266', font: { size: 9 } }, grid: { color: '#252e3e' } }, y: { ticks: { color: '#445266', font: { size: 9 } }, grid: { color: '#252e3e' } } } };
+  setTimeout(() => {
+    const ratios = cs.map(c => c.jp_chars ? c.en_chars / c.jp_chars : 0).filter(r => r > 0);
+    const bks = [0, 1, 1.5, 2, 2.5, 3, 3.5, 4, Infinity], bls = ['<1', '1-1.5', '1.5-2', '2-2.5', '2.5-3', '3-3.5', '3.5-4', '>4'];
+    const bc = new Array(bls.length).fill(0);
+    for (const r of ratios) for (let i = 0; i < bks.length - 1; i++) if (r >= bks[i] && r < bks[i + 1]) { bc[i]++; break; }
+    new Chart(document.getElementById('cRatio'), { type: 'bar', data: { labels: bls, datasets: [{ data: bc, backgroundColor: '#4d9eff', borderWidth: 0 }] }, options: { ...co, plugins: { legend: { display: false } } } });
+    const sizes = cs.map(c => c.jp_chars || 0).filter(v => v > 0);
+    const sBks = [0, 100, 300, 500, 1000, 2000, 5000, Infinity], sLs = ['<100', '100-300', '300-500', '500-1k', '1k-2k', '2k-5k', '>5k'];
+    const sC = new Array(sLs.length).fill(0);
+    for (const s of sizes) for (let i = 0; i < sBks.length - 1; i++) if (s >= sBks[i] && s < sBks[i + 1]) { sC[i]++; break; }
+    new Chart(document.getElementById('cSize'), { type: 'bar', data: { labels: sLs, datasets: [{ data: sC, backgroundColor: '#2dd4a0', borderWidth: 0 }] }, options: { ...co, plugins: { legend: { display: false } } } });
+  }, 50);
+}
+
+function renderStatsSemantic() {
+  const dist = {};
+  for (const c of S.rawChunks) { const t = c.semantic_unit || 'other'; dist[t] = (dist[t] || 0) + 1; }
+  document.getElementById('tab-semantic').innerHTML = `<div class="charts-grid">
+    <div class="chart-box"><h3>Semantic Unit Distribution</h3><canvas id="cSem"></canvas></div>
+    <div class="chart-box"><h3>Type Counts</h3><canvas id="cSemBar"></canvas></div>
+  </div>`;
+  const labels = Object.keys(dist), data = Object.values(dist);
+  setTimeout(() => {
+    new Chart(document.getElementById('cSem'), { type: 'doughnut', data: { labels, datasets: [{ data, backgroundColor: PROV_COLORS.slice(0, labels.length), borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { labels: { color: '#6e8099', font: { size: 10 } } } } } });
+    new Chart(document.getElementById('cSemBar'), { type: 'bar', data: { labels, datasets: [{ data, backgroundColor: PROV_COLORS.slice(0, labels.length), borderWidth: 0 }] }, options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#445266' }, grid: { color: '#252e3e' } }, y: { ticks: { color: '#6e8099' } } } } });
+  }, 50);
+}
+
+function renderStatsNovels() {
+  const ns = [...S.novels].sort();
+  document.getElementById('tab-novels').innerHTML = `<div class="charts-grid">
+    <div class="chart-box"><h3>Chunks per Novel</h3><canvas id="cNovel"></canvas></div>
+    <div class="chart-box"><h3>Avg JP Chars per Novel</h3><canvas id="cNovelChars"></canvas></div>
+  </div>`;
+  setTimeout(() => {
+    const co = { responsive: true, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#445266', font: { size: 9 } }, grid: { color: '#252e3e' } }, y: { ticks: { color: '#6e8099', font: { size: 9 } } } } };
+    const counts = ns.map(n => S.rawChunks.filter(c => c.novel === n).length);
+    const avgs = ns.map(n => { const nc = S.rawChunks.filter(c => c.novel === n); return nc.length ? Math.round(nc.reduce((s, c) => s + (c.jp_chars || 0), 0) / nc.length) : 0; });
+    new Chart(document.getElementById('cNovel'), { type: 'bar', data: { labels: ns, datasets: [{ data: counts, backgroundColor: CHUNK_COLORS.slice(0, ns.length), borderWidth: 0 }] }, options: co });
+    new Chart(document.getElementById('cNovelChars'), { type: 'bar', data: { labels: ns, datasets: [{ data: avgs, backgroundColor: PROV_COLORS.slice(0, ns.length), borderWidth: 0 }] }, options: co });
+  }, 50);
+}
+
+// ─── METAS & MINIMAPS ──────────────────────────────────────────
+function updateMetas() {
+  const gt = S.groundTruth;
+  if (!gt) return;
+  document.getElementById('jpMeta').textContent = gt.segments.reduce((s, g) => s + (g.jp_chars || 0), 0).toLocaleString() + ' chars';
+  document.getElementById('enMeta').textContent = gt.segments.reduce((s, g) => s + (g.en_chars || 0), 0).toLocaleString() + ' chars';
+  document.getElementById('legendMeta').textContent = S.providers.length + ' providers';
+}
+
+function updateMinimaps() {
+  updateMinimap('jpScroll', 'jpWrap', 'jpMM', 'jpMMThumb');
+  updateMinimap('enScroll', 'enWrap', 'enMM', 'enMMThumb');
+}
+
+function updateMinimap(scrollId, contentId, mapId, thumbId) {
+  const scroll = document.getElementById(scrollId);
+  const content = document.getElementById(contentId);
+  const map = document.getElementById(mapId);
+  const thumb = document.getElementById(thumbId);
+  if (!S.groundTruth) return;
+  map.querySelectorAll('.mm-chunk').forEach(e => e.remove());
+  const totalH = content.scrollHeight || 1, mapH = map.clientHeight || 1;
+  S.groundTruth.segments.forEach((seg, i) => {
+    const lang = contentId.startsWith('jp') ? 'jp' : 'en';
+    const bk = lang === 'jp' ? 'jp_begin' : 'en_begin';
+    const lineEl = content.querySelector(`.line-row[data-li="${Math.max(0, (seg[bk] || 1) - 1)}"]`);
+    if (!lineEl) return;
+    const strip = document.createElement('div');
+    strip.className = 'mm-chunk';
+    strip.style.top = (lineEl.offsetTop / totalH * mapH) + 'px';
+    strip.style.height = Math.max(2, 20 / totalH * mapH) + 'px';
+    strip.style.background = chunkColor(i) + '99';
+    map.insertBefore(strip, thumb);
+  });
+  const upThumb = () => {
+    const ratio = scroll.scrollTop / Math.max(1, content.scrollHeight - scroll.clientHeight);
+    const th = Math.max(20, scroll.clientHeight / totalH * mapH);
+    thumb.style.height = th + 'px';
+    thumb.style.top = (ratio * (mapH - th)) + 'px';
+  };
+  upThumb();
+  scroll.removeEventListener('scroll', scroll._mmHandler);
+  scroll._mmHandler = upThumb;
+  scroll.addEventListener('scroll', upThumb);
+  map.onclick = ev => {
+    const r = map.getBoundingClientRect();
+    scroll.scrollTop = (ev.clientY - r.top) / mapH * (content.scrollHeight - scroll.clientHeight);
+  };
+}
+
+// ─── SEARCH ────────────────────────────────────────────────────
+function buildSearchIndex() {
+  S.searchIndex = S.rawChunks.map((r, i) => ({ i, text: `${r.novel} ${r.chapter} ${r.jp} ${r.en}`.toLowerCase() }));
+}
+
+let _searchTimer = null;
+document.getElementById('searchBox').addEventListener('input', e => {
+  clearTimeout(_searchTimer);
+  _searchTimer = setTimeout(() => doSearch(e.target.value), 200);
+});
+
+function doSearch(q) {
+  const dd = document.getElementById('searchDD');
+  if (!q.trim() || q.length < 2) { dd.classList.remove('open'); return; }
+  const ql = q.toLowerCase();
+  const res = [];
+  for (const e of S.searchIndex) { if (e.text.includes(ql)) { res.push(S.rawChunks[e.i]); if (res.length >= 25) break; } }
+  if (!res.length) { dd.innerHTML = '<div class="sr-item" style="color:var(--text3)">No results.</div>'; dd.classList.add('open'); return; }
+  dd.innerHTML = '';
+  const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  res.forEach(r => {
+    const snip = (r.jp || r.en || '').slice(0, 80).replace(new RegExp(esc(q), 'gi'), m => `<mark>${m}</mark>`);
+    const el = document.createElement('div'); el.className = 'sr-item';
+    el.innerHTML = `<div class="sr-top">${r.novel} · Ch.${r.chapter} · Chunk ${r.chunk_index}</div><div class="sr-text">${snip}</div>`;
+    el.addEventListener('click', () => {
+      dd.classList.remove('open'); document.getElementById('searchBox').value = '';
+      const nSel = document.getElementById('novelSel'), cSel = document.getElementById('chapterSel');
+      nSel.value = r.novel; nSel.dispatchEvent(new Event('change'));
+      setTimeout(() => { cSel.value = r.chapter; cSel.dispatchEvent(new Event('change')); setTimeout(() => scrollToChunk('jp', r.chunk_index), 400); }, 100);
+    });
+    dd.appendChild(el);
+  });
+  dd.classList.add('open');
+}
+document.addEventListener('click', e => { if (!e.target.closest('.search-wrap')) document.getElementById('searchDD').classList.remove('open'); });
+
+// ─── AUTO-TRANSLATE PREVIEW ────────────────────────────────────
+// Only translates the FIRST 2 NON-EMPTY LINES of each JP chunk.
+// Shows them inline as italic preview text next to the original.
+
+function setAtStatus(msg) {
+  S.atStatus = msg || '';
+  const el = document.getElementById('translateStatus');
+  if (el) el.textContent = S.atStatus;
+}
+
+async function llmTranslate(lines2) {
+  // lines2: array of {lineIdx, text}
+  const payload = lines2.map(({ lineIdx, text }) => `${lineIdx}:${text}`).join('\n');
+  const res = await fetch('http://localhost:1234/api/v1/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'qwen3-0.6b',
+      system_prompt: 'Translate each Japanese line to English. Return ONLY valid JSON with shape {"translations":{"<lineIdx>":"<translation>"}}. No extra text.',
+      input: `Translate these lines:\n${payload}`,
+    }),
+  });
+  if (!res.ok) throw new Error(`LLM ${res.status}`);
+  const data = await res.json();
+  const raw = String(data?.output?.find?.(x => x.type === 'message')?.content ?? '').trim();
+  // Strip code fences if present
+  const cleaned = raw.replace(/^```[a-z]*\n?/, '').replace(/\n?```$/, '').trim();
+  try { return JSON.parse(cleaned); } catch (_) {
+    const m = cleaned.match(/\{[\s\S]*\}/);
+    if (m) { try { return JSON.parse(m[0]); } catch (_) {} }
+  }
+  return {};
+}
+
+async function runAutoTranslate() {
+  if (!S.groundTruth || !S.autoTranslate) return;
+  const jobId = ++S.atJobId;
+  S.atPreviewLines = {};
+  setAtStatus('Translating preview lines…');
+
+  // Collect first 2 non-empty JP lines per GT segment — iterate segments directly, no chunk_index lookup
+  const toTranslate = []; // {lineIdx, text}
+  for (const seg of S.groundTruth.segments) {
+    const startLine = Math.max(0, (seg.jp_begin || 1) - 1);
+    const endLine   = seg.jp_end || 0;
+    let count = 0;
+    for (let li = startLine; li < endLine && count < 2; li++) {
+      const text = (S.jpLines[li] || '').trim();
+      if (text) { toTranslate.push({ lineIdx: li, text }); count++; }
+    }
+  }
+
+  if (!toTranslate.length) { setAtStatus('No lines to translate.'); return; }
+
+  // Batch into groups of 10 for efficiency
+  const BATCH = 10;
+  let done = 0;
+  for (let b = 0; b < toTranslate.length; b += BATCH) {
+    if (jobId !== S.atJobId) return;
+    const batch = toTranslate.slice(b, b + BATCH);
+    setAtStatus(`Translating ${done}/${toTranslate.length}…`);
+    try {
+      const result = await llmTranslate(batch);
+      const tr = result?.translations || result || {};
+      for (const { lineIdx } of batch) {
+        const val = tr[String(lineIdx)] ?? tr[lineIdx];
+        if (typeof val === 'string' && val.trim()) S.atPreviewLines[lineIdx] = val.trim();
+      }
+      done += batch.length;
+    } catch (err) {
+      setAtStatus(`Error: ${err.message}`);
+      // keep going with next batch
+    }
+    if (jobId !== S.atJobId) return;
+    // Re-render JP panel incrementally so translations appear as they arrive
+    renderTextPanel('jp');
+    await new Promise(r => setTimeout(r, 0));
+  }
+
+  setAtStatus(`Preview ready (${Object.keys(S.atPreviewLines).length} lines translated)`);
+}
+
+// ─── TOGGLE HANDLERS ──────────────────────────────────────────
+['togColors', 'togLines', 'togBounds', 'togDiff', 'togAutoScroll'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => {
+    if (id === 'togAutoScroll') S.autoScroll = document.getElementById(id).checked;
+    if (S.groundTruth) renderAll();
+  });
+});
+
+const atBtn = document.getElementById('togAutoTranslateBtn');
+atBtn.addEventListener('click', () => {
+  S.autoTranslate = !S.autoTranslate;
+  atBtn.classList.toggle('active', S.autoTranslate);
+  if (S.autoTranslate) {
+    runAutoTranslate();
+  } else {
+    S.atJobId++;
+    S.atPreviewLines = {};
+    setAtStatus('');
+    if (S.groundTruth) renderTextPanel('jp');
+  }
+});
+
+// ─── MODAL HELPERS ─────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => closeModal(btn.dataset.close)));
+document.querySelectorAll('.modal-bg').forEach(bg => bg.addEventListener('click', e => { if (e.target === bg) bg.classList.remove('open'); }));
+</script>
+</body>
+</html>

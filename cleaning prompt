@@ -1,0 +1,1547 @@
+You are a bilingual segmentation assistant for Japanese light novel translation data.
+
+You will receive a JP chapter and its EN translation, each with 1-indexed line numbers.
+Your job is to return a compact JSON object containing ONLY line-index data — no rewritten text.
+
+─── TASK A  ·  Identify noise lines to EXCLUDE ────────────────────────────────
+Mark lines that are non-story content in either text:
+""" + _NOISE_EXAMPLES + """
+
+─── TASK B  ·  Segment the remaining story lines ──────────────────────────────
+After mentally removing the excluded lines, partition the remaining JP lines and EN lines
+into semantically coherent training segments. Each segment pairs a JP span with its
+corresponding EN span. Rules:
+• Each segment must be a complete meaning unit: a scene, a dialogue exchange, a paragraph
+  cluster, or a continuous inner monologue.
+• Estimated combined token count per segment ≤ {max_tokens}
+  (estimate: 1 token ≈ 1.5 JP chars, 4 EN chars).
+• JP and EN spans refer to line numbers in the ORIGINAL (input) text, not a cleaned copy.
+• Asymmetric boundaries are expected — JP and EN rarely split at the same lines.
+• Cover every non-excluded line. No gaps, no overlaps within each side.
+• Prefer grouping short lines into a meaningful unit over splitting mid-thought.
+• Dialogue exchanges should be one segment.
+
+─── OUTPUT FORMAT ──────────────────────────────────────────────────────────────
+Return ONLY a JSON object with this exact structure (no markdown, no prose):
+{{
+  "jp_excluded": [3, 4, 11],
+  "en_excluded": [1, 2],
+  "segments": [
+    {{
+      "jp_begin": 5,
+      "jp_end": 10,
+      "en_begin": 3,
+      "en_end": 9,
+      "semantic_unit": "narration"
+    }}
+  ]
+}}
+
+• jp_excluded / en_excluded: sorted lists of 1-indexed line numbers to drop (may be empty []).
+• jp_begin/jp_end / en_begin/en_end: 1-indexed line numbers in the ORIGINAL input texts
+  (excluded lines inside a span are simply skipped when text is assembled).
+• semantic_unit: one of "narration", "dialogue", "inner_monologue", "action", "mixed"., 1 「一年半のパウロ」
+2 
+3 
+4 
+5 --- パウロ視点 ---
+6 
+7 目が覚めた時、オレは草原にいた。
+8 草原だ。
+9 草原としか言いようが無い。
+10 何の変哲もない草原だが、不思議な事に見覚えがあった。
+11 どこかと考えること数分。
+12 
+13 思い出した。
+14 ここはアスラ王国の南部。
+15 かつて滞在していた町の近くだ。
+16 当時は、町で水神流を習っていた。
+17 つまり、リーリャの故郷の近くである。
+18 
+19 これは夢だ。
+20 自然とそう考えた。
+21 
+22 それにしても懐かしい場所だ。
+23 ここで暮らしたのは何年だったか。
+24 一年か、それとも二年か。
+25 それほど長くいなかった事だけは覚えている。
+26 
+27 記憶にあるのは道場でのことばかり。
+28 思い出すのは兄弟子たち。
+29 いけ好かない連中だった。
+30 口ばかりの連中だった。
+31 才能あるオレの頭を押さえつけ、自分の上に行くなと厳命するような連中だった。
+32 
+33 オレは上下関係というものが嫌いだ。
+34 実家を飛び出したのも、父親に頭を抑えつけられたからだ。
+35 それでも、まだ父親はマシだった。
+36 なんだかんだ言って、力を持っていた。
+37 
+38 だが、あの兄弟子らには力がなかった。
+39 口と自尊心だけが発達した有象無象だった。
+40 オレが中級の域に達した時、奴らは初級の出口あたりでウロウロしていた。
+41 程度の低い奴らだった。
+42 
+43 道場主にしても、せいぜい水神流の上級剣士だ。
+44 自分の力量の無さを棚にあげて精神論ばかり吐く老害だった。
+45 オレはあいつらに、いつか自分の力を見せてやろうと思っていた。
+46 
+47 もっとも、結局、俺がそいつらに自分の力を見せつけることはなかった。
+48 
+49 いろんなことに我慢できなくなり、
+50 あてつけるようにリーリャを犯し、逃げた。
+51 元より狙っていたのもあるが、あいつら全員が大切にしているものを踏みにじってやりたかった。
+52 奴らはオレが逃げた翌日から、血眼でオレを探しまわった。
+53 オレは奴らをあざ笑うように国外に逃亡した。
+54 
+55 思えば、オレもガキだったな。
+56 兄弟子たちの事はどうでもいいが、
+57 リーリャには、悪いことをしたと思っている。
+58 
+59 「……ん」
+60 
+61 風が吹いた。
+62 目にゴミが入り、顔をしかめる。
+63 と、オレの裾を引っ張る者がいた。
+64 
+65 「おとうさん……ここ、どこ……？」
+66 「うん？」
+67 
+68 気づけば、ノルンを胸に抱いていた。
+69 彼女は不安げな顔でオレを見ている。
+70 
+71 そこでようやく、
+72 俺は部屋着のまま、草原に立っている事に気付いた。
+73 足の裏には、ハッキリとした地面の感覚。
+74 ノルンの温もり。
+75 これは夢ではない。
+76 
+77 「……なんだこりゃ？」
+78 
+79 自分がなぜ、ここにいるのかわからない。
+80 一人なら、最後まで夢だと思っただろう。
+81 だが、胸にはノルンがいる。
+82 三年前に生まれたばかりのノルン。
+83 小さなノルン。
+84 オレの可愛い娘。
+85 
+86 オレは滅多に娘を抱かない。
+87 厳格な父親を目指しているため、肉体的な接触を避けているのだ。
+88 そんなオレが、なぜノルンを抱いているのか……。
+89 
+90 ……そうだ。
+91 思い出した。
+92 
+93 そう、先ほどまで、家でゼニス達と話をしていたのだ。
+94 他愛のない話だった。
+95 
+96 『娘は大きくなると父親との接触を嫌がるようになるから、今のうちに抱いておいた方がいいわよ』
+97 『いやいや、オレは威厳のある父親を目指そうと思っている。
+98 ルーデウスと違ってノルンは平凡なようだし、
+99 ここは偉大な父親と認識してもらわなければ』
+100 『それって、嫌いだった御義父さんと一緒なんじゃないの？』
+101 『……そうだな、じゃあやっぱり抱かせてくれ』
+102 
+103 そんな会話だ。
+104 
+105 その近くでは、リーリャがアイシャに何かを教えていた。
+106 リーリャはアイシャに英才教育を施すつもりのようだった。
+107 オレはもっと伸び伸びと自由に育てさせるべきだと反対したのだが、
+108 リーリャに鬼気迫る様子で、押し切られたのだ。
+109 
+110 アイシャは成長が早かった。
+111 何かを教えればすぐに覚えたし、歩き出すのも早かった。
+112 リーリャの教育がよかったのかもしれないが、
+113 ノルンが知恵遅れなのかと不安になるぐらい、優秀だった。
+114 リーリャは「ルーデウス様ほどではありません。ノルンお嬢様ぐらいが普通です」と言っていた。
+115 普通でも異常でもどちらでもいいのだが、
+116 将来、優秀な兄と妹に挟まれるノルンを思うと、少しだけ不憫だ。
+117 
+118 そう。
+119 その時だ。
+120 唐突に。
+121 白い光に包まれたのだ。
+122 
+123 ああ、覚えている。
+124 記憶は連続している。
+125 
+126 それが証拠に、ノルンが胸に抱かれている。
+127 もうとっくに歩けるノルンを、胸に抱いている。
+128 
+129 ……何かが起こったらしいと、瞬時に悟った。
+130 
+131 「……おとうさん？」
+132 
+133 オレの顔を見て、ノルンが不安そうな声を上げた。
+134 
+135 「大丈夫だ」
+136 
+137 オレはノルンの頭を優しく撫でた。
+138 そして、周囲を見渡す。
+139 ゼニスとリーリャの姿がない。
+140 
+141 近くにいるのか、それともオレだけが飛ばされたのか。
+142 ノルンが一緒にいる。
+143 何故だ。
+144 
+145 ……覚えがある。
+146 迷宮で一度だけ引っかかった事のある凶悪な罠。
+147 転移(テレポート)の魔法陣に乗ってしまった時と似ている。
+148 当時は運よく近くに転移したが、
+149 つい裾を掴んでしまったエリナリーゼが本気で怒っていた。
+150 運が悪ければ即死する罠だ。
+151 引っかかったのは斥候のサルが発見できなかったのが全部悪いのだが……。
+152 そんな話はどうでもいい。
+153 
+154 つまる所、転移とは接触している相手だけを瞬時に移動させるのだ。
+155 だから、ノルンがオレについてきた。
+156 
+157 しかし、どうして。
+158 何故そんな事が起きたのか。
+159 
+160 唐突すぎる。
+161 誰の仕業か。
+162 オレは各地に敵がいる。誰に何をされても不思議はない。
+163 
+164 だが、転移。
+165 転移となると話は別だ。
+166 転移魔術をするための詠唱は無い。
+167 ゆえに魔法陣か魔力付与品(マジックアイテム)を使わなければならない。
+168 転移の魔力付与品(マジックアイテム)は世界的に見ても禁制品。
+169 転移の魔法陣の技術は禁術として指定され、失われて久しい。
+170 
+171 オレ一人に復讐するのに、なぜそんな危険な橋を渡る必要があるのか。
+172 そして、なぜこんな、何もない場所に飛ばす必要がある。
+173 
+174 まさか。
+175 当時の門弟の一人が犯人か？
+176 あの時の事を覚えていて、
+177 リーリャを手に入れるために、オレを転移させた。
+178 この場所なのは、あてつけだ。
+179 家に帰ったら、ゼニスとリーリャが野卑な男どもに犯されているのかもしれない。
+180 くそっ、奴らの考えそうな事だ。
+181 
+182 「ねぇ、おとうさん」
+183 「ノルン。大丈夫だ、すぐに家に帰ろう」
+184 
+185 オレはむしろ自分に言い聞かせるように言って、町に向かった。
+186 
+187 幸いにして、何かあった時のために、
+188 アスラ金貨を剣の鞘のホルダーに忍ばせてある。
+189 冒険者時代の癖もあり、剣は常に身に着けている。
+190 寝る時だって外しはしない。
+191 外すのは女を抱く時だけだ。
+192 
+193 鞘のホルダーには冒険者カードも付けている。
+194 こんな時のために、だ。
+195 
+196 オレは冒険者ギルドに赴いて両替。
+197 銀貨９枚と大銅貨８枚。
+198 いつのまにか手数料が上がっていた。
+199 だが、これだけあれば十分だ。
+200 
+201 冒険者ギルドの依頼をサッと確認し、
+202 緊急の配達依頼があったので、それを受諾する。
+203 受付嬢は、更新が途絶えて文字の消えたカードに魔力を通し、
+204 そこに書いてあるランクがSであることを確かめ、驚いていた。
+205 そして、Sランク冒険者がなぜこんなクエストを、と驚いていた。
+206 緊急依頼であるためランクに関係なく受けられるが、本来ならEランクの依頼だ。
+207 別に隠す事もないのだが、説明するのも面倒なので適当に言葉を濁しておく。
+208 
+209 銀貨一枚で手早く準備を整える。
+210 旅支度なんてしたのは何年ぶりか。
+211 久しぶりだが、必要なものはわかっている。
+212 すぐに終わった。
+213 
+214 そして、冒険者ギルドより馬を借りる。
+215 緊急の配達依頼があってよかった。
+216 Sランクの特典により、馬を無償で借りる事ができる。
+217 無論、依頼達成と同時に返さなければいけないが。
+218 
+219 今回、配達依頼とは別方向に行く。
+220 依頼人には悪いと思うが、オレも緊急だ。
+221 
+222 連れられてきた馬は、かなりの名馬だった。
+223 運がいい。それだけ緊急という事だろう。
+224 これは、冒険者資格が剥奪される可能性もあるな。
+225 だが、それならそれでいい。
+226 もう冒険者として生きていくつもりもないからな。
+227 
+228 ノルンを馬に乗せ、オレも後ろに飛び乗る。
+229 そして、すぐに町を発った。
+230 
+231 ---
+232 
+233 途中でノルンが体調を崩した。
+234 急ぎすぎたのだ。
+235 
+236 乗馬の経験のないノルンは、
+237 昼夜を問わず移動し続けるには、まだ子供すぎた。
+238 
+239 その看病に時間を取られ、
+240 フィットア領にたどり着いた時には、２ヶ月は掛かっていた。
+241 最初から馬車を使っておけば、と思う日数だ。
+242 配達依頼はとっくの昔に失敗になっている。
+243 罰金は大した金額ではない。
+244 
+245 だが、オレは絶望していた。
+246 ブエナ村にたどり着く前に。
+247 事の重大さが分かったからだ。
+248 
+249 フィットア領が消滅していた。
+250 
+251 オレは混乱の極地にあった。
+252 何が起こったのか。
+253 ブエナ村はどこにいったのか。
+254 ゼニスは？
+255 リーリャは？
+256 城塞都市ロアも消滅している。
+257 となると、ルーデウスもいないのか？
+258 
+259 馬鹿な……。
+260 オレは知らずに、地面に膝をついていた。
+261 
+262 『転移の罠で全滅』
+263 
+264 そんな単語が、オレの脳内に渦巻いた。
+265 冒険者時代。
+266 迷宮に潜るようになってから、何度も耳にした。
+267 一番気をつけなければいけない罠は転移だと。
+268 パーティはバラバラになり、現在位置もわからなくなる。
+269 絶対に引っかかってはいけない罠の一つ。
+270 
+271 当時、そんな罠で全滅したパーティの話は何度も聞いた。
+272 パーティ全員で魔法陣に引っかかり、
+273 なんとか一人と合流して入り口まで戻ってくる。
+274 すると、自分たち以外のパーティが全滅していた。
+275 そんな話を、呆然とした顔でつぶやく男は何度も見た。
+276 
+277 だが、まさか、
+278 こんな所で、
+279 自分が……。
+280 
+281 「おとうさん……おうち、まだなの？」
+282 
+283 そんな言葉で、オレはハッと我に返った。
+284 オレの服の裾を掴んだ、三才になる娘がいた。
+285 
+286 オレは無言で、ノルンを抱きしめた。
+287 
+288 「おとうさん？  どうしたの？」
+289 
+290 そうだ。
+291 オレはおとうさん。
+292 父親だ。
+293 娘は、まだ何が起こったのかわかっていない。
+294 だが、オレがいるから、安心している。
+295 
+296 オレは父親だ。
+297 父親なのだ。
+298 
+299 弱みを見せてはいけない。
+300 毅然とした態度でいなければならない。
+301 
+302 そうだとも。
+303 転移は確かに恐ろしい罠だ。
+304 なぜそんな事態になったのかはわからない。
+305 だが、オレは生きていた。
+306 ゼニスだって元冒険者だ。
+307 リーリャだって、後遺症はあるものの、剣を使える。
+308 
+309 アイシャは……。
+310 思い出せ、あの時、あの瞬間、
+311 リーリャはアイシャと接触していたか？
+312 ……思い出せん。
+313 
+314 いや、諦めるな。
+315 あの時、リーリャはアイシャの手を握っていた。
+316 今はとりあえず、そう考えよう。
+317 
+318 ---
+319 
+320 最寄りの町で馬を返し、情報を集めてみる。
+321 
+322 転移の災害はフィットア領全土で起こった。
+323 フィリップもサウロスも行方不明。
+324 現在はフィリップの兄弟が領主になっている。
+325 だが、フィリップの兄弟は災害の責任を取らされ、今にも失脚しそうである。
+326 自分の保身に走るあまり、災害に対する手が打てていないらしい。
+327 領民を守ることより、まず保身。
+328 これだからアスラ貴族は気に食わない。
+329 
+330 情報を集めている中、
+331 アルフォンスという老人が接触してきた。
+332 彼はフィリップに仕えていた執事の一人だという。
+333 
+334 グレイラット家に忠誠を誓っていた彼は、
+335 こんな状況になろうとも己の意志を変えなかった。
+336 自分の財産を使い、難民キャンプの設営を開始していたのだ。
+337 
+338 アルフォンスは、オレにその手伝いをしてほしいと接触してきた。
+339 なぜオレを、と聞くと、フィリップからオレの話を聞いていたらしい。
+340 フィリップ曰く、
+341 『いざという時に力を発揮する人物だが、先を見通す力はないので、自分のミスでいざという時を作り出す危うい人物だ』
+342 という事らしい。
+343 余計なお世話だ。
+344 
+345 アルフォンスとしては、低評価なオレに接触するのは迷ったらしい。
+346 だが、ルーデウスの父親であることを加味し、協力を仰いだという話だった。
+347 手紙で近況を聞いていただけだが、息子があまり接触していないであろうこの執事にも評価されていた事を嬉しく思う。
+348 オレは快く承諾し、アルフォンスの指示に従った。
+349 
+350 そうして一ヶ月。
+351 アルフォンスは顔が広く、
+352 各所に手を回して人材を集め、難民キャンプを立ち上げた。
+353 見事な手腕だった。
+354 
+355 オレは集まってきた若者を集め、「フィットア領捜索団」を組織した。
+356 各地に転移し、難民と化した人々を救うのだ。
+357 もっとも、オレの目的は見ず知らずの他人を助けることではない。
+358 家族を探すことだ。
+359 その頃には、王都の方でも権力争いに決着がついたのか、
+360 復興資金がアルフォンスに送られるようになっていた。
+361 
+362 難民キャンプにメモを残し、
+363 冒険者ギルドの本部があるミリス神聖国を目指す。
+364 アスラとミリス、この二つを抑えておけば、どちらかには情報がはいるだろう。
+365 そういう判断だ。
+366 
+367 なに、全員すぐに見つかる。
+368 と、その時は思っていた。
+369 浅はかだった。
+370 
+371 ---
+372 
+373 ミリスで活動し、半年の時間が流れた。
+374 かなりの人間がミリス大陸へと転移していた。
+375 
+376 オレはそれを全員、片っ端から救助した。
+377 中には奴隷として売られた者もいた。
+378 全員、救うことにした。
+379 
+380 奴隷を無理やり解放するというのは、ミリスの法律に触れる所である。
+381 だが、ゼニスやリーリャがもし奴隷になっていたら。
+382 そう考えると、犯罪だからと躊躇する理由にはならなかった。
+383 全員救う。
+384 その姿勢を保つのだ。
+385 そうすれば、誰がどんな状況でも、大義名分が立つ。
+386 助けないという前例は作らない。
+387 
+388 そう考え、ゼニスの実家に頼った。
+389 ゼニスの実家はミリスでは力ある貴族であり、
+390 何人もの優秀な騎士を排出してきた名門である。
+391 彼らに頼り、奴隷を解放するための下地を作った。
+392 
+393 難民救助は順調だった。
+394 動きが早かったおかげか、難民として困窮している人々はすぐに見つかった。
+395 ミリスには大量の人々が転移していた。
+396 彼らを助け、
+397 自分の足で帰るという者には旅費を、
+398 捜索を手伝うという者は捜索団に迎え入れ、
+399 老人や子供には住む場所を提供した。
+400 奴隷は金で片がつくなら金で、
+401 片が付かないならゼニスの実家の権力で、
+402 それでもダメなら、隙を見て攫って身柄を隠した。
+403 
+404 もちろん、問題は起きた。
+405 無理矢理に奴隷を奪うオレたちをミリス貴族たちは疎ましく思い、
+406 私兵を引き連れてオレを強襲する貴族もいた。
+407 そのせいで、死ぬ団員も出た。
+408 だが、オレは止まらなかった。
+409 オレには大義名分があった。
+410 人々を救うという大義名分が。
+411 だから団員たちも付いてきた。
+412 オレはアスラの上級貴族グレイラット家の名前、
+413 ゼニスの実家、かつての冒険者としての名声、
+414 あらゆるものを使って問題を解決した。
+415 
+416 しかし、一向に、まったく、全然、ゼニスとリーリャの情報は入って来なかった。
+417 それどころか、ルーデウスもだ。
+418 あの、どこにいても目立ちそうな息子の情報すら、一切入ってこないのだ。
+419 
+420 ---
+421 
+422 一年が経過してしまった。
+423 あっという間に一年だ。
+424 
+425 この頃になると、もう難民の発見報告もかなりナリを潜めた。
+426 中央大陸南部とミリス大陸で見つけられる相手は、大体見つけたと言えよう。
+427 まだいくつか探していない村はあるし、
+428 まだ何人か、奴隷を手放さない奴らがいる。
+429 
+430 その程度だ。
+431 奴隷の解放は計画的に進んでいる。
+432 身柄を確保してしまえばこちらのものだ。
+433 強引であることは承知している。
+434 一部の貴族連中に唾棄され、眼をつけられている事も理解している。
+435 それで団員が襲われ、死亡したり大怪我をした事もあった。
+436 団員達の中には、その事でオレを責める奴もいた。
+437 あんたがもっとうまくやってりゃ、こんな事にはならなかったんだ、と。
+438 何を言われても、オレの行動は変わらない。
+439 今更変えるわけにはいかないのだ。
+440 
+441 最近、難民の発見報告より、死亡報告が多く上がってくる。
+442 いや、最近などというのは曖昧か。
+443 最初から死亡報告は多かったのだ。
+444 はっきり言って、生存者より死亡者の方が圧倒的に多い。
+445 エト、クロエ、ロールズ、ボニー、レーン、マリオン、モンティ……。
+446 知り合いの死亡報告を聞く度に、オレの背筋がヒヤリと冷えた。
+447 
+448 報告を受けて泣き崩れる者もいた。
+449 あと一歩間に合わず、死亡したというケースもあった。
+450 オレに食って掛かる者もいた。
+451 なんでもっと早くあの場所を探してくれなかったんだ、と。
+452 その度に、やるせない気持ちになった。
+453 
+454 そして、時が流れれば流れるほど、
+455 死亡報告すらも曖昧になっていった。
+456 死んだかもしれない。
+457 そういう風体の奴が死体になっているのを見たかもしれない。
+458 森の奥で、そいつの持っていた何かを見たかもしれない。
+459 実際に赴いてみると、徒労である事も多かった。
+460 
+461 そして、オレの家族に関する情報は、未だ一切入ってこない。
+462 
+463 失敗したかもしれないと思った。
+464 魔大陸や中央大陸の北部を先に探すべきだったのかもしれない。
+465 奴隷になった所で、命まで奪われるわけではないのだ。
+466 後回しにできるものは後回しにして、
+467 まずは危険な場所を探すべきだったのではないか、と。
+468 
+469 いや、無理だ。
+470 捜索団のメンバーは戦いに優れているわけではない。
+471 大半が元は農民や町民だ。
+472 冒険者もいるが、数は少ないし、アスラ王国で活動していたような冒険者で、オレに言わせりゃ駆け出しもいい所だ。
+473 そんなメンツでは、魔大陸や中央大陸北部、ベガリット大陸では、戦闘に耐えられない。
+474 自分たちが遭難しかねない。
+475 
+476 だから間違ってなかったと思う。
+477 おかげで、数千人単位で難民を救うことができた。
+478 
+479 あるいは『黒狼の牙』の連中がいてくれれば、
+480 魔大陸やベガリット大陸も捜索してくれるだろう。
+481 だが、連絡を取ってきたのは一人だけだった。
+482 
+483 その一人も、一度連絡を取ってから、フラリとどこかにいなくなり、
+484 今では何をやっているのかサッパリわからない。
+485 
+486 薄情な連中だとは思わない。
+487 もともと仲は悪かったし、別れ際にも大喧嘩をした。
+488 最悪な別れだった。
+489 全員がオレを恨んでいてもおかしくはない。
+490 なぜ、昔のオレはあんな別れ方をしたのか。
+491 知っている、ガキだったからだ。
+492 とはいえ、後悔しても始まらない。
+493 
+494 ---
+495 
+496 一年半が経過した。
+497 このごろ、酒を飲む量が増えた。
+498 酒に頼らなければやってられなくなってきた。
+499 
+500 朝から晩まで飲んでいる。
+501 素面の時なんて無い。
+502 
+503 こんな事ではいけない、と思いつつも、
+504 酔いが覚めると、どうしてもダメだった。
+505 家族が死んだと考えてしまう。
+506 どんな死に様だったのか、死体はどうなったのか。
+507 そんなことばかりを考えてしまう。
+508 なにせ、あの優秀な息子ですら、音沙汰の一つもないのだ。
+509 
+510 考えたくはない。
+511 考えたくはないが、恐らく、
+512 生きてはいまい。
+513 
+514 きっと、みんな、この一年半の間に、
+515 オレの助けを待ち、泣きながら死んでいったのだ。
+516 そう考え、発狂しそうになった。
+517 なぜオレはこんな所にいるのか。
+518 他者のことなどかなぐり捨てて、最初から危険な場所を探していればよかった。
+519 最悪、オレ一人でもなんとかなったのだ。
+520 
+521 選択ミスで、すぐそばにあったものが失われた。
+522 一番大切なものが、無残にも奪われた。
+523 それを信じたくなくて、オレは酒を飲む。
+524 酔っ払っている時だけが、幸せだった。
+525 
+526 仕事はまったく手に付かなかった。
+527 半年後、ミリス大陸で見つかった人々をフィットア領へと返す作戦が始まる。
+528 老人や女子供、あるいは病気で動けない人間ばかりだ。
+529 金があっても長旅に耐えられるかわからない人々。
+530 しかし故郷へと帰りたいと願う者達。
+531 彼らを護衛しつつ、フィットア領へと戻るのだ。
+532 その計画が進んでいる中、オレは責任者であるにもかかわらず、会議にも参加せず、一日中飲んだくれていた。
+533 
+534 オレを含めた主要メンバーはミリスに残るが、その作戦を最後に、捜索活動は縮小される。
+535 二年。
+536 たった二年で捜索が打ち切りなのだ。
+537 早すぎると思うが、こんなものだと納得している自分もいる。
+538 これ以上捜索を続けても、無駄に資金を浪費していくだけだ。
+539 
+540 結局、俺は家族の一人も見つけることが出来なかった。
+541 ダメな男だ。
+542 どうしてオレはこんなにダメなんだ。
+543 いつまでたっても大人になれない。
+544 
+545 酒浸りになるオレに、団員たちは一歩距離をおいている。
+546 当然だ。
+547 誰だって、こんな酒浸りのバカを相手にしたくない。
+548 
+549 もっとも、例外は何人かいる。
+550 そのうちの一人が、ノルンだ。
+551 
+552 「おとうさん！  あのね、さっきね、道でね！  おっきな人がね！」
+553 
+554 オレがどれだけ酔っ払っていても、
+555 ノルンは嬉しそうに話しかけてきてくれる。
+556 
+557 ノルン。
+558 ノルンはオレにとって、最後の家族だ。
+559 一番大切なものだ。
+560 オレには、もうノルンしかいない。
+561 
+562 そうだ。
+563 魔大陸やベガリット大陸に行かなかったのだって、
+564 ノルンの存在があったからだ。
+565 当時まだ４歳だった娘を、どうして放り出せよう。
+566 どうして彼女を置き去りにし、自分が死ぬかもしれない危険な場所へと赴けようか。
+567 
+568 「おお？  どうしたノルン。何か面白い事でもあったのか？」
+569 「うん！  さっき道で転びそうになったら、ハゲ頭の人が助けてくれたの！
+570 それでね、コレ！  もらったの！」
+571 
+572 ノルンはそう言って、嬉しそうに手の中のものを見せてくれた。
+573 りんごだった。
+574 真っ赤なりんごだ。
+575 実に美味しそうな色をしている。
+576 
+577 「そうか、それはよかったな。ちゃんとお礼は言ったか？」
+578 「うん！  ありがとうって言ったら、ハゲのおじさんは頭を撫でてくれたの！」
+579 「そうかそうか。いい人だな。でも、ハゲって言っちゃダメだぞ、気にしてるかもしれないからな」
+580 
+581 娘との会話はいつも楽しい。
+582 ノルンはオレの宝だ。
+583 もしノルンに手を出すような輩がいたら、
+584 それがミリス教団の法王でも喧嘩を売る覚悟がある。
+585 
+586 と、そんな事を思っていた時だ。
+587 
+588 「団長！  大変です！」
+589 
+590 団員の一人が、オレの部屋に飛び込んできた。
+591 娘との会話を中断され、俺は少し不機嫌になる。
+592 いつもなら、怒鳴り散らして追い返す所だろう。
+593 が、娘の手前、くだらないプライドが、俺を冷静にさせた。
+594 
+595 「どうした？」
+596 「仕事に行ってた奴らが襲われたんだ！」
+597 「襲われただぁ？」
+598 
+599 襲われた。
+600 誰に？
+601 決まってる、あのくだらない貴族連中だ。
+602 アスラ王国の領民が災害によって奴隷に落ちたのだと説明しても、
+603 決して身柄を離そうとしなかった、強欲な連中だ。
+604 確か今日は、そのうちの一人を救出するという話だったか。
+605 
+606 「よし、全員、装備つけろ！  いくぞ！」
+607 
+608 取る物もとりあえず、荒事用の団員に声を掛ける。
+609 大して強い連中ではないが、相手だって迷宮に潜るような冒険者ではない。
+610 十分互角に戦える。
+611 
+612 そして、そいつらを引き連れ、
+613 問題が起きたとされる場所へと向かう。
+614 
+615 すぐ近く、というか隣だった。
+616 捜索団の倉庫の一つで、団員の衣料品などを保管している場所だ。
+617 ここを嗅ぎつけられたのか。
+618 まずいな。
+619 拠点を変える必要があるかもしれない。
+620 
+621 「パウロさん、敵が一人だが、強い。気をつけてくれ」
+622 「……剣を使うのか？」
+623 「いや、魔術師だ。多分ガキだが、顔を隠している」
+624 
+625 魔術師のガキ……。
+626 それも、素人とはいえ、大の大人を団員を何人も倒しうる相手。
+627 恐らくは小人族だろう。
+628 奴らは子供のような見た目で、平気で他人を騙す。
+629 
+630 小人族の手練れ。
+631 酔っていて、勝てるだろうか。
+632 そこらのチンピラに負けない自信はあるが……。
+633 いや、問題ない。
+634 やりようはいくらでもある。
+635 
+636 そう思い、俺は倉庫へと入った。-----------ENGLISH--------------- 1: Paul 1.5 Years Earlier
+2: 
+3: 
+4: 
+5:  
+6: 
+7:  Part 1
+8: 
+9:  --Paul's Perspective--
+10: 
+11:  When I woke up, I had realized I was in the middle of a meadow in a grassland.
+12: 
+13:  It was a grassland.
+14: 
+15:  There were no other words to describe it other than 'grassland'.
+16: 
+17:  It was nothing more than a completely ordinary piece of grassland with nothing particular about it, but strangely, it had about a sense of familiarity.
+18: 
+19:  I spent a few minutes trying to figure out where this was.
+20: 
+21:  I remembered.
+22: 
+23:  This was the southern part of Asura Kingdom.
+24: 
+25:  It's near the town I once stayed in.
+26: 
+27:  During that time, I was learning the Water God Style swordsmanship in the town.
+28: 
+29:  In other words, it was close to Lilia's home.
+30: 
+31:  I thought this was a dream. It was only natural to think so.
+32: 
+33:  Even so, it was quite the nostalgic place.
+34: 
+35:  How many years did I live here? One year, or was it two?
+36: 
+37:  I only remembered that it was not a very long time.
+38: 
+39:  My memories mostly only included those of the dojo. I remembered the senior disciple.
+40: 
+41:  He was a despicable guy.
+42: 
+43:  A person who only knew how to run off his mouth.
+44: 
+45:  He was a bastard who fiercely drummed the threat into my head that it was not my right to go beyond him once he saw my talent.
+46: 
+47:  I hate those type of senior-junior and superior-inferior relationships.
+48: 
+49:  I had run away from home because I had to hold my head down to my father as well.
+50: 
+51:  Still, my father was better compared to him. How do I explain this, it was because he possessed power.
+52: 
+53:  However, that senior of mine did not possess any power at all.
+54: 
+55:  He was merely a small fry that had developed immense narcissism by running off his mouth.
+56: 
+57:  When I had trained to reach the intermediate level, that guy was still hanging around at the end of the elementary level.
+58: 
+59:  That was a guy of low caliber.
+60: 
+61:  Even within the main dojo, that was their best of the senior Water God Style swordsmen.
+62: 
+63:  They just kept coming up with different excuses with how their lack of competence was caused by this or that.
+64: 
+65:  I had thought that someday I would show the true strength of my power to those guys.
+66: 
+67:  Although, at the very end, I wasn't able to show that guy my own strength at all.
+68: 
+69:  There were many things I wasn't able to put up with. Like the crime I had committed against Lilia, so I ran away.
+70: 
+71:  I had more or less aimed at this from the beginning, the fact that I had wanted to trample on what was considered precious to them.
+72: 
+73:  Those guys started to look for me in a frenzy ever since I fled.
+74: 
+75:  I left the country in order to ridicule them.
+76: 
+77:  When I think back on it, I realized I was a kid back then.
+78: 
+79:  How that senior disciple acted did not matter, the fact was that I did a bad thing to Lilia.
+80: 
+81:  "……nn"
+82: 
+83:  The wind blew.
+84: 
+85:  Dust entered my eyes and I frowned.
+86: 
+87:  Then, the side of the hem of my clothing was pulled.
+88: 
+89:  "Dad…where, is this…?"
+90: 
+91:  "Un?"
+92: 
+93:  Looking closely, Norn was clinging tightly to my chest.
+94: 
+95:  She was looking at me with an anxious face.
+96: 
+97:  So finally, I let go of my house coat, and noticed I was standing on the prairie.
+98: 
+99:  The soles of my feet were feeling the texture of the ground clearly.
+100: 
+101:  The warmth of Norn.
+102: 
+103:  This was not a dream.
+104: 
+105:  "…What's with this?"
+106: 
+107:  I do not understand why I was here.
+108: 
+109:  If I was alone then I would have thought it was a dream to the end.
+110: 
+111:  However, there was Norn clinging to my chest.
+112: 
+113:  Norn born three years ago.
+114: 
+115:  Tiny Norn.
+116: 
+117:  My cute daughter.
+118: 
+119:  I rarely come into contact with my daughters.
+120: 
+121:  Since I was hoping to become a strict father, I usually avoid physical contact with them.
+122: 
+123:  So why would I be embracing Norn…?
+124: 
+125:  …Oh right.
+126: 
+127:  I remember.
+128: 
+129:  Just until awhile ago, I was talking to Zenith at home.
+130: 
+131:  It was just a talk about nothing special.
+132: 
+133:  "As our daughters grow bigger, they'll start to resist contact with their father, so it's alright for you to stop holding back, just for now."
+134: 
+135:  "No, no, I am aiming to become a dignified father. Unlike Rudeus, Norn seems to be more mundane, so I'll have to be more aware of how I act as a father now."
+136: 
+137:  "So it's not like you dislike her after all then."
+138: 
+139:  "…Yeah, then I'll hug her after all… "
+140: 
+141:  It was such a conversation.
+142: 
+143:  Nearby, Lilia was teaching Aisha something.
+144: 
+145:  Lilia was going to let Aisha go through specialized education.
+146: 
+147:  I opposed her saying that we should let them grow more freely but I was strongly overpowered by Lilia.
+148: 
+149:  Aisha was growing quickly.
+150: 
+151:  Anything taught was memorized immediately, just as how she also learned how to walk quite fast.
+152: 
+153:  So.
+154: 
+155:  It was at that time that, abruptly, I was wrapped in a bright light.
+156: 
+157:  Oh, I remembered.
+158: 
+159:  The memory continued.
+160: 
+161:  ……That something seems to have happened, I instantaneously realized it.
+162: 
+163:  "……Dad?"
+164: 
+165:  Norn raised her anxious voice as she looks at my face.
+166: 
+167:  "It's all right."
+168: 
+169:  I gently stroked Norn's head.
+170: 
+171:  Then I looked over my surroundings.
+172: 
+173:  There were no signs of Lilia or Zenith.
+174: 
+175:  Whether they were nearby, or if I was the only one blown away, Norn was together with me.
+176: 
+177:  Why I wonder?
+178: 
+179:  …I remember.
+180: 
+181:  In the labyrinths, there was one time where I was caught in some atrocious trap.
+182: 
+183:  It seems to have been some sort of teleportation magic that we had triggered.
+184: 
+185:  It was lucky of me that I had been transported to somewhere close at that time.
+186: 
+187:  Elinalise at that time had grabbed onto the hem of my clothes and was fuming.
+188: 
+189:  It was the sort of trap that spells instant death if you were unlucky.
+190: 
+191:  The monkey scout that had been caught up in the trap was never found… Such a story doesn't matter.
+192: 
+193:  In summary, only the person that was in contact with you during that instant would get teleported with you.
+194: 
+195:  This was why Norn was with me.
+196: 
+197:  However, why?
+198: 
+199:  Why has such a thing happened?
+200: 
+201:  It's way too abrupt.
+202: 
+203:  Whose handiwork was this?
+204: 
+205:  There were many enemies around me.
+206: 
+207:  It wouldn't be strange for whoever it was to do it.
+208: 
+209:  However, this was teleportation.
+210: 
+211:  Teleportation is another story.
+212: 
+213:  There was no casting used for the teleportation magic.
+214: 
+215:  Therefore, items imbued with magic or magic products were used.
+216: 
+217:  Teleportation-imbued magic items were considered to be illegal no matter where in the world.
+218: 
+219:  The magic for teleportation was designated as a forbidden technique and has become long lost.
+220: 
+221:  In order to take revenge on me, a single person, why was there a need to go through such lengths, through such a dangerous path?
+222: 
+223:  Also, how come the place I was transported to was such a barren field?
+224: 
+225:  No way.
+226: 
+227:  A disciple of the dojo was one of the culprits involved?
+228: 
+229:  A thought suddenly surfaced in my mind.
+230: 
+231:  In order to get to Lilia, they had me moved.
+232: 
+233:  This place I was at was supposed to be a hint.
+234: 
+235:  By the time I return home, Lilia and Zenith might have already been sullied by a vulgar man.
+236: 
+237:  Damn it, it seems to be an idea they would come up with.
+238: 
+239:  "Hey, father."
+240: 
+241:  "Norn, it's alright. We'll return home immediately."
+242: 
+243:  As I kept murmuring that to myself, we headed towards the town.
+244: 
+245:  Fortunately, in case where something were to happen, Asura gold coins were concealed inside the sheathe of the sword.
+246: 
+247:  The sword was to always be worn at all times, which was a habit formed from my time as an adventurer.
+248: 
+249:  It was not to be removed even when sleeping.
+250: 
+251:  The only time it could be allowed to be removed was when feeling up a woman.
+252: 
+253:  The adventurers' card was also placed within the sheathe.
+254: 
+255:  It was for times like these.
+256: 
+257:  I went to the Adventurers Guild in order to exchange the money.
+258: 
+259:  Eight large copper coins and nine pieces of silver.
+260: 
+261:  The commission fee was raised before I knew it.
+262: 
+263:  Although this amount was plenty enough.
+264: 
+265:  A quick check around the Adventurers Guild request board was made, and since there was a request for an urgent delivery, I immediately accepted it.
+266: 
+267:  The lady at the reception desk updated the magical power to the adventurer card along with the accepted request.
+268: 
+269:  After realizing the rank written on the card was S, she showed a surprised face.
+270: 
+271:  The reason as to why she was shocked was not because S rank adventurers were rare but rather the fact that I had accepted such a quest.
+272: 
+273:  Usually, such delivery quests can be accepted regardless of rank because of the urgency but it's still commonly considered as an E rank request.
+274: 
+275:  Usually, I would not bother hiding the reason behind it but explaining it was troublesome so I didn't.
+276: 
+277:  I readily held out one silver coin.
+278: 
+279:  How many years had it been since I prepared for traveling?
+280: 
+281:  It's been a long time but I still remembered clearly what was needed.
+282: 
+283:  The preparations were finished in no time.
+284: 
+285:  I had also rented out a horse from the Adventurers Guild.
+286: 
+287:  I'm glad that there was a request for urgent delivery.
+288: 
+289:  Of the many benefits of the S rank, renting out a free horse on such a request was one of them.
+290: 
+291:  Of course, that didn't necessarily mean that I was going to return it immediately once the request was finished.
+292: 
+293:  This time, I headed out in a different direction from the delivery.
+294: 
+295:  I feel bad for the client, but I'm also in an emergency.
+296: 
+297:  These horses that have been bought were definitely good ones for sure.
+298: 
+299:  My luck was good.
+300: 
+301:  This just goes to show how much of an emergency it was.
+302: 
+303:  There could possibly be a chance of having my adventurer's status revoked for taking advantage of its benefits, but so be it.
+304: 
+305:  I had not intended to continue living on as an adventurer in the first place.
+306: 
+307:  Norn was placed on top of the horse and I jumped onto its back.
+308: 
+309:  Immediately, we set off from the town.
+310: 
+311:  Part 2
+312: 
+313:  Norn became sick on the way.
+314: 
+315:  I was in too much of a hurry.
+316: 
+317:  Norn had absolutely no experience riding, even more so to have to continue moving throughout the day and night, even when she's still just a child.
+318: 
+319:  Extra time was taken to nurse Norn, and so by the time we reached the Fedoa region, two months had already passed.
+320: 
+321:  This was the number of days that it would've taken it if I had used the horse-drawn carriage in the first place.
+322: 
+323:  Therefore, the delivery request had already been failed long ago.
+324: 
+325:  The fine was not a big deal though.
+326: 
+327:  Though, I was in despair.
+328: 
+329:  Before we reached the village of Buina, I had already realized the gravity of the situation.
+330: 
+331:  The entire Fedoa region had disappeared.
+332: 
+333:  I had sunk in to the polar regions of confusion.
+334: 
+335:  What had happened?
+336: 
+337:  Where's the Buina village that I had known?
+338: 
+339:  Zenith?
+340: 
+341:  Lilia?
+342: 
+343:  The walled city of Roa was not there anymore either.
+344: 
+345:  Then, wouldn't that mean that Rudeus was gone as well?
+346: 
+347:  Stupid…
+348: 
+349:  Unknowingly, I had my knees fall onto the ground.
+350: 
+351:  "Annihilation from the Teleportation trap."
+352: 
+353:  Such words swirled inside my head.
+354: 
+355:  The adventurer era.
+356: 
+357:  I had heard many times about labyrinths, that the number one trap to be wary of was teleportation traps.
+358: 
+359:  The party will fall apart without even knowing the location of their comrades.
+360: 
+361:  It is one of the absolute worst traps that we shouldn't get caught up in.
+362: 
+363:  I have heard many stories of parties that had been caught up in such a trap and most would end up wiped out.
+364: 
+365:  If any parties were to be caught in such a trap, they should all find their way back to the entrance to rendezvous.
+366: 
+367:  Otherwise, those that were unable to come out would most likely be dead.
+368: 
+369:  Any men who would hear of such a story would end up with a stunned look on their faces.
+370: 
+371:  But, surely.
+372: 
+373:  In such a place like this.
+374: 
+375:  I…
+376: 
+377:  "Dad…we're still not home yet?"
+378: 
+379:  With those words, I returned to reality.
+380: 
+381:  My daughter of a mere three years old, had grabbed onto the hem of my clothes.
+382: 
+383:  I silently hugged Norn.
+384: 
+385:  "Dad? What is it?"
+386: 
+387:  Yes.
+388: 
+389:  I am a dad.
+390: 
+391:  A father.
+392: 
+393:  My daughter still doesn't know what had happened yet.
+394: 
+395:  But, because of me, she can have peace of mind.
+396: 
+397:  I am a dad.
+398: 
+399:  A father.
+400: 
+401:  Do not show any weaknesses.
+402: 
+403:  I must retain a resolute attitude.
+404: 
+405:  It is so.
+406: 
+407:  Teleportation's a terrible trap indeed.
+408: 
+409:  I do not know why we had ended up in such a situation.
+410: 
+411:  But, I am alive.
+412: 
+413:  Zenith was even a former adventurer as well.
+414: 
+415:  Even Lilia, although not as strong as she used to be, could still use a sword.
+416: 
+417:  Aisha…
+418: 
+419:  I remember, at that time, at that moment, Lilia was in contact with Aisha right?
+420: 
+421:  …I can't remember clearly.
+422: 
+423:  No, do not give up.
+424: 
+425:  At that time, Lilia was holding Aisha's hand.
+426: 
+427:  Let us think that is true for now.
+428: 
+429:  Part 3
+430: 
+431:  While returning the borrowed horse to the nearest town, I tried to collect some information.
+432: 
+433:  It seems that the disaster took place throughout the entire Fedoa region.
+434: 
+435:  Sauros and Phillip are both missing, and his brother is the lord now.
+436: 
+437:  But, it doesn't seem that Phillip's brother is going to take responsibility and intervene in the downfall of this disaster at any moment.
+438: 
+439:  They're too concerned about themselves to bother lending a helping hand.
+440: 
+441:  It seems, rather than to protect the people under one's own dominion, he would rather care about himself.
+442: 
+443:  The Asura nobles are absolutely repugnant because of this.
+444: 
+445:  While I was gathering information, an old man named Alphonse made contact with me.
+446: 
+447:  He was the butler that had been serving under Phillip.
+448: 
+449:  He had sworn allegiance towards the Greyrat house.
+450: 
+451:  Even under such a situation, he did not harbor any other selfish thoughts of his own.
+452: 
+453:  He had even used his own property in order to start the construction of refugee camps.
+454: 
+455:  Alphonse had said that he wanted my help. When he heard me ask him [Why me?], he responded saying that he had heard about me from Phillip.
+456: 
+457:  Phillip had said,
+458: 
+459:  "He is a person who puts in effort in the case of an emergency, but since he doesn't have the power to see ahead, he's an unreliable person that gets himself in trouble because of his own mistakes."
+460: 
+461:  The story goes like that. That's none of your business.
+462: 
+463:  Alphonse seemed to have been hesitant whether to attempt to contact me, but considering that I was Rudeus' father, he took up the chance to offer cooperation.
+464: 
+465:  I was just following the conversation but became delighted that Rudeus has been evaluated so highly even by the house butler.
+466: 
+467:  I willingly accepted and followed Alphonse's instructions.
+468: 
+469:  Then one month passed.
+470: 
+471:  Alphonse continuously borrows and collects volunteers as well as funds from various kinds of places while using them to expand the refugee camp.
+472: 
+473:  What superb ability.
+474: 
+475:  I, on the other hand, find and gather the lost people to the refugee camps while establishing and organizing the "Fedoa region's Search Group".
+476: 
+477:  The network had spread to all places, trying to save those that had turned into refugees.
+478: 
+479:  However, my purpose was not to save strangers, but to help to find my family.
+480: 
+481:  By that time, the power attained over the place was large enough to be compared to a king and Alphonse was gaining steady funds for the reconstruction of the camps.
+482: 
+483:  I left a note in the refugee camps, saying I was aiming for and heading to the Holy Milis Kingdom's headquarters, the Adventurers Guild.
+484: 
+485:  Milis and Asura, if I was able to successfully connect these two then information could easily be obtained between them.
+486: 
+487:  This was the judgment I had made.
+488: 
+489:  Anyone and everyone would easily be found.
+490: 
+491:  That was what I had thought at that time.
+492: 
+493:  I was too naive.
+494: 
+495:  Part 4
+496: 
+497:  Half of a year's time has passed while I was active in Milis.
+498: 
+499:  A considerable number of people had been transported to the Milis Continent.
+500: 
+501:  All of them were rescued, one after another.
+502: 
+503:  Some within the group were sold as slaves.
+504: 
+505:  I had decided to save them all.
+506: 
+507:  It's said that if you were to free slaves by force, you would end up going against the Milis Kingdom's law.
+508: 
+509:  But, Zenith and Lilia could have possibly ended up as slaves as well.
+510: 
+511:  If that were to be the case, then there's no need for any hesitation even if it were to be a crime.
+512: 
+513:  I will save them all.
+514: 
+515:  I kept that sort of attitude.
+516: 
+517:  That way, in any sort of situation, I will remember what am I doing is for a just cause.
+518: 
+519:  I do not allow any sort of precedent or reason to sway my decision.
+520: 
+521:  Thinking about that, I realized that I could rely on Zenith's house.
+522: 
+523:  Zenith's family is a house of powerful nobles in the Milis Kingdom.
+524: 
+525:  Prestigious and known to have bore many excellent knights.
+526: 
+527:  I made a commitment to rely on them.
+528: 
+529:  The refugee rescue was advancing nicely as well.
+530: 
+531:  Thanks to the early start of the movement, many of the people in need of help were found immediately.
+532: 
+533:  Many of those from the Fedoa region had indeed been teleported over to the Milis Continent.
+534: 
+535:  Those that had to go back by foot were given travel expenses in order to assist them.
+536: 
+537:  The elderly and children that the Fedoa Region Search Group had found were provided with a place to rest.
+538: 
+539:  Those that had become slaves also needed gold to purchase back their freedom, along with the power of the Zenith family.
+540: 
+541:  If all else were to fail, then we would resort to looking for a chance to kidnap them back.
+542: 
+543:  Of course, a problem surfaced.
+544: 
+545:  The Milis Kingdom's nobles became aware of the fact that I was the one in charge of the recent disappearance and theft of slaves, and so many sent their own private armies to attack me.
+546: 
+547:  Many members ended up dead because of that, but I did not stop.
+548: 
+549:  What we were doing were justified.
+550: 
+551:  We were right in saving people, and so the search group continued to follow me.
+552: 
+553:  I used the status of a senior noble of the Asura Kingdom's Greyrat family, the house of Zenith and the fact that I was a former Adventurer in order to solve our problems.
+554: 
+555:  However, not even one single piece of information of Lilia or Zenith came to me.
+556: 
+557:  Not to mention, the same went for Rudeus as well.
+558: 
+559:  That son of mine, wherever he would be, he would still stand out with overflowing information and rumors, but unfortunately, it did not enter my network at all.
+560: 
+561:  Part 5
+562: 
+563:  One year had passed.
+564: 
+565:  It became a year in no time at all.
+566: 
+567:  At this point in time the reports of discoveries become quite varied and confusing, as well as more infrequent than before.
+568: 
+569:  There are those that were found to be roughly in the middle of the Milis continent and the central southern continent.
+570: 
+571:  There are still some villagers who have still not yet been found, and others are still trapped as slaves.
+572: 
+573:  To this degree, the liberation of the slaves was proceeding according to plan.
+574: 
+575:  The first priority is to secure custody of them, even if it required using brute force.
+576: 
+577:  I also realized that this is an abomination to many of the nobles, so much so that they can't turn a blind eye towards us.
+578: 
+579:  The situation worsened due to the fact that many of our members were attacked and either killed or seriously injured.
+580: 
+581:  There are even some members who blamed me for it.
+582: 
+583:  We could have done better, not to mention I didn't expect us to be in such a situation.
+584: 
+585:  Even so, my attitude did not change.
+586: 
+587:  It's too late to afford a change.
+588: 
+589:  Recently, more reports of discovery of refugees' deaths have come up.
+590: 
+591:  They weren't that recent or ambiguous.
+592: 
+593:  There have been many death reports since the beginning.
+594: 
+595:  To be frank, the reports of death were more overwhelming than those of survivors.
+596: 
+597:  Eto, Chloe, Rawls, Bonnie, Lane, Marion, Montie…
+598: 
+599:  Every single time I hear the death report of an acquaintance, my spine goes cold.
+600: 
+601:  There were some who broke down from the reports.
+602: 
+603:  There were also those who we were one step behind from preventing their suicide.
+604: 
+605:  There were others who ended up blaming me, asking why didn't I look into that place sooner.
+606: 
+607:  Each and every time, I grew into an even more desolate mood.
+608: 
+609:  Then, as time flows by, even the death reports became ambiguous.
+610: 
+611:  The person might be dead.
+612: 
+613:  A corpse of that looked like that person might have been found.
+614: 
+615:  In the depths of the forest, someone could have seen someone who looks like that person.
+616: 
+617:  When I thought about it more clearly, the actions we have taken have ended up as vain effort for way too many.
+618: 
+619:  Information about my family still did not come up.
+620: 
+621:  I thought that I might have failed.
+622: 
+623:  We should have looked into the magic continent and the northern part of the central continent.
+624: 
+625:  If they had become slaves in those places, then they might still be alive.
+626: 
+627:  What could have been put off should have been put off.
+628: 
+629:  The first choice should have been to search within those dangerous places.
+630: 
+631:  No, impossible.
+632: 
+633:  Most members of the search team were not suited to fighting.
+634: 
+635:  The majority of them were the original town's farmers.
+636: 
+637:  Some of them were adventurers but they were too few in number and of those that I had known, I had sent them to suitable places.
+638: 
+639:  For the rest of the members of the Fedoa Region's Search Group, if they were to be sent to the northern part of the Magic continent, the Central Continent, and the Begaritto Continent, they wouldn't be able to stand in the midst of battle.
+640: 
+641:  Those sent to rescue would need rescuing.
+642: 
+643:  Therefore, my choice was not wrong.
+644: 
+645:  Thanks to the decisions I had made, I was able to save thousands of refugees.
+646: 
+647:  Or perhaps, if I was able to make contact with those of "Fangs of the Black Wolf", I would have been able to search the Begaritto Continent and the Magic Continent as well.
+648: 
+649:  Unfortunately, I was only able to get in touch with a single person.
+650: 
+651:  Also, that one person whom after I had made contact with once, I no longer knew where he was or what he was doing.
+652: 
+653:  I do not think that they were cold-hearted guys.
+654: 
+655:  The relationship between us was bad originally, and I also had a big fight with them during our parting.
+656: 
+657:  It was the worst farewell ever.
+658: 
+659:  It would not be strange even if they were to still have a grudge against me.
+660: 
+661:  Why in the past did I make that kind of farewell?
+662: 
+663:  I know, it was because I was a kid.
+664: 
+665:  That being said, I cannot begin to regret now.
+666: 
+667:  Part 6
+668: 
+669:  A year and a half has passed.
+670: 
+671:  These days, the amount I'm drinking has increased.
+672: 
+673:  It has become a fact that I am unable to do anything unless I resort to alcohol.
+674: 
+675:  I'm drinking from morning till night.
+676: 
+677:  There's no time when I'm sober.
+678: 
+679:  Even while I think I should not be like this when I wake up in the middle of the night, whatever I do becomes completely useless.
+680: 
+681:  I would have thoughts that my family has died.
+682: 
+683:  What was their death like, what became of their corpses?
+684: 
+685:  All I would end up thinking of were such things.
+686: 
+687:  After all, even with that excellent son of mine, I still had not heard of even one thing of him ever since the disaster.
+688: 
+689:  I do not want to think.
+690: 
+691:  I do not want to think, and even possibly consider their deaths.
+692: 
+693:  Surely everyone during this one and a half years was waiting for my help and then ended up dying in tears.
+694: 
+695:  When I think about that, I almost become mad.
+696: 
+697:  Why am I in such a place?
+698: 
+699:  Out of all the possible choices, it would have been best if I had started looking in the most dangerous places.
+700: 
+701:  Even at worst, I alone could have somehow worked it out.
+702: 
+703:  Any mistake in my decisions contributes directly to those who had died, those that could have been saved but weren't.
+704: 
+705:  Those that we hold dear to us, those who were the most important to us, were mercilessly taken away.
+706: 
+707:  Rather than wanting to believe it, I drink away my sorrows.
+708: 
+709:  Only when I was drunk was I happy.
+710: 
+711:  I was unable to do any work at all.
+712: 
+713:  Six months later, the plan to return all of those found in the Milis Continent back to the Fedoa region begins.
+714: 
+715:  I just can't move those who were ill, the women, the children, and the elderly recklessly like that.
+716: 
+717:  There are people that cannot withstand the long trip even if there was a gold coin each for their travel expenses.
+718: 
+719:  But we have hope with us as well as the will to return home.
+720: 
+721:  Those of us within the Fedoa Region's Search Group escorted them back to Fedoa.
+722: 
+723:  While the plan was progressing, even though I was responsible for them, I did not participate at all in the meetings, and instead I just drank all day.
+724: 
+725:  All of the key members, including me, remained in Milis.
+726: 
+727:  But in the end, the searching activities were reduced.
+728: 
+729:  Two years.
+730: 
+731:  The search movement will stop after two years.
+732: 
+733:  While I think that it is still too early, there were others who thought that this was it.
+734: 
+735:  Even if we were to search more, we would just be wasting money in vain.
+736: 
+737:  In the end, I wasn't able to find even one family member.
+738: 
+739:  Such a useless man.
+740: 
+741:  Why in the world was I so useless?
+742: 
+743:  Always a mere kid, not fit to be an adult even to the ends of time.
+744: 
+745:  The teams members all started to take a step's distance away from me who was now always drunk and filled with the smell of booze.
+746: 
+747:  This was natural.
+748: 
+749:  No one would want to be acquainted with such a fool of a man who only drinks all day.
+750: 
+751:  However there were some exceptions, one of which was Norn.
+752: 
+753:  "Dad! Just a moment ago, a huge man was there."
+754: 
+755:  Even when I was this drunk, Norn would still talk to me so joyfully.
+756: 
+757:  Norn.
+758: 
+759:  For me, Norn is my only family now.
+760: 
+761:  She's my most important person in the entire world.
+762: 
+763:  To me, there is only Norn.
+764: 
+765:  Right.
+766: 
+767:  I didn't even go to the Begaritto Continent or Magic Continent.
+768: 
+769:  This was because of the presence of Norn.
+770: 
+771:  My daughter who's only four years old right now, how could I abandon her?
+772: 
+773:  Why should I leave her behind and go to such a dangerous place where I might die?
+774: 
+775:  "Oh? What is it Norn? Have you encountered anything fun?"
+776: 
+777:  "Yeah! When I almost fell into the ditch awhile ago, a bald person helped me! So, this! I got this!"
+778: 
+779:  While saying that, Norn held up what was in her hands happily.
+780: 
+781:  It was an apple. A red apple. A most appetizing color indeed.
+782: 
+783:  "I see, that's good. Did you thank him properly?"
+784: 
+785:  "Yes, I said 'Thank you'. The bald uncle then stroked my head!"
+786: 
+787:  "I see, I see. A good person. But, you shouldn't go calling him bald since it might bother him."
+788: 
+789:  Conversations with my daughter were always fun.
+790: 
+791:  Norn's my treasure.
+792: 
+793:  If there was anyone who would dare lay a hand on her, I would be ready to go against the entire Milis Kingdom.
+794: 
+795:  It was at that time when I was thinking about that…
+796: 
+797:  "Leader, it's very bad!"
+798: 
+799:  One of my team members jumped into my room.
+800: 
+801:  Interrupting a conversation with my precious daughter, I was feeling a little cranky.
+802: 
+803:  If it was like always, I would just reply back at him while yelling my lungs off.
+804: 
+805:  However, with my daughter besides me, my pride held me back.
+806: 
+807:  "What's the matter?"
+808: 
+809:  "I was doing the work you assigned to me when we were attacked!"
+810: 
+811:  "Attacked?"
+812: 
+813:  They were attacked.
+814: 
+815:  By whom?
+816: 
+817:  It must be those damn nobles.
+818: 
+819:  We told to them that those under the Asura Kingdom's dominion were wrongfully forced into slavery after the disaster.
+820: 
+821:  Even so, they did not budge nor hand them over, those greedy bastards.
+822: 
+823:  That was the story today, they sent people over to take their slaves back.
+824: 
+825:  "All right, everyone, quickly get equipped. Let's go!"
+826: 
+827:  For now, we called out for everyone to gather together.
+828: 
+829:  They weren't a bunch of powerful fighters but it wasn't like their opponents were strong adventurers that have fought through labyrinths.
+830: 
+831:  They should be able to at least fight neck to neck with them.
+832: 
+833:  While they gather, I headed off to where the problem had occurred.
+834: 
+835:  The place should be close by, where I can immediately jump in.
+836: 
+837:  The Search Team's secret headquarters were a bunch of old warehouses where clothing and other sorts of items were stored.
+838: 
+839:  It was a place someone was bound to discover.
+840: 
+841:  This is bad. It may be necessary to change the base.
+842: 
+843:  "Mr. Paul, the enemy is only one but he is strong, be careful."
+844: 
+845:  "…he uses a sword?"
+846: 
+847:  "No, it's a magician. Probably a kid, but he has his face covered."
+848: 
+849:  A magician brat…
+850: 
+851:  Possibly an amateur, though with that said, how would he defeat us with so many adults as his opponents?
+852: 
+853:  It would probably be someone from the Dwarf race.
+854: 
+855:  With a small stature like a child, he can easily fool us into thinking he's a mere kid.
+856: 
+857:  An opponent of the dwarf race.
+858: 
+859:  Even drunk, I should still be able to win.
+860: 
+861:  I am confident that I wouldn't be defeated by these mere thugs, but…
+862: 
+863:  Nope, there's no problem.
+864: 
+865:  I have more than enough options in terms of fighting abilities.
+866: 
+867:  Thinking so, I continued on to the warehouse.
+868: 
+869:                 Visit and read more novel to help us update chapter quickly.
+870:                     Thank you so much!

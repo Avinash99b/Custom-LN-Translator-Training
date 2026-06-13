@@ -1,0 +1,43 @@
+
+Loading tokenizer...
+
+PER NOVEL
+====================================================================================================
+Arifureta                                     | Pairs=   119 | Tokens= 1,833,574 | Orphan EN=   0 | Orphan JP=   0
+BlackSummoner                                 | Pairs=   179 | Tokens=   761,624 | Orphan EN=   0 | Orphan JP=   0
+CampfireCooking                               | Pairs=   175 | Tokens=   749,383 | Orphan EN=   0 | Orphan JP=   0
+DeathMarchToParallelWorld                     | Pairs=   172 | Tokens= 1,028,712 | Orphan EN=   0 | Orphan JP=   0
+InAnotherWorldSmartPhone                      | Pairs=    91 | Tokens=   570,611 | Orphan EN=   0 | Orphan JP=   0
+MushokuTensei                                 | Pairs=   263 | Tokens= 3,810,935 | Orphan EN=   0 | Orphan JP=   0
+Overlord                                      | Pairs=    79 | Tokens= 1,312,465 | Orphan EN=   0 | Orphan JP=   0
+ReZero                                        | Pairs=    16 | Tokens=   143,055 | Orphan EN=   0 | Orphan JP=   0
+RisingOfShieldHero                            | Pairs=   191 | Tokens= 1,217,529 | Orphan EN=   0 | Orphan JP=   0
+SoIAmASpiderSoWhat                            | Pairs=   106 | Tokens=   360,030 | Orphan EN=   0 | Orphan JP=   0
+That-Time-I-Got-Reincarinated-Slime           | Pairs=   150 | Tokens= 1,417,725 | Orphan EN=   0 | Orphan JP=   0
+
+
+====================================================================================================
+FINAL TRAINING CORPUS STATISTICS
+====================================================================================================
+Novels Processed       : 11
+Aligned Chapter Pairs  : 1,541
+
+EN Tokens              : 5,426,568
+JP Tokens              : 7,779,075
+Combined Tokens        : 13,205,643
+
+EN Dataset Size        : 5.427M
+JP Dataset Size        : 7.779M
+Combined Dataset Size  : 13.206M
+
+Characters             : 33,618,830
+Orphan EN Files        : 0
+Orphan JP Files        : 0
+
+Avg EN Tokens/Pair     : 3,521.5
+Avg JP Tokens/Pair     : 5,048.1
+Avg Total Tokens/Pair  : 8,569.5
+
+No orphaned files found! Dataset is perfectly aligned.
+
+Done.

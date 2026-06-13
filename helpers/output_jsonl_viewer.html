@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSONL Bilingual Previewer</title>
+  <style>
+    :root {
+      --bg: #070b16;
+      --panel: rgba(15, 23, 42, 0.78);
+      --panel-2: rgba(17, 24, 39, 0.92);
+      --border: rgba(148, 163, 184, 0.16);
+      --border-strong: rgba(148, 163, 184, 0.28);
+      --text: #e5eefb;
+      --muted: #9fb0c8;
+      --muted-2: #74839c;
+      --accent: #8b5cf6;
+      --accent-2: #22c55e;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+      --radius: 22px;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
+      --row-h: 92px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(139,92,246,.16), transparent 25%),
+        radial-gradient(circle at top right, rgba(34,197,94,.12), transparent 20%),
+        linear-gradient(180deg, #060913 0%, #0b1020 45%, #09101d 100%);
+      overflow: hidden;
+    }
+
+    .app {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    header {
+      padding: 18px 22px 16px;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      background: rgba(6, 9, 19, 0.56);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 260px;
+    }
+
+    .logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(139,92,246,.95), rgba(34,197,94,.86));
+      box-shadow: 0 12px 30px rgba(139,92,246,.22);
+      font-size: 22px;
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.1;
+      letter-spacing: 0.2px;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      width: min(100%, 920px);
+    }
+
+    .input, .button, .select {
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.82);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 11px 14px;
+      font: inherit;
+      outline: none;
+    }
+
+    .input::placeholder { color: var(--muted-2); }
+    .input:focus, .select:focus, .button:hover { border-color: rgba(139,92,246,.48); }
+
+    .input { flex: 1 1 240px; min-width: 210px; }
+    .select { min-width: 180px; }
+
+    .button {
+      cursor: pointer;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, rgba(139,92,246,.92), rgba(99,102,241,.86));
+      border-color: transparent;
+    }
+
+    .button.ghost { background: rgba(15, 23, 42, 0.6); }
+
+    main {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 16px;
+      padding: 16px;
+      min-height: 0;
+    }
+
+    .sidebar, .viewer {
+      min-height: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .sidebar {
+      border-radius: var(--radius);
+      background: var(--panel);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .sidebar-head, .viewer-head, .viewer-foot {
+      padding: 16px 16px 14px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .sidebar-head h2, .viewer-head h2 {
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+      color: #f3f7ff;
+    }
+
+    .sidebar-head p, .viewer-head p, .viewer-foot p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .doc-list-shell {
+      position: relative;
+      overflow: auto;
+      min-height: 0;
+      contain: strict;
+    }
+
+    .doc-list {
+      position: relative;
+      min-height: 100%;
+      width: 100%;
+    }
+
+    .doc-row {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      height: calc(var(--row-h) - 10px);
+      border: 1px solid transparent;
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 14px 12px;
+      cursor: pointer;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+      overflow: hidden;
+      text-align: left;
+      will-change: transform;
+    }
+
+    .doc-row:hover { transform: translateY(-1px); border-color: var(--border-strong); background: rgba(255,255,255,0.05); }
+    .doc-row.active {
+      background: linear-gradient(180deg, rgba(139,92,246,.18), rgba(255,255,255,0.04));
+      border-color: rgba(139,92,246,.35);
+    }
+
+    .doc-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      color: #dfe7f6;
+      background: rgba(148,163,184,.12);
+      border: 1px solid rgba(148,163,184,.12);
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    .mini {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      word-break: break-word;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 12px;
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .metric {
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .metric .label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 6px;
+    }
+
+    .metric .value {
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .viewer {
+      border-radius: var(--radius);
+      background: var(--panel-2);
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      min-width: 0;
+    }
+
+    .viewer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .viewer-tools {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #dce6f7;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      white-space: nowrap;
+    }
+
+    .content-wrap {
+      overflow: auto;
+      padding: 14px;
+      min-height: 0;
+      contain: content;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .pane {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      border-radius: 20px;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .pane-head {
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.025);
+    }
+
+    .pane-head strong { font-size: 13px; }
+    .pane-head span { color: var(--muted); font-size: 12px; }
+
+    .pane-body {
+      padding: 16px;
+      font-size: 16px;
+      line-height: 1.9;
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-height: 100%;
+      font-family: var(--sans);
+      overflow-wrap: anywhere;
+    }
+
+    .pane-body.jp { font-size: 17px; letter-spacing: 0.01em; }
+    .pane-body.en { color: #edf4ff; }
+
+    .details {
+      margin-top: 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      overflow: hidden;
+    }
+
+    .details summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      font-weight: 700;
+      color: #f3f7ff;
+      border-bottom: 1px solid transparent;
+    }
+
+    .details summary::-webkit-details-marker { display: none; }
+    .details[open] summary { border-bottom-color: var(--border); }
+
+    .details-content {
+      padding: 14px 16px 16px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .stat {
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      background: rgba(0,0,0,0.12);
+      min-width: 0;
+    }
+
+    .stat .k {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+
+    .stat .v {
+      margin-top: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .footer-note {
+      padding: 12px 16px 14px;
+      color: var(--muted-2);
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .empty {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 30px;
+      color: var(--muted);
+      text-align: center;
+      min-height: 40vh;
+    }
+
+    .loading-box {
+      display: grid;
+      gap: 12px;
+      align-content: center;
+      justify-items: center;
+      min-height: 280px;
+      color: var(--muted);
+    }
+
+    .progress {
+      width: min(520px, 100%);
+      height: 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      overflow: hidden;
+    }
+
+    .progress > div {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, rgba(139,92,246,1), rgba(34,197,94,1));
+      transition: width .12s linear;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      max-width: 640px;
+      line-height: 1.5;
+      padding: 0 16px;
+    }
+
+    textarea.hidden-input {
+      position: fixed;
+      left: -9999px;
+      top: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+
+    @media (max-width: 1100px) {
+      main { grid-template-columns: 1fr; }
+      .sidebar { order: 2; }
+      .viewer { order: 1; }
+      .details-content { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 760px) {
+      body { overflow: auto; }
+      .app { height: auto; min-height: 100%; }
+      main { padding: 12px; }
+      .split { grid-template-columns: 1fr; }
+      .details-content { grid-template-columns: 1fr; }
+      .viewer { min-height: 70vh; }
+      .controls { width: 100%; }
+      .input, .select { min-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo">文</div>
+          <div>
+            <h1>JSONL Bilingual Previewer</h1>
+            <div class="subtitle">Built for big files: worker parsing, virtualized rows, debounced search, and compact rendering.</div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <input id="search" class="input" type="text" placeholder="Search text, chapter, metadata…" />
+          <select id="filter" class="select">
+            <option value="all">All entries</option>
+            <option value="narration">Narration</option>
+            <option value="mixed">Mixed</option>
+            <option value="dialogue">Dialogue</option>
+          </select>
+          <input id="file" class="input" type="file" accept=".jsonl,.txt,.json" />
+          <button id="sample" class="button ghost">Load sample</button>
+          <button id="copy" class="button primary">Copy current JSON</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <aside class="sidebar">
+        <div class="sidebar-head">
+          <h2>Entries</h2>
+          <p id="sidebarInfo">2 documents loaded</p>
+        </div>
+
+        <div id="docShell" class="doc-list-shell">
+          <div id="docList" class="doc-list"></div>
+        </div>
+
+        <div class="meta-grid" id="summaryMetrics"></div>
+      </aside>
+
+      <section class="viewer">
+        <div class="viewer-head">
+          <div>
+            <h2 id="viewerTitle">Select an entry</h2>
+            <p id="viewerSub">The preview pane will show Japanese on the left and English on the right.</p>
+          </div>
+          <div class="viewer-tools">
+            <span class="pill" id="pillNovel">Novel: —</span>
+            <span class="pill" id="pillChapter">Chapter: —</span>
+            <span class="pill" id="pillChunk">Chunk: —</span>
+            <span class="pill" id="pillStatus">Ready</span>
+          </div>
+        </div>
+
+        <div class="content-wrap" id="contentWrap">
+          <div id="emptyState" class="empty">
+            <div class="loading-box">
+              <div style="font-size:42px;">⚡</div>
+              <div style="font-weight:800;color:#f3f7ff;">Load a JSONL file or click “Load sample”</div>
+              <div class="small">
+                This viewer is tuned for big data: it parses in the background, paints only visible rows, and avoids rebuilding the whole sidebar on every scroll.
+              </div>
+              <div class="progress"><div id="parseBar"></div></div>
+              <div id="parseText" class="small">No file loaded yet.</div>
+            </div>
+          </div>
+
+          <div id="viewerBody" style="display:none;">
+            <div class="split">
+              <article class="pane">
+                <div class="pane-head"><strong>Japanese</strong><span id="jpCount">0 chars</span></div>
+                <div id="jpText" class="pane-body jp"></div>
+              </article>
+              <article class="pane">
+                <div class="pane-head"><strong>English</strong><span id="enCount">0 chars</span></div>
+                <div id="enText" class="pane-body en"></div>
+              </article>
+            </div>
+
+            <details class="details" open>
+              <summary>All metrics & metadata</summary>
+              <div class="details-content" id="detailGrid"></div>
+            </details>
+          </div>
+        </div>
+
+        <div class="viewer-foot">
+          <p>Tip: the sidebar is virtualized, so even millions of rows do not create millions of DOM nodes. Search is debounced, and parsing runs in a worker when a file is loaded.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <textarea id="hiddenCopy" class="hidden-input"></textarea>
+
+  <script>
+    const SAMPLE_DATA = [
+      {
+        messages: [
+          { role: "system", content: "You are a professional Japanese to English light novel translator. Translate the Japanese text accurately, preserving the narrative style, character voice, honorifics context, and literary tone of the original." },
+          { role: "user", content: "Translate the following Japanese text to English:\n\nサソリモドキを倒したハジメ達は、サソリモドキとサイクロプスの素材やら肉やらをハジメの拠点に持ち帰った。\nその巨体と相まって物凄く苦労したのだが、最上級魔法の行使により、へばったユエに再度血を飲ませると瞬く間に復活し見事な身体強化で怪力を発揮してくれたため、二人がかりでなんとか運び込むことができた。\nちなみに、そのまま封印の部屋を使うという手もあったのだが、ユエが断固拒否したためその案は没となった。\n無理もない。何年も閉じ込められていた場所など見たくもないのが普通だ。消耗品の補充のためしばらく身動きが取れないことを考えても、精神衛生上、封印の部屋はさっさと出た方がいいだろう。\nそんな訳で、現在ハジメ達は、消耗品を補充しながらお互いのことを話し合っていた。" },
+          { role: "assistant", content: "Hajime had brought back materials and meat from the scorpion and cyclops back to his base. He was struggling with the bulk. When the exhausted Yue got to taste blood again, she revived in a flash and her body displayed a splendid strengthening as she got back her superhuman strength. The two were able to bring the items back.\nThey could have used the sealed room, but when it was proposed Yue adamantly refused. No wonder. It was natural to hate the place you were sealed up into for so long. When he replenished his supplies they would not be able to move, so the sooner they left the better for her mental health. At the moment, they were talking each other while they resupplied." }
+        ],
+        metadata: { novel: "Arifureta", chapter: "18", chunk_index: 0, semantic_unit: "narration", jp_lines: [5, 13], en_lines: [3, 5], jp_chars: 330, en_chars: 684, jp_excluded_lines: 21, en_excluded_lines: 34 }
+      },
+      {
+        messages: [
+          { role: "system", content: "You are a professional Japanese to English light novel translator. Translate the Japanese text accurately, preserving the narrative style, character voice, honorifics context, and literary tone of the original." },
+          { role: "user", content: "Translate the following Japanese text to English:\n\n「そうすると、ユエって少なくとも三百歳以上なわけか？」\n「……マナー違反」\nユエが非難を込めたジト目でハジメを見る。女性に年齢の話はどの世界でもタブーらしい。\nハジメの記憶では、三百年前の大規模な戦争のおり吸血鬼族は滅んだとされていたはずだ。実際、ユエも長年、物音一つしない暗闇に居たため時間の感覚はほとんどないそうだが、それくらい経っていてもおかしくないと思える程には長い間封印されていたという。二十歳の時、封印されたというから三百歳ちょいということだ。\n「吸血鬼って、皆そんなに長生きするのか？」\n「……私が特別。〝再生〟で歳もとらない……」\n聞けば十二歳の時、魔力の直接操作や〝自動再生〟の固有魔法に覚醒してから歳をとっていないらしい。普通の吸血鬼族も血を吸うことで他の種族より長く生きるらしいが、それでも二百年くらいが限度なのだそうだ。\nちなみに、人間族の平均寿命は七十歳、魔人族は百二十歳、亜人族は種族によるらしい。エルフの中には何百年も生きている者がいるとか。\nユエは先祖返りで力に目覚めてから僅か数年で当時最強の一角に数えられていたそうで、十七歳の時に吸血鬼族の王位に就いたという。\nなるほど、あのサソリモドキの外殻を融解させた魔法を、ほぼノータイムで撃てるのだ。しかも、ほぼ不死身の肉体。行き着く先は〝神〟か〝化け物〟か、ということだろう。ユエは後者だったということだ。\n欲に目が眩んだ叔父が、ユエを化け物として周囲に浸透させ、大義名分のもと殺そうとしたが〝自動再生〟により殺しきれず、やむを得ずあの地下に封印したのだという。\nユエ自身、当時は突然の裏切りにショックを受けて、碌に反撃もせず混乱したままなんらかの封印術を掛けられ、気がつけば、あの封印部屋にいたらしい。\nその為、あのサソリモドキや封印の方法、どうやって奈落に連れられたのか分からないそうだ。もしかしたら帰る方法が！  と期待したハジメはガックリと項垂れた。" },
+          { role: "assistant", content: "“So…in conclusion Yue is at least 300 years old?”\n“…Breach of etiquette.”\nYue watched Hajime with reproachful eyes full of criticism. A talk of age seems to be a taboo for any woman in any world.\nFrom his memories, Hajime remembered that the vampire tribe perished after a massive war 300 year ago. Yue probably did not know her real age because there was no sense of time in the dark room. It wouldn’t be surprising if she didn’t know how much time has passed because of the sealing. She was sealed when she was 20 years old, this would make her a little over 300 years old.\n“Do all vampires live long?”\n“I’m special. “Regeneration” prevent my aging.”\nAt the age of 12, her direct magic manipulation and “Auto Regeneration” woke up and stopped her aging. Because common vampire tribes consumed blood, they lived longer than other races. Still 200 years was the limit. Humans lived on average for about 70 years. Devils around 120 years. For demi-humans it depended on the tribe. Elves could live for several hundred years.\nYue was considered one of the strongest in only a few years after she awoke her atavistic powers. At age 17 she suited to the throne. The magic that had melted the scorpion’s shell was shot in no time. She also had an almost immortal body. To the point she would be called “God” or “Monster”. Yue said that it was the latter. Her uncle who was blinded with greed, spread rumors around to view her as a monster. They tried to kill her for a “just” cause, but her “Auto Regen” didn’t allow her to die. That was when they choose to seal her instead. She was shocked with the sudden betrayal. Too confused, she did not resist and they placed the seals on her. She regained herself when she was in the sealed room. That is why she did not know about the sealing method, scorpion, or location of her sealing. Hajime thought he found someway home. He was disappointed." }
+        ],
+        metadata: { novel: "Arifureta", chapter: "18", chunk_index: 1, semantic_unit: "mixed", jp_lines: [15, 37], en_lines: [7, 21], jp_chars: 819, en_chars: 1885, jp_excluded_lines: 21, en_excluded_lines: 34 }
+      }
+    ];
+
+    const state = {
+      records: [],
+      filtered: [],
+      currentIndex: 0,
+      search: "",
+      filter: "all",
+      isParsing: false,
+      rowHeight: 92,
+      renderTimer: null,
+      searchTimer: null,
+      worker: null,
+    };
+
+    const els = {
+      docShell: document.getElementById('docShell'),
+      docList: document.getElementById('docList'),
+      viewerTitle: document.getElementById('viewerTitle'),
+      viewerSub: document.getElementById('viewerSub'),
+      jpText: document.getElementById('jpText'),
+      enText: document.getElementById('enText'),
+      jpCount: document.getElementById('jpCount'),
+      enCount: document.getElementById('enCount'),
+      detailGrid: document.getElementById('detailGrid'),
+      emptyState: document.getElementById('emptyState'),
+      viewerBody: document.getElementById('viewerBody'),
+      sidebarInfo: document.getElementById('sidebarInfo'),
+      summaryMetrics: document.getElementById('summaryMetrics'),
+      pillNovel: document.getElementById('pillNovel'),
+      pillChapter: document.getElementById('pillChapter'),
+      pillChunk: document.getElementById('pillChunk'),
+      pillStatus: document.getElementById('pillStatus'),
+      search: document.getElementById('search'),
+      filter: document.getElementById('filter'),
+      file: document.getElementById('file'),
+      sample: document.getElementById('sample'),
+      copy: document.getElementById('copy'),
+      hiddenCopy: document.getElementById('hiddenCopy'),
+      parseBar: document.getElementById('parseBar'),
+      parseText: document.getElementById('parseText'),
+    };
+
+    const esc = (s) => String(s ?? '').replace(/[&<>'"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+
+    function extractJP(item) {
+      return item.messages?.find(m => m.role === 'user')?.content ?? '';
+    }
+
+    function extractEN(item) {
+      return item.messages?.find(m => m.role === 'assistant')?.content ?? '';
+    }
+
+    function getPreview(text, max = 160) {
+      const one = String(text ?? '').replace(/\s+/g, ' ').trim();
+      return one.length > max ? one.slice(0, max - 1) + '…' : one;
+    }
+
+    function normalizeRecord(item, index) {
+      const meta = item.metadata || {};
+      const jp = extractJP(item);
+      const en = extractEN(item);
+      const searchText = [
+        meta.novel,
+        meta.chapter,
+        meta.chunk_index,
+        meta.semantic_unit,
+        meta.jp_lines,
+        meta.en_lines,
+        jp.slice(0, 800),
+        en.slice(0, 800),
+      ].flat().join(' ').toLowerCase();
+
+      return {
+        _index: index,
+        novel: meta.novel ?? '',
+        chapter: meta.chapter ?? '',
+        chunk_index: meta.chunk_index ?? '',
+        semantic_unit: meta.semantic_unit ?? '',
+        jp_lines: meta.jp_lines ?? [],
+        en_lines: meta.en_lines ?? [],
+        jp_chars: meta.jp_chars ?? jp.length,
+        en_chars: meta.en_chars ?? en.length,
+        jp_excluded_lines: meta.jp_excluded_lines ?? '',
+        en_excluded_lines: meta.en_excluded_lines ?? '',
+        messages: item.messages ?? [],
+        jp,
+        en,
+        searchText,
+        raw: item,
+      };
+    }
+
+    function setStatus(text, progress = null) {
+      els.pillStatus.textContent = text;
+      els.parseText.textContent = text;
+      if (progress !== null) {
+        els.parseBar.style.width = `${Math.max(0, Math.min(100, progress))}%`;
+      }
+    }
+
+    function setLoadingUI(active) {
+      els.emptyState.style.display = active ? 'grid' : 'none';
+      els.viewerBody.style.display = active ? 'none' : 'block';
+    }
+
+    function filteredIndices() {
+      const q = state.search.trim().toLowerCase();
+      const mode = state.filter;
+      const out = [];
+      for (let i = 0; i < state.records.length; i++) {
+        const r = state.records[i];
+        if (mode !== 'all' && String(r.semantic_unit || '').toLowerCase() !== mode) continue;
+        if (q && !r.searchText.includes(q)) continue;
+        out.push(i);
+      }
+      return out;
+    }
+
+    function renderSummary(indices) {
+      const total = indices.length;
+      const jpChars = indices.reduce((n, i) => n + (state.records[i].jp_chars || 0), 0);
+      const enChars = indices.reduce((n, i) => n + (state.records[i].en_chars || 0), 0);
+      const chapters = new Set(indices.map(i => `${state.records[i].novel}#${state.records[i].chapter}`)).size;
+      els.summaryMetrics.innerHTML = `
+        <div class="metric"><div class="label">Visible</div><div class="value">${total.toLocaleString()}</div></div>
+        <div class="metric"><div class="label">Chapters</div><div class="value">${chapters.toLocaleString()}</div></div>
+        <div class="metric"><div class="label">JP chars</div><div class="value">${jpChars.toLocaleString()}</div></div>
+        <div class="metric"><div class="label">EN chars</div><div class="value">${enChars.toLocaleString()}</div></div>
+      `;
+    }
+
+    function renderViewer() {
+      const r = state.records[state.currentIndex];
+      if (!r) {
+        setLoadingUI(true);
+        return;
+      }
+
+      setLoadingUI(false);
+      els.viewerTitle.textContent = `${r.novel || 'Document'} · Chapter ${r.chapter || '—'}`;
+      els.viewerSub.textContent = `${r.semantic_unit || 'n/a'} · ${r.messages?.length || 0} messages · selected ${state.currentIndex + 1} of ${state.records.length.toLocaleString()}`;
+      els.pillNovel.textContent = `Novel: ${r.novel || '—'}`;
+      els.pillChapter.textContent = `Chapter: ${r.chapter || '—'}`;
+      els.pillChunk.textContent = `Chunk: ${r.chunk_index ?? '—'}`;
+
+      els.jpText.textContent = r.jp;
+      els.enText.textContent = r.en;
+      els.jpCount.textContent = `${Number(r.jp_chars || r.jp.length).toLocaleString()} chars`;
+      els.enCount.textContent = `${Number(r.en_chars || r.en.length).toLocaleString()} chars`;
+
+      const entries = [
+        ['Novel', r.novel],
+        ['Chapter', r.chapter],
+        ['Chunk index', r.chunk_index],
+        ['Semantic unit', r.semantic_unit],
+        ['JP lines', Array.isArray(r.jp_lines) ? r.jp_lines.join(', ') : r.jp_lines],
+        ['EN lines', Array.isArray(r.en_lines) ? r.en_lines.join(', ') : r.en_lines],
+        ['JP chars', r.jp_chars],
+        ['EN chars', r.en_chars],
+        ['JP excluded lines', r.jp_excluded_lines],
+        ['EN excluded lines', r.en_excluded_lines],
+        ['Message count', r.messages?.length ?? 0],
+        ['Roles', r.messages?.map(m => m.role).join(' → ')],
+      ];
+
+      els.detailGrid.innerHTML = entries.map(([k, v]) => `
+        <div class="stat">
+          <div class="k">${esc(k)}</div>
+          <div class="v">${esc(v ?? '—')}</div>
+        </div>
+      `).join('');
+    }
+
+    function getVisibleRange() {
+      const shell = els.docShell;
+      const scrollTop = shell.scrollTop;
+      const vh = shell.clientHeight || 1;
+      const rowH = state.rowHeight;
+      const total = state.filtered.length;
+      const start = Math.max(0, Math.floor(scrollTop / rowH) - 10);
+      const end = Math.min(total, Math.ceil((scrollTop + vh) / rowH) + 10);
+      return { start, end, vh };
+    }
+
+    function updateSidebar() {
+      const total = state.filtered.length;
+      const list = els.docList;
+      const rowH = state.rowHeight;
+      const { start, end, vh } = getVisibleRange();
+
+      list.style.height = `${Math.max(total * rowH, vh)}px`;
+      list.innerHTML = '';
+
+      if (!total) {
+        els.sidebarInfo.textContent = `${0} entries shown · ${state.records.length.toLocaleString()} total`;
+        list.innerHTML = `<div style="padding:14px;color:var(--muted);">No matches. Try a different search or filter.</div>`;
+        return;
+      }
+
+      const frag = document.createDocumentFragment();
+      for (let pos = start; pos < end; pos++) {
+        const idx = state.filtered[pos];
+        const r = state.records[idx];
+        const btn = document.createElement('button');
+        btn.className = 'doc-row' + (idx === state.currentIndex ? ' active' : '');
+        btn.style.transform = `translateY(${pos * rowH + 6}px)`;
+        btn.dataset.index = String(idx);
+        btn.innerHTML = `
+          <div class="doc-title">
+            <span>${esc(r.novel || 'Document')} · Ch. ${esc(r.chapter || '—')} · #${idx + 1}</span>
+            <span class="badge">${esc(r.semantic_unit || 'n/a')}</span>
+          </div>
+          <div class="mini">${esc(getPreview(r.jp, 150))}</div>
+        `;
+        btn.addEventListener('click', () => {
+          state.currentIndex = idx;
+          renderViewer();
+          updateSidebar();
+        });
+        frag.appendChild(btn);
+      }
+      list.appendChild(frag);
+      els.sidebarInfo.textContent = `${total.toLocaleString()} entries shown · ${state.records.length.toLocaleString()} total`;
+    }
+
+    function renderAll() {
+      state.filtered = filteredIndices();
+      if (!state.filtered.includes(state.currentIndex)) {
+        state.currentIndex = state.filtered[0] ?? 0;
+      }
+      renderSummary(state.filtered);
+      updateSidebar();
+      renderViewer();
+    }
+
+    function parseJSONL(text) {
+      const lines = text.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      const parsed = [];
+      for (const line of lines) {
+        try {
+          parsed.push(JSON.parse(line));
+        } catch {
+          const maybe = JSON.parse(text);
+          return Array.isArray(maybe) ? maybe : [maybe];
+        }
+      }
+      return parsed;
+    }
+
+    function makeWorker() {
+      const workerSource = String.raw`
+        const enc = new TextDecoder();
+
+        function safeParse(line) {
+          try {
+            return JSON.parse(line);
+          } catch {
+            return null;
+          }
+        }
+
+        function normalize(item, index) {
+          const meta = item.metadata || {};
+          const msgs = item.messages || [];
+          const user = msgs.find(m => m.role === 'user')?.content || '';
+          const assistant = msgs.find(m => m.role === 'assistant')?.content || '';
+          const searchText = [
+            meta.novel,
+            meta.chapter,
+            meta.chunk_index,
+            meta.semantic_unit,
+            meta.jp_lines,
+            meta.en_lines,
+            user.slice(0, 800),
+            assistant.slice(0, 800)
+          ].flat().join(' ').toLowerCase();
+
+          return {
+            _index: index,
+            novel: meta.novel ?? '',
+            chapter: meta.chapter ?? '',
+            chunk_index: meta.chunk_index ?? '',
+            semantic_unit: meta.semantic_unit ?? '',
+            jp_lines: meta.jp_lines ?? [],
+            en_lines: meta.en_lines ?? [],
+            jp_chars: meta.jp_chars ?? user.length,
+            en_chars: meta.en_chars ?? assistant.length,
+            jp_excluded_lines: meta.jp_excluded_lines ?? '',
+            en_excluded_lines: meta.en_excluded_lines ?? '',
+            messages: msgs,
+            jp: user,
+            en: assistant,
+            searchText,
+            raw: item
+          };
+        }
+
+        self.onmessage = async (e) => {
+          const file = e.data.file;
+          const reader = file.stream().getReader();
+          let buffer = '';
+          let index = 0;
+          let linesSeen = 0;
+          let bytesSeen = 0;
+          let lastEmit = performance.now();
+          const batch = [];
+
+          const flush = (final = false) => {
+            if (!batch.length) return;
+            self.postMessage({
+              type: 'batch',
+              records: batch.splice(0, batch.length),
+              index,
+              linesSeen,
+              bytesSeen,
+              final
+            });
+          };
+
+          try {
+            while (true) {
+              const { value, done } = await reader.read();
+              if (done) break;
+              bytesSeen += value.byteLength;
+              buffer += enc.decode(value, { stream: true });
+
+              let start = 0;
+              while (true) {
+                const nl = buffer.indexOf('\n', start);
+                if (nl === -1) {
+                  buffer = buffer.slice(start);
+                  break;
+                }
+                const line = buffer.slice(start, nl).trim();
+                start = nl + 1;
+                if (!line) continue;
+                linesSeen++;
+                const obj = safeParse(line);
+                if (obj) batch.push(normalize(obj, index++));
+                if (batch.length >= 500) flush(false);
+              }
+
+              const now = performance.now();
+              if (now - lastEmit > 140) {
+                self.postMessage({ type: 'progress', index, linesSeen, bytesSeen });
+                lastEmit = now;
+              }
+            }
+
+            const tail = buffer.trim();
+            if (tail) {
+              linesSeen++;
+              const obj = safeParse(tail);
+              if (obj) batch.push(normalize(obj, index++));
+            }
+
+            flush(true);
+            self.postMessage({ type: 'done', index, linesSeen, bytesSeen });
+          } catch (err) {
+            self.postMessage({ type: 'error', message: err?.message || String(err) });
+          }
+        };
+      `;
+
+      const blob = new Blob([workerSource], { type: 'application/javascript' });
+      return new Worker(URL.createObjectURL(blob));
+    }
+
+    function terminateWorker() {
+      if (state.worker) {
+        state.worker.terminate();
+        state.worker = null;
+      }
+    }
+
+    async function loadFile(file) {
+      if (!file) return;
+      terminateWorker();
+      state.records = [];
+      state.filtered = [];
+      state.currentIndex = 0;
+      setLoadingUI(true);
+      els.summaryMetrics.innerHTML = `
+        <div class="metric"><div class="label">Visible</div><div class="value">0</div></div>
+        <div class="metric"><div class="label">Chapters</div><div class="value">0</div></div>
+        <div class="metric"><div class="label">JP chars</div><div class="value">0</div></div>
+        <div class="metric"><div class="label">EN chars</div><div class="value">0</div></div>
+      `;
+      els.sidebarInfo.textContent = '0 entries shown · parsing…';
+      setStatus(`Parsing ${file.name}…`, 0);
+
+      let worker;
+      try {
+        worker = makeWorker();
+      } catch (err) {
+        // Fallback for environments that block blob workers.
+        try {
+          const text = await file.text();
+          const parsed = parseJSONL(text).map((item, i) => normalizeRecord(item, i));
+          state.records = parsed;
+          state.filtered = filteredIndices();
+          renderAll();
+          setStatus(`Done · ${state.records.length.toLocaleString()} rows`, 100);
+          return;
+        } catch (fallbackErr) {
+          setStatus(`Error: ${fallbackErr?.message || String(fallbackErr)}`);
+          alert(fallbackErr?.message || 'Failed to parse file.');
+          return;
+        }
+      }
+
+      state.worker = worker;
+      worker.onmessage = (e) => {
+        const msg = e.data;
+        if (msg.type === 'batch') {
+          state.records.push(...msg.records);
+          setStatus(`Parsing… ${state.records.length.toLocaleString()} rows`, Math.min(99, file.size ? (msg.bytesSeen / file.size) * 100 : 0));
+          scheduleVisibleRefresh();
+        } else if (msg.type === 'progress') {
+          setStatus(`Parsing… ${msg.linesSeen.toLocaleString()} lines`, Math.min(99, file.size ? (msg.bytesSeen / file.size) * 100 : 0));
+        } else if (msg.type === 'done') {
+          state.filtered = filteredIndices();
+          if (!state.filtered.includes(state.currentIndex)) {
+            state.currentIndex = state.filtered[0] ?? 0;
+          }
+          renderSummary(state.filtered);
+          updateSidebar();
+          renderViewer();
+          setStatus(`Done · ${state.records.length.toLocaleString()} rows`, 100);
+          terminateWorker();
+        } else if (msg.type === 'error') {
+          setStatus(`Error: ${msg.message}`);
+          terminateWorker();
+          alert(msg.message || 'Failed to parse file.');
+        }
+      };
+
+      worker.postMessage({ file });
+    }
+
+    function scheduleVisibleRefresh() {
+      if (state.renderTimer) return;
+      state.renderTimer = requestAnimationFrame(() => {
+        state.renderTimer = null;
+        state.filtered = filteredIndices();
+        if (!state.filtered.includes(state.currentIndex)) {
+          state.currentIndex = state.filtered[0] ?? 0;
+        }
+        renderSummary(state.filtered);
+        updateSidebar();
+        renderViewer();
+      });
+    }
+
+    function debounceSearch() {
+      clearTimeout(state.searchTimer);
+      state.searchTimer = setTimeout(() => {
+        state.filtered = filteredIndices();
+        if (!state.filtered.includes(state.currentIndex)) {
+          state.currentIndex = state.filtered[0] ?? 0;
+        }
+        renderSummary(state.filtered);
+        updateSidebar();
+        renderViewer();
+      }, 180);
+    }
+
+    els.search.addEventListener('input', () => {
+      state.search = els.search.value;
+      debounceSearch();
+    });
+
+    els.filter.addEventListener('change', () => {
+      state.filter = els.filter.value;
+      debounceSearch();
+    });
+
+    els.sample.addEventListener('click', () => {
+      terminateWorker();
+      state.search = '';
+      state.filter = 'all';
+      els.search.value = '';
+      els.filter.value = 'all';
+      state.records = SAMPLE_DATA.map(normalizeRecord);
+      state.currentIndex = 0;
+      state.filtered = filteredIndices();
+      renderAll();
+      setStatus('Sample loaded');
+    });
+
+    els.file.addEventListener('change', async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      await loadFile(file);
+    });
+
+    els.copy.addEventListener('click', async () => {
+      const item = state.records[state.currentIndex];
+      if (!item) return;
+      const json = JSON.stringify(item.raw ?? item, null, 2);
+      els.hiddenCopy.value = json;
+      els.hiddenCopy.select();
+      document.execCommand('copy');
+      const old = els.copy.textContent;
+      els.copy.textContent = 'Copied!';
+      setTimeout(() => els.copy.textContent = old, 1200);
+    });
+
+    els.docShell.addEventListener('scroll', () => {
+      if (state.isParsing && !state.records.length) return;
+      updateSidebar();
+    }, { passive: true });
+
+    window.addEventListener('resize', updateSidebar);
+
+    function runSelfTests() {
+      const parsed = parseJSONL('{"a":1}\n{"a":2}\n');
+      console.assert(parsed.length === 2, 'parseJSONL should parse two JSONL rows');
+      const record = normalizeRecord({ messages: [
+        { role: 'user', content: 'JP text' },
+        { role: 'assistant', content: 'EN text' }
+      ], metadata: { novel: 'X', chapter: '1', semantic_unit: 'narration', jp_chars: 7, en_chars: 7 } }, 0);
+      console.assert(record.jp === 'JP text', 'normalizeRecord should extract JP text');
+      console.assert(record.en === 'EN text', 'normalizeRecord should extract EN text');
+      console.assert(record.searchText.includes('x'), 'normalizeRecord should build searchable text');
+    }
+
+    runSelfTests();
+
+    state.records = SAMPLE_DATA.map(normalizeRecord);
+    state.filtered = filteredIndices();
+    renderAll();
+    setStatus('Ready');
+    els.parseBar.style.width = '0%';
+    els.parseText.textContent = 'No file loaded yet.';
+  </script>
+</body>
+</html>
